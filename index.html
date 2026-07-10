@@ -1,0 +1,3074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>11+ English Practice Quest</title>
+  <style>
+    :root {
+      --ink: #17314f;
+      --muted: #5b6f86;
+      --panel: #ffffff;
+      --soft: #f2f7ff;
+      --accent: #1f6feb;
+      --accent-2: #ffb703;
+      --good: #157f3b;
+      --bad: #c83232;
+      --line: #d8e4f5;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.14);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(31,111,235,.14), transparent 34rem),
+        radial-gradient(circle at 86% 9%, rgba(255,183,3,.20), transparent 28rem),
+        linear-gradient(180deg, #f8fbff 0%, #edf6ff 100%);
+      min-height: 100vh;
+    }
+
+    .app {
+      width: min(1160px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+    }
+
+    header.hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(216, 228, 245, .9);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.45;
+    }
+
+    .mascot {
+      width: 110px;
+      height: 110px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #fff2c3, #dbeaff);
+      font-size: 3rem;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.72);
+    }
+
+    .toolbar {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pill, select, button, input, textarea {
+      font: inherit;
+    }
+
+    .pill {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: 0 6px 18px rgba(22,50,79,.08);
+      color: var(--muted);
+    }
+
+    select {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 9px 12px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .screen { margin-top: 22px; }
+    .hidden { display: none !important; }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+      gap: 16px;
+    }
+
+    .topic-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 19px;
+      box-shadow: 0 10px 26px rgba(22,50,79,.10);
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      min-height: 176px;
+      display: grid;
+      align-content: space-between;
+      gap: 14px;
+    }
+
+    .topic-card:hover, .topic-card:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: rgba(31,111,235,.45);
+      outline: none;
+    }
+
+    .topic-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--soft);
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+    }
+
+    .topic-card h2 {
+      margin: 0 0 7px;
+      font-size: 1.2rem;
+    }
+
+    .topic-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.35;
+      font-size: .96rem;
+    }
+
+    .mini-stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .level-dots {
+      display: inline-flex;
+      gap: 4px;
+      vertical-align: middle;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #d3deef;
+      display: inline-block;
+    }
+
+    .dot.on { background: var(--accent); }
+
+    .quiz-shell { display: grid; gap: 16px; }
+
+    .quiz-top, .question-panel, .feedback-panel, .results-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-top {
+      padding: 17px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .quiz-title {
+      font-size: 1.22rem;
+      font-weight: 800;
+    }
+
+    .score-strip {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+    }
+
+    .meter {
+      width: 100%;
+      height: 14px;
+      background: #e7effb;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #d8e4f5;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #7aa7ff);
+      transition: width .25s ease;
+    }
+
+    .question-panel { padding: clamp(18px, 3vw, 28px); }
+
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: .92rem;
+      border: 1px solid var(--line);
+    }
+
+    .passage-box, .support-box {
+      background: #fbfdff;
+      border: 1px solid #dfe9f7;
+      border-radius: 18px;
+      padding: 16px 18px;
+      line-height: 1.6;
+      color: #243b55;
+      margin: 6px 0 14px;
+      max-width: 900px;
+    }
+
+    .passage-box:empty, .support-box:empty { display: none; }
+
+    .passage-title {
+      font-weight: 900;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    .question-text {
+      font-size: clamp(1.16rem, 2vw, 1.47rem);
+      line-height: 1.4;
+      font-weight: 800;
+      margin: 0 0 12px;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 17px;
+      background: var(--accent);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+      box-shadow: 0 9px 18px rgba(31,111,235,.22);
+    }
+
+    button:hover:not(:disabled), button:focus-visible:not(:disabled) {
+      transform: translateY(-2px);
+      outline: none;
+      box-shadow: 0 13px 24px rgba(31,111,235,.26);
+    }
+
+    button:disabled { opacity: .55; cursor: not-allowed; }
+
+    .choice-btn {
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      border: 2px solid var(--line);
+      box-shadow: 0 7px 18px rgba(22,50,79,.08);
+      min-height: 58px;
+    }
+
+    .choice-btn.correct { border-color: rgba(21,127,59,.85); background: #edf9f1; }
+    .choice-btn.wrong { border-color: rgba(200,50,50,.85); background: #fff0f0; }
+
+    .answer-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      align-items: center;
+    }
+
+    input[type="text"], textarea {
+      flex: 1 1 240px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: #fff;
+      min-height: 54px;
+      font-size: 1.05rem;
+    }
+
+    textarea {
+      min-height: 150px;
+      line-height: 1.45;
+      resize: vertical;
+      width: 100%;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(31,111,235,.12);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .secondary {
+      background: #eef4ff;
+      color: var(--ink);
+      box-shadow: none;
+      border: 1px solid var(--line);
+    }
+
+    .gold {
+      background: var(--accent-2);
+      color: #412b00;
+      box-shadow: 0 9px 18px rgba(255,183,3,.22);
+    }
+
+    .feedback-panel {
+      padding: 18px 20px;
+      line-height: 1.5;
+    }
+
+    .feedback-panel.good { border-color: rgba(21,127,59,.55); background: #f2fff5; }
+    .feedback-panel.bad { border-color: rgba(200,50,50,.55); background: #fff6f6; }
+    .feedback-panel.hint { border-color: rgba(255,183,3,.55); background: #fffaf0; }
+
+    .feedback-panel strong { display: block; margin-bottom: 4px; }
+
+    .results-panel {
+      padding: clamp(22px, 4vw, 36px);
+      text-align: center;
+    }
+
+    .big-score {
+      font-size: clamp(2.2rem, 6vw, 4.3rem);
+      font-weight: 900;
+      letter-spacing: -.05em;
+      margin: 10px 0;
+    }
+
+    .table-card {
+      overflow-x: auto;
+      margin: 14px 0;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 360px;
+      background: white;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: var(--soft); }
+
+    .checklist {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 11px;
+    }
+
+    .checklist .yes { color: var(--good); font-weight: 900; }
+    .checklist .no { color: var(--bad); font-weight: 900; }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      text-align: left;
+    }
+
+    .review-card {
+      border: 1px solid var(--line);
+      background: #fbfdff;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: #eef4ff;
+      border: 1px solid var(--line);
+      padding: 2px 6px;
+      border-radius: 7px;
+    }
+
+
+
+    .interaction-wrap {
+      display: block;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .drag-instructions {
+      color: var(--muted);
+      font-weight: 800;
+      margin: 0 0 10px;
+    }
+
+    .drag-bank, .drop-zone, .match-grid, .click-option-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+
+    .drag-bank {
+      padding: 12px;
+      border: 1px dashed #aec3e4;
+      border-radius: 16px;
+      background: #f3f8ff;
+      min-height: 62px;
+      margin-bottom: 12px;
+    }
+
+    .drop-zone {
+      min-height: 76px;
+      padding: 12px;
+      border: 2px dashed #9bb8e5;
+      border-radius: 16px;
+      background: #ffffff;
+      align-content: flex-start;
+      position: relative;
+    }
+
+    .drop-zone::before {
+      content: attr(data-placeholder);
+      color: #8aa0ba;
+      font-weight: 800;
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      pointer-events: none;
+    }
+
+    .drop-zone:not(:empty)::before { display: none; }
+
+    .drag-token {
+      user-select: none;
+      touch-action: manipulation;
+      background: #ffffff;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 11px 13px;
+      color: var(--ink);
+      font-weight: 900;
+      box-shadow: 0 6px 14px rgba(22,50,79,.08);
+      cursor: grab;
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .drag-token:active { cursor: grabbing; }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    .match-row {
+      display: grid;
+      grid-template-columns: minmax(90px, 1fr) minmax(120px, 1.25fr);
+      gap: 9px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 10px;
+    }
+
+    .match-term { font-weight: 900; }
+
+    .match-slot {
+      min-height: 52px;
+      border: 2px dashed #9bb8e5;
+      border-radius: 14px;
+      background: #fbfdff;
+      padding: 7px;
+    }
+
+    .match-slot .drag-token { width: 100%; justify-content: center; }
+
+    .interaction-actions { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .disabled-interaction { opacity: .72; pointer-events: none; }
+
+    @media (max-width: 680px) {
+      header.hero { grid-template-columns: 1fr; }
+      .mascot { width: 82px; height: 82px; font-size: 2.4rem; }
+      .app { width: min(100% - 18px, 1160px); padding-top: 12px; }
+      .choices { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <div>
+        <h1>11+ English Practice Quest</h1>
+        <p class="subtitle">UK 11+ English practice for GL, CEM and independent-school style exams: comprehension, vocabulary, grammar, spelling, verbal reasoning and writing skills. All answers use click, selection or drag-and-drop tasks.</p>
+      </div>
+      <div class="mascot" aria-hidden="true">📚</div>
+    </header>
+
+    <section class="toolbar" id="homeToolbar">
+      <div class="pill" id="bankSummary">Question bank loading…</div>
+      <label class="pill">Questions per round
+        <select id="sessionLength" aria-label="Questions per round">
+          <option value="10">10</option>
+          <option value="15" selected>15</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
+      </label>
+      <button class="secondary" id="resetProgressBtn" type="button">Reset progress</button>
+    </section>
+
+    <section class="screen" id="homeScreen">
+      <div class="topic-grid" id="topicGrid"></div>
+    </section>
+
+    <section class="screen hidden" id="quizScreen">
+      <div class="quiz-shell">
+        <div class="quiz-top">
+          <div class="top-row">
+            <div class="quiz-title" id="quizTitle">Topic</div>
+            <div class="score-strip">
+              <span id="scoreText">Score 0</span>
+              <span id="questionCountText">Question 1</span>
+              <span id="levelText">Level 2</span>
+            </div>
+          </div>
+          <div class="meter" aria-label="Round progress"><div class="meter-fill" id="progressFill"></div></div>
+        </div>
+
+        <article class="question-panel" id="questionPanel">
+          <div class="tag-row" id="tagRow"></div>
+          <div class="passage-box hidden" id="passageBox"></div>
+          <div class="support-box hidden" id="supportBox"></div>
+          <p class="question-text" id="questionText"></p>
+          <div class="choices" id="choicesWrap"></div>
+          <form class="answer-row hidden" id="answerForm">
+            <input id="answerInput" type="text" autocomplete="off" aria-label="Your answer" />
+            <textarea id="answerTextArea" class="hidden" autocomplete="off" aria-label="Your written answer"></textarea>
+            <button type="submit" id="submitBtn">Check answer</button>
+          </form>
+          <div class="actions">
+            <button class="gold" id="hintBtn" type="button">Show hint</button>
+            <button class="secondary hidden" id="nextBtn" type="button">Next question</button>
+            <button class="secondary" id="backBtn" type="button">Choose topic</button>
+          </div>
+        </article>
+
+        <div class="feedback-panel hidden" id="feedbackPanel" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="resultsScreen">
+      <div class="results-panel">
+        <h2>Round complete!</h2>
+        <div class="big-score" id="finalScore">0/0</div>
+        <p id="finalMessage"></p>
+        <div class="review-grid" id="topicReview"></div>
+        <div class="actions" style="justify-content:center">
+          <button id="playAgainBtn" type="button">Play this topic again</button>
+          <button class="secondary" id="homeBtn" type="button">Choose another topic</button>
+        </div>
+        <div class="table-card" id="reviewWrap"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const TOPICS = {
+      reading: {
+        name: "Reading Comprehension",
+        icon: "📖",
+        blurb: "Inference, retrieval, main ideas, tone, purpose and evidence from short original passages."
+      },
+      vocab: {
+        name: "Vocabulary",
+        icon: "🧩",
+        blurb: "Synonyms, antonyms, word meanings, prefixes, suffixes, compound words and context clues."
+      },
+      grammar: {
+        name: "Grammar & Punctuation",
+        icon: "✍️",
+        blurb: "Parts of speech, tenses, agreement, pronouns, apostrophes, commas and direct speech."
+      },
+      spelling: {
+        name: "Spelling & Word Choice",
+        icon: "🔤",
+        blurb: "Common 11+ spellings, homophones, plurals, endings, precise vocabulary and dictionary order."
+      },
+      sentence: {
+        name: "Sentence Skills",
+        icon: "📝",
+        blurb: "Cloze, connectives, sentence combining, paragraph order, formal tone and clear expression."
+      },
+      verbal: {
+        name: "Verbal Reasoning",
+        icon: "🔎",
+        blurb: "Word analogies, hidden words, letter codes, classifications, compounds and language logic."
+      },
+      writing: {
+        name: "Writing Skills",
+        icon: "🌟",
+        blurb: "Writing skills through selectable responses: planning, editing, best openings, summaries, dialogue and sentence improvement."
+      },
+      mixed: {
+        name: "Mixed Practice",
+        icon: "⭐",
+        blurb: "A shuffled round across the full generic 11+ English skill set."
+      }
+    };
+
+    const ACTIVE_TOPICS = Object.keys(TOPICS).filter(t => t !== "mixed");
+    const BANK = [];
+    let familyCounter = 0;
+
+    const els = {
+      bankSummary: document.getElementById("bankSummary"),
+      topicGrid: document.getElementById("topicGrid"),
+      homeScreen: document.getElementById("homeScreen"),
+      quizScreen: document.getElementById("quizScreen"),
+      resultsScreen: document.getElementById("resultsScreen"),
+      homeToolbar: document.getElementById("homeToolbar"),
+      sessionLength: document.getElementById("sessionLength"),
+      resetProgressBtn: document.getElementById("resetProgressBtn"),
+      quizTitle: document.getElementById("quizTitle"),
+      scoreText: document.getElementById("scoreText"),
+      questionCountText: document.getElementById("questionCountText"),
+      levelText: document.getElementById("levelText"),
+      progressFill: document.getElementById("progressFill"),
+      tagRow: document.getElementById("tagRow"),
+      passageBox: document.getElementById("passageBox"),
+      supportBox: document.getElementById("supportBox"),
+      questionText: document.getElementById("questionText"),
+      choicesWrap: document.getElementById("choicesWrap"),
+      answerForm: document.getElementById("answerForm"),
+      answerInput: document.getElementById("answerInput"),
+      answerTextArea: document.getElementById("answerTextArea"),
+      submitBtn: document.getElementById("submitBtn"),
+      hintBtn: document.getElementById("hintBtn"),
+      nextBtn: document.getElementById("nextBtn"),
+      backBtn: document.getElementById("backBtn"),
+      feedbackPanel: document.getElementById("feedbackPanel"),
+      finalScore: document.getElementById("finalScore"),
+      finalMessage: document.getElementById("finalMessage"),
+      topicReview: document.getElementById("topicReview"),
+      playAgainBtn: document.getElementById("playAgainBtn"),
+      homeBtn: document.getElementById("homeBtn"),
+      reviewWrap: document.getElementById("reviewWrap")
+    };
+
+    const defaultProgress = () => {
+      const topics = {};
+      ACTIVE_TOPICS.forEach(id => topics[id] = { level: 2, total: 0, correct: 0, streak: 0, misses: 0, bestStreak: 0 });
+      return { topics, lifetime: { total: 0, correct: 0 } };
+    };
+
+    let progress = loadProgress();
+    let state = {
+      topic: null,
+      currentQuestion: null,
+      currentEntry: null,
+      used: new Set(),
+      index: 0,
+      length: 15,
+      score: 0,
+      answered: false,
+      history: []
+    };
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem("elevenPlusEnglishProgressV2");
+        const parsed = raw ? JSON.parse(raw) : defaultProgress();
+        const base = defaultProgress();
+        ACTIVE_TOPICS.forEach(id => parsed.topics[id] = Object.assign(base.topics[id], parsed.topics[id] || {}));
+        parsed.lifetime = Object.assign(base.lifetime, parsed.lifetime || {});
+        return parsed;
+      } catch (e) {
+        return defaultProgress();
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem("elevenPlusEnglishProgressV2", JSON.stringify(progress));
+    }
+
+    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+    function rint(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function pick(arr) { return arr[rint(0, arr.length - 1)]; }
+    function shuffle(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = rint(0, i);
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+    }
+    function fmt(n) {
+      if (typeof n !== "number") return String(n);
+      if (Math.abs(n - Math.round(n)) < 1e-9) return String(Math.round(n));
+      return String(Math.round(n * 1000) / 1000).replace(/\.0+$/, "");
+    }
+    function money(n) { return "£" + Number(n).toFixed(2); }
+    function normalise(s) {
+      return String(s)
+        .toLowerCase()
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/^[\s\"'.,;:!?()]+|[\s\"'.,;:!?()]+$/g, "");
+    }
+    function wordCount(text) {
+      const m = String(text).trim().match(/[A-Za-z]+(?:'[A-Za-z]+)?/g);
+      return m ? m.length : 0;
+    }
+    function cleanNumber(raw) {
+      const text = String(raw).replace(/[£,$]/g, "").trim();
+      const match = text.match(/-?\d+(?:\.\d+)?/);
+      return match ? Number(match[0]) : NaN;
+    }
+    function plural(n, singular, pluralWord) { return n === 1 ? singular : (pluralWord || singular + "s"); }
+
+    function answerLabel(q) {
+      if (q.kind === "order" && Array.isArray(q.answer)) return q.answer.join(" → ");
+      if (q.kind === "match" && q.answer && typeof q.answer === "object") return Object.keys(q.answer).map(k => `${k}: ${q.answer[k]}`).join("; ");
+      if (Array.isArray(q.answer)) return q.answer.join(", ");
+      if (q.answerType === "money") return money(Number(q.answer));
+      return String(q.answer);
+    }
+
+    function makeChoices(answer, distractors, labelFn) {
+      const seen = new Set();
+      const items = [];
+      [answer].concat(distractors || []).forEach(v => {
+        const key = normalise(v);
+        if (!seen.has(key)) {
+          seen.add(key);
+          items.push({ value: v, label: labelFn ? labelFn(v) : String(v) });
+        }
+      });
+      const fillers = ["None of these", "Cannot tell", "All of these", "Both are possible", "Another answer"];
+      let guard = 0;
+      while (items.length < 4 && guard < 20) {
+        const f = fillers[guard % fillers.length] + (guard > 4 ? " " + guard : "");
+        if (!seen.has(normalise(f))) items.push({ value: f, label: f });
+        guard++;
+      }
+      return shuffle(items.slice(0, 4));
+    }
+
+    function qBase(topic, title, diff, kind, prompt, answer, opts = {}) {
+      return Object.assign({
+        topic,
+        title,
+        difficulty: diff,
+        kind,
+        prompt,
+        answer,
+        answerType: "text",
+        hint: "Read the question carefully, then eliminate answers that do not fit.",
+        explanation: "Check the clue in the wording and compare it with the answer."
+      }, opts);
+    }
+
+    function htmlTable(headers, rows) {
+      return `<div class="table-card"><table><thead><tr>${headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    }
+
+    function wordCards(items) {
+      return `<div class="table-card"><table><tbody><tr>${items.map(i => `<td style="text-align:center;font-weight:900">${escapeHtml(i)}</td>`).join("")}</tr></tbody></table></div>`;
+    }
+
+    function addFamily(topic, title, gen, count = 8) {
+      familyCounter += 1;
+      for (let seed = 1; seed <= count; seed++) {
+        BANK.push({
+          id: `${topic}-${familyCounter}-${seed}`,
+          topic,
+          title,
+          difficulty: ((seed - 1) % 5) + 1,
+          seed,
+          gen
+        });
+      }
+    }
+
+    function topicLevel(topic) { return progress.topics[topic]?.level || 2; }
+    function dotLevel(level) {
+      return `<span class="level-dots" aria-label="Level ${level} out of 5">${[1,2,3,4,5].map(n => `<span class="dot ${n <= level ? "on" : ""}"></span>`).join("")}</span>`;
+    }
+
+    function isCorrect(value, q) {
+      if (q.kind === "order") {
+        return Array.isArray(value) && Array.isArray(q.answer) && value.length === q.answer.length && value.every((v, i) => normalise(v) === normalise(q.answer[i]));
+      }
+      if (q.kind === "match") {
+        return value && q.answer && Object.keys(q.answer).every(k => normalise(value[k]) === normalise(q.answer[k]));
+      }
+      if (q.answerType === "number") {
+        const input = cleanNumber(value);
+        return Number.isFinite(input) && Math.abs(input - Number(q.answer)) <= (q.tolerance ?? 0.001);
+      }
+      if (q.answerType === "money") {
+        const input = cleanNumber(value);
+        return Number.isFinite(input) && Math.abs(input - Number(q.answer)) <= 0.005;
+      }
+      if (q.answerType === "list") {
+        const inputItems = String(value).toLowerCase().replace(/\band\b/g, ",").split(/[ ,;]+/).map(x => x.trim()).filter(Boolean).sort();
+        const targetItems = q.answer.map(x => String(x).toLowerCase()).sort();
+        return inputItems.length === targetItems.length && inputItems.every((x, i) => x === targetItems[i]);
+      }
+      const clean = normalise(value);
+      if (Array.isArray(q.accept)) return q.accept.map(normalise).includes(clean);
+      return clean === normalise(q.answer);
+    }
+
+    function gradeWriting(text, q) {
+      const wc = wordCount(text);
+      const lower = normalise(text);
+      const sentences = String(text).split(/[.!?]+/).map(s => s.trim()).filter(Boolean);
+      const checks = [];
+      function add(label, pass) { checks.push({ label, pass: Boolean(pass) }); }
+      add(`At least ${q.minWords || 35} words`, wc >= (q.minWords || 35));
+      add("Clear sentence punctuation", /[.!?]/.test(text) && sentences.length >= (q.minSentences || 2));
+      add("Capital letters used at sentence starts or for names", /(^|[.!?]\s+)[A-Z]/.test(String(text).trim()));
+      if (q.focus === "description") {
+        add("Sensory or descriptive vocabulary", /\b(glowed|whispered|gloomy|bright|icy|warm|rough|smooth|silent|echoed|fragrant|sour|golden|shadow|sparkling|trembling|crisp|misty|velvet|thunder|murmur)\b/i.test(text));
+        add("A simile or comparison", /\blike\b|\bas .* as\b/i.test(text));
+      } else if (q.focus === "persuasion") {
+        add("A clear opinion", /\b(i believe|we should|must|need to|in my opinion|surely)\b/i.test(text));
+        add("A persuasive technique", /\?|\btherefore\b|\bhowever\b|\bbecause\b|\bmust\b|\bshould\b/i.test(text));
+      } else if (q.focus === "dialogue") {
+        add("Speech marks or dialogue punctuation", /["“”']/.test(text));
+        add("A speech verb", /\b(said|asked|whispered|replied|muttered|called|shouted)\b/i.test(text));
+      } else if (q.focus === "summary") {
+        add("Concise enough for a summary", wc <= (q.maxWords || 45));
+        add("Includes key information", q.keywords ? q.keywords.some(k => lower.includes(normalise(k))) : wc > 10);
+      } else {
+        add("Relevant detail included", wc >= 20);
+        add("Varied vocabulary", new Set(String(text).toLowerCase().match(/[a-z]+/g) || []).size >= Math.min(20, wc - 2));
+      }
+      const passCount = checks.filter(c => c.pass).length;
+      const correct = passCount >= Math.ceil(checks.length * .7);
+      const list = `<ul class="checklist">${checks.map(c => `<li><span class="${c.pass ? "yes" : "no"}">${c.pass ? "✓" : "✗"}</span> ${escapeHtml(c.label)}</li>`).join("")}</ul>`;
+      const model = q.model ? `<p><strong>Model idea:</strong> ${escapeHtml(q.model)}</p>` : "";
+      return {
+        correct,
+        score: passCount,
+        total: checks.length,
+        html: `${model}<p>You met ${passCount} out of ${checks.length} writing checks. This is a guided check, so read your work again and improve one target before moving on.</p>${list}`
+      };
+    }
+
+    function buildBank() {
+      const names = ["Amira", "Ben", "Clara", "Dylan", "Esha", "Finley", "Grace", "Hassan", "Ivy", "Jude", "Maya", "Noah", "Priya", "Sam"];
+      const places = ["library", "museum", "garden", "station", "school hall", "market", "sports field", "harbour"];
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+      addFamily("reading", "Fiction inference", d => {
+        const name = pick(names);
+        const scenarios = [
+          {
+            text: `${name} stood just behind the curtain, rubbing the corner of the programme between finger and thumb. The audience had gone quiet, and the stage lights made a bright line across the floor. When the teacher whispered, “Your turn,” ${name} took one deep breath and stepped forwards.`,
+            answer: "nervous but brave",
+            distractors: ["bored and careless", "angry with the audience", "confused about the programme"],
+            clue: "rubbing the programme and taking a deep breath show nerves; stepping forward shows courage."
+          },
+          {
+            text: `${name} unlocked the shed and stared at the empty hook where the class trophy usually hung. A smear of mud crossed the floorboards. ${name} did not call out at first; instead, they crouched down and followed the marks with careful eyes.`,
+            answer: "curious and suspicious",
+            distractors: ["sleepy and relaxed", "proud and joyful", "impatient with a game"],
+            clue: "the missing trophy and mud marks make ${name} investigate."
+          },
+          {
+            text: `The rain began just as ${name} reached the bus stop. Everyone else huddled under the shelter, but ${name} opened the faded umbrella and held it over the youngest child in the queue. The child smiled, and ${name} pretended not to notice the rain dripping down one sleeve.`,
+            answer: "kind and thoughtful",
+            distractors: ["selfish and proud", "forgetful and lazy", "jealous and gloomy"],
+            clue: "sharing the umbrella shows kindness."
+          }
+        ];
+        const item = pick(scenarios);
+        return qBase("reading", "Fiction inference", d, "mc", `What can you infer about ${name}?`, item.answer, {
+          passage: item.text,
+          choices: makeChoices(item.answer, item.distractors),
+          hint: "Look for actions and small details that suggest feelings or character.",
+          explanation: `The clue is that ${item.clue}`
+        });
+      });
+
+      addFamily("reading", "Retrieving details", d => {
+        const activity = pick(["eco club", "book fair", "history visit", "coding club", "drama rehearsal"]);
+        const day = pick(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]);
+        const room = pick(["Room 4", "the library", "the hall", "the art room", "the ICT suite"]);
+        const time = pick(["3:30 pm", "3:45 pm", "4:00 pm", "4:15 pm"]);
+        const bring = pick(["a pencil", "a packed snack", "a notebook", "a water bottle", "their reading record"]);
+        const ask = pick(["day", "room", "time", "bring"]);
+        const answers = { day, room, time, bring };
+        const prompt = {
+          day: `On which day does the ${activity} take place?`,
+          room: `Where does the ${activity} take place?`,
+          time: `What time does the ${activity} begin?`,
+          bring: `What should pupils bring?`
+        }[ask];
+        return qBase("reading", "Retrieving details", d, "mc", prompt, answers[ask], {
+          passage: `Notice to pupils: The ${activity} will take place on ${day} in ${room}. It begins at ${time}. Please bring ${bring} and wait quietly outside until a teacher arrives.`,
+          choices: makeChoices(answers[ask], [day, room, time, bring, "the playground", "a calculator"].filter(x => x !== answers[ask])),
+          hint: "This is a retrieval question: find the exact detail in the notice.",
+          explanation: `The notice says: “The ${activity} will take place on ${day} in ${room}. It begins at ${time}. Please bring ${bring}.”`
+        });
+      });
+
+      addFamily("reading", "Word meaning in passage", d => {
+        const items = [
+          ["reluctant", "unwilling", "Tom was reluctant to leave the warm library, even though the bell had rung.", ["excited", "careless", "noisy"]],
+          ["scarce", "hard to find", "During the dry summer, clean water became scarce in the village.", ["very bright", "easy to carry", "full of colour"]],
+          ["gathered", "collected", "The pupils gathered fallen leaves for their science display.", ["threw away", "counted loudly", "forgot"]],
+          ["glimpse", "a quick look", "Mina caught a glimpse of the fox before it slipped behind the hedge.", ["a loud sound", "a long journey", "a heavy bag"]],
+          ["distant", "far away", "A distant bell sounded across the valley.", ["very close", "broken", "silent"]],
+          ["hesitated", "paused because unsure", "Jude hesitated before knocking on the unfamiliar door.", ["ran quickly", "laughed loudly", "finished proudly"]]
+        ];
+        const [word, ans, sent, distractors] = pick(items);
+        return qBase("reading", "Word meaning in passage", d, "mc", `In this sentence, what does “${word}” most nearly mean?`, ans, {
+          passage: sent,
+          choices: makeChoices(ans, distractors),
+          hint: "Use the words around the target word to work out its meaning.",
+          explanation: `In this context, “${word}” means “${ans}”.`
+        });
+      });
+
+      addFamily("reading", "Author purpose", d => {
+        const items = [
+          ["persuade", "Our park needs more trees. They would give shade, help wildlife and make the air cleaner. Please support the planting day on Saturday!", ["inform only", "tell a fantasy story", "give private instructions"]],
+          ["inform", "The red kite is a bird of prey with long wings and a forked tail. It often circles high above open fields while searching for food.", ["persuade", "amuse with a joke", "warn of danger"]],
+          ["entertain", "The teapot sneezed so violently that three biscuits jumped off the plate and hid beneath the sofa.", ["give factual instructions", "persuade the reader to buy something", "summarise a timetable"]],
+          ["instruct", "Fold the paper in half, press the crease firmly, then cut along the dotted line.", ["describe a character", "persuade", "make the reader laugh"]]
+        ];
+        const [ans, text, distractors] = pick(items);
+        return qBase("reading", "Author purpose", d, "mc", "What is the main purpose of this text?", ans, {
+          passage: text,
+          choices: makeChoices(ans, distractors),
+          hint: "Ask yourself what the writer wants the reader to do, know or feel.",
+          explanation: `The main purpose is to ${ans}.`
+        });
+      });
+
+      addFamily("reading", "Sequencing events", d => {
+        const name = pick(names);
+        const object = pick(["map", "ticket", "lantern", "key", "notebook"]);
+        const text = `${name} found a torn ${object} under the bench. First, ${name} smoothed it flat on the table. Next, a tiny symbol in the corner was circled in red. After that, ${name} compared it with the notice board. Finally, ${name} hurried to tell the teacher.`;
+        const ask = pick(["first", "after", "finally"]);
+        const prompts = {
+          first: "What did the character do first?",
+          after: "What happened after the symbol was noticed?",
+          finally: "What happened finally?"
+        };
+        const answers = {
+          first: `smoothed the ${object} flat`,
+          after: "compared it with the notice board",
+          finally: "hurried to tell the teacher"
+        };
+        return qBase("reading", "Sequencing events", d, "mc", prompts[ask], answers[ask], {
+          passage: text,
+          choices: makeChoices(answers[ask], [`found a torn ${object}`, "circled a symbol in red", "went home", "ignored the notice board"]),
+          hint: "Look for sequence words such as first, next, after that and finally.",
+          explanation: `The passage shows the order clearly. The answer is “${answers[ask]}”.`
+        });
+      });
+
+      addFamily("reading", "Evidence for feelings", d => {
+        const name = pick(names);
+        const items = [
+          ["impatient", `${name} tapped a foot, checked the clock for the third time, and sighed as the queue barely moved.`, "tapped a foot", ["the queue", "the third time", "the clock"]],
+          ["delighted", `${name} opened the letter and a grin spread across their face before they leapt from the chair.`, "a grin spread across their face", ["opened the letter", "from the chair", "their face"]],
+          ["worried", `${name} read the message twice, folded it carefully, and felt a cold knot settle in their stomach.`, "a cold knot settle in their stomach", ["folded it carefully", "read the message twice", "the message"]],
+          ["determined", `${name} picked up the muddy boot again, tightened the laces and started the race despite the rain.`, "started the race despite the rain", ["picked up the boot", "muddy boot", "tightened the laces"]]
+        ];
+        const [feeling, passage, answer, distractors] = pick(items);
+        return qBase("reading", "Evidence for feelings", d, "mc", `Which phrase best shows that ${name} is ${feeling}?`, answer, {
+          passage,
+          choices: makeChoices(answer, distractors),
+          hint: "Choose the phrase that gives evidence of the feeling, not just any detail.",
+          explanation: `The phrase “${answer}” gives the clearest evidence that ${name} is ${feeling}.`
+        });
+      });
+
+      addFamily("reading", "Main idea", d => {
+        const items = [
+          ["why bees are important", "Bees carry pollen from flower to flower. This helps many plants make fruit and seeds. Without bees, gardens and farms would produce far less food.", ["how to build a beehive", "why all insects are dangerous", "the history of farms"]],
+          ["how a library club works", "Every Thursday, pupils meet in the library to discuss one chapter of a chosen book. They take turns asking questions and recommending new titles.", ["why books are expensive", "a story about a lost book", "the rules of football"]],
+          ["how to stay safe near water", "At the lake, pupils should stay behind the marked line, walk rather than run, and call an adult if they see someone in trouble.", ["why lakes are always cold", "how to win a race", "a description of birds"]],
+          ["the benefits of walking to school", "Walking to school can wake up your mind, reduce traffic near the gates and give you a chance to talk with friends before lessons begin.", ["how to repair a bicycle", "why homework matters", "the timetable for buses"]]
+        ];
+        const [answer, passage, distractors] = pick(items);
+        return qBase("reading", "Main idea", d, "mc", "What is the main idea of this paragraph?", answer, {
+          passage,
+          choices: makeChoices(answer, distractors),
+          hint: "The main idea covers the whole paragraph, not just one small detail.",
+          explanation: `The whole paragraph is mainly about ${answer}.`
+        });
+      });
+
+      addFamily("reading", "Fact and opinion", d => {
+        const facts = [
+          "The school library opens at 8:15 am.",
+          "A triangle has three sides.",
+          "The museum is closed on Mondays.",
+          "The race was 800 metres long."
+        ];
+        const opinions = [
+          "The school library is the best room in the building.",
+          "Triangles are the most interesting shapes.",
+          "The museum is more exciting than the cinema.",
+          "The race was far too difficult."
+        ];
+        const askFact = Math.random() < 0.5;
+        const answer = askFact ? pick(facts) : pick(opinions);
+        const options = shuffle([answer, ...shuffle(askFact ? opinions : facts).slice(0, 3)]);
+        return qBase("reading", "Fact and opinion", d, "mc", `Which sentence is a ${askFact ? "fact" : "opinion"}?`, answer, {
+          choices: options.map(v => ({ value: v, label: v })),
+          hint: "A fact can be checked. An opinion is a personal view or judgement.",
+          explanation: `“${answer}” is a ${askFact ? "fact because it can be checked" : "opinion because it gives a personal view"}.`
+        });
+      });
+
+      addFamily("reading", "Cause and effect", d => {
+        const items = [
+          ["the paths were slippery", "Heavy rain fell all night, so the paths were slippery by morning.", "heavy rain fell all night", ["morning arrived", "the paths were wide", "the rain was quiet"]],
+          ["the match was delayed", "The referee could not see the lines clearly because fog covered the pitch, so the match was delayed.", "fog covered the pitch", ["the referee liked football", "the lines were painted", "the crowd arrived early"]],
+          ["Maya missed the first question", "Maya had turned two pages at once; as a result, she missed the first question.", "she turned two pages at once", ["she wrote neatly", "the question was short", "she sharpened a pencil"]],
+          ["the plants grew taller", "The class watered the seedlings every day and placed them on a sunny windowsill; consequently, the plants grew taller.", "they were watered and given sunlight", ["they were hidden in a cupboard", "the windowsill was dusty", "the class forgot them"]]
+        ];
+        const [effect, passage, answer, distractors] = pick(items);
+        return qBase("reading", "Cause and effect", d, "mc", `What caused the effect: “${effect}”?`, answer, {
+          passage,
+          choices: makeChoices(answer, distractors),
+          hint: "Look for words such as because, so, as a result and consequently.",
+          explanation: `The cause was that ${answer}.`
+        });
+      });
+
+      addFamily("reading", "Best summary", d => {
+        const items = [
+          ["Litter harms wildlife, so pupils are organising a park clean-up.", "Last week, pupils found plastic wrappers and bottles near the pond. The wildlife club explained that animals can be harmed by litter. The class decided to organise a clean-up on Saturday morning.", ["Pupils dislike Saturday mornings.", "The pond is the deepest part of the park.", "Animals should never live in parks."]],
+          ["A lost dog was found because neighbours worked together.", "When a small dog ran out of an open gate, three neighbours searched different streets. One printed posters while another called the owner. By evening, the dog was safely home.", ["The dog wanted new posters.", "Three neighbours moved house.", "The owner lost a poster in the evening."]],
+          ["A school garden improved after pupils planned and cared for it.", "The garden used to be bare soil. Pupils designed vegetable beds, planted seeds and took turns watering them. By July, beans and sunflowers were growing beside the fence.", ["The fence was removed in July.", "The soil was too dangerous to use.", "The pupils stopped gardening after one day."]]
+        ];
+        const [answer, passage, distractors] = pick(items);
+        return qBase("reading", "Best summary", d, "mc", "Which option is the best summary of the passage?", answer, {
+          passage,
+          choices: makeChoices(answer, distractors),
+          hint: "A summary should include the main points without tiny details.",
+          explanation: `The best summary is: “${answer}”`
+        });
+      });
+
+      addFamily("vocab", "Synonyms", d => {
+        const pairs = [
+          ["cautious", "careful", ["reckless", "noisy", "sleepy"]],
+          ["rapid", "quick", ["slow", "heavy", "quiet"]],
+          ["ancient", "very old", ["brand new", "tiny", "dangerous"]],
+          ["brief", "short", ["endless", "bright", "polite"]],
+          ["generous", "willing to give", ["mean", "untidy", "late"]],
+          ["gloomy", "dark or sad", ["cheerful", "shiny", "sharp"]],
+          ["fortunate", "lucky", ["careless", "unwell", "ordinary"]],
+          ["enormous", "huge", ["narrow", "tiny", "smooth"]]
+        ];
+        const [word, answer, distractors] = pick(pairs.slice(0, 4 + d));
+        return qBase("vocab", "Synonyms", d, "mc", `Which option is closest in meaning to “${word}”?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "A synonym has a similar meaning.",
+          explanation: `“${word}” is closest in meaning to “${answer}”.`
+        });
+      });
+
+      addFamily("vocab", "Antonyms", d => {
+        const pairs = [
+          ["scarce", "plentiful", ["rare", "limited", "few"]],
+          ["expand", "shrink", ["grow", "increase", "spread"]],
+          ["confident", "nervous", ["sure", "bold", "certain"]],
+          ["fragile", "strong", ["delicate", "breakable", "thin"]],
+          ["temporary", "permanent", ["brief", "short-lived", "passing"]],
+          ["include", "exclude", ["contain", "add", "invite"]],
+          ["visible", "hidden", ["seen", "obvious", "clear"]],
+          ["ordinary", "unusual", ["normal", "plain", "common"]]
+        ];
+        const [word, answer, distractors] = pick(pairs.slice(0, 4 + d));
+        return qBase("vocab", "Antonyms", d, "mc", `Which option is the opposite of “${word}”?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "An antonym has the opposite meaning.",
+          explanation: `The opposite of “${word}” is “${answer}”.`
+        });
+      });
+
+      addFamily("vocab", "Context clues", d => {
+        const items = [
+          ["parched", "very dry", `After hours in the sun, the grass was parched and brittle underfoot.`, ["soaking wet", "newly cut", "covered in ice"]],
+          ["timid", "shy or nervous", `The timid kitten stayed under the chair when visitors arrived.`, ["brave and loud", "very hungry", "fast asleep"]],
+          ["gleaming", "shining", `The trophy was gleaming after Noah polished it with a soft cloth.`, ["broken", "hidden", "dusty"]],
+          ["abandon", "leave behind", `The explorers had to abandon the heavy box when the path became too steep.`, ["carry proudly", "decorate", "open carefully"]],
+          ["weary", "tired", `By the final mile, the walkers were weary and their steps had slowed.`, ["excited", "angry", "lost"]]
+        ];
+        const [word, answer, sentence, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Context clues", d, "mc", `Use the context to work out the meaning of “${word}”.`, answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "The surrounding words give clues to the meaning.",
+          explanation: `The context shows that “${word}” means “${answer}”.`
+        });
+      });
+
+      addFamily("vocab", "Prefixes", d => {
+        const items = [
+          ["rewrite", "again", "re-"],
+          ["unfair", "not", "un-"],
+          ["preview", "before", "pre-"],
+          ["misread", "wrongly", "mis-"],
+          ["submarine", "under", "sub-"],
+          ["intercity", "between", "inter-"],
+          ["antiseptic", "against", "anti-"],
+          ["autobiography", "self", "auto-"]
+        ];
+        const [word, answer, prefix] = pick(items.slice(0, 4 + d));
+        return qBase("vocab", "Prefixes", d, "mc", `In the word “${word}”, what does the prefix ${prefix} suggest?`, answer, {
+          choices: makeChoices(answer, ["after", "small", "many", "sound", "light"].filter(x => x !== answer)),
+          hint: "A prefix is added to the beginning of a word.",
+          explanation: `The prefix ${prefix} can mean “${answer}”.`
+        });
+      });
+
+      addFamily("vocab", "Suffixes", d => {
+        const items = [
+          ["careless", "without", "-less"],
+          ["hopeful", "full of", "-ful"],
+          ["teacher", "person who", "-er"],
+          ["movement", "action or result", "-ment"],
+          ["washable", "able to be", "-able"],
+          ["celebration", "action or process", "-tion"],
+          ["childhood", "state or time of", "-hood"],
+          ["kindness", "quality of being", "-ness"]
+        ];
+        const [word, answer, suffix] = pick(items.slice(0, 4 + d));
+        return qBase("vocab", "Suffixes", d, "mc", `In the word “${word}”, what does the suffix ${suffix} suggest?`, answer, {
+          choices: makeChoices(answer, ["opposite of", "under", "before", "not", "between"].filter(x => x !== answer)),
+          hint: "A suffix is added to the end of a word.",
+          explanation: `The suffix ${suffix} can mean “${answer}”.`
+        });
+      });
+
+      addFamily("vocab", "Homophones", d => {
+        const items = [
+          ["their", "The pupils put ___ bags under the desks.", ["there", "they're", "thare"]],
+          ["you're", "___ invited to the reading club after school.", ["your", "yore", "youre"]],
+          ["too", "The soup is ___ hot to eat yet.", ["to", "two", "tow"]],
+          ["allowed", "We are not ___ to run in the corridor.", ["aloud", "allowd", "alloud"]],
+          ["past", "The bus went ___ the museum.", ["passed", "parsed", "paste"]],
+          ["stationery", "Maya bought pens and other ___ for school.", ["stationary", "stationry", "stacionery"]]
+        ];
+        const [answer, sentence, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Homophones", d, "mc", "Choose the correct word to complete the sentence.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Homophones sound alike but have different meanings.",
+          explanation: `The correct word is “${answer}”.`
+        });
+      });
+
+      addFamily("vocab", "Compound words", d => {
+        const compounds = [
+          ["sun", "flower", "sunflower"], ["rain", "coat", "raincoat"], ["tooth", "brush", "toothbrush"],
+          ["book", "case", "bookcase"], ["class", "room", "classroom"], ["note", "book", "notebook"],
+          ["moon", "light", "moonlight"], ["foot", "ball", "football"], ["news", "paper", "newspaper"]
+        ];
+        const [first, second, whole] = pick(compounds.slice(0, 5 + d));
+        return qBase("vocab", "Compound words", d, "mc", `Which word can go after “${first}” to make a compound word?`, second, {
+          choices: makeChoices(second, ["chair", "road", "silver", "cloud", "plant", "river"].filter(x => x !== second)),
+          hint: "Say the two words together and check whether they make a known compound word.",
+          explanation: `${first} + ${second} = ${whole}.`
+        });
+      });
+
+      addFamily("vocab", "Odd one out", d => {
+        const sets = [
+          [["oak", "beech", "maple", "daisy"], "daisy", "The others are trees."],
+          [["whisper", "mutter", "shout", "murmur"], "shout", "The others are quiet ways of speaking."],
+          [["scarlet", "crimson", "ruby", "azure"], "azure", "The others are shades of red."],
+          [["sprint", "jog", "race", "sleep"], "sleep", "The others involve moving quickly."],
+          [["tiny", "minute", "small", "vast"], "vast", "The others mean small."],
+          [["joyful", "cheerful", "merry", "gloomy"], "gloomy", "The others are happy words."]
+        ];
+        const [words, answer, exp] = pick(sets.slice(0, 3 + d));
+        return qBase("vocab", "Odd one out", d, "mc", "Which word is the odd one out?", answer, {
+          support: wordCards(shuffle(words)),
+          choices: words.map(w => ({ value: w, label: w })),
+          hint: "Look for a shared meaning in three of the words.",
+          explanation: `${answer} is the odd one out. ${exp}`
+        });
+      });
+
+      addFamily("vocab", "Analogies", d => {
+        const items = [
+          ["Hot is to cold as high is to ___.", "low", ["tall", "deep", "wide"]],
+          ["Kitten is to cat as puppy is to ___.", "dog", ["horse", "cub", "kennel"]],
+          ["Author is to book as composer is to ___.", "music", ["paint", "kitchen", "letter"]],
+          ["Knife is to cut as pencil is to ___.", "write", ["erase", "fold", "listen"]],
+          ["Seed is to plant as egg is to ___.", "bird", ["leaf", "branch", "nest"]],
+          ["Quiet is to silence as brave is to ___.", "courage", ["fear", "noise", "speed"]]
+        ];
+        const [prompt, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Analogies", d, "mc", prompt, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Work out the relationship in the first pair, then apply it to the second pair.",
+          explanation: `The matching word is “${answer}”.`
+        });
+      });
+
+      addFamily("vocab", "Multiple meanings", d => {
+        const items = [
+          ["bark", "the outer covering of a tree", ["The dog began to bark at the gate.", "The bark of the old oak was rough.", "Please do not bark orders at me.", "The bark echoed loudly."], "The bark of the old oak was rough."],
+          ["match", "a contest", ["The match started at noon.", "Use a match to light the candle.", "Her socks do not match.", "Match the cards in pairs."], "The match started at noon."],
+          ["fair", "reasonable or just", ["The village fair opened in June.", "It was fair to give everyone a turn.", "She has fair hair.", "The weather was fair."], "It was fair to give everyone a turn."],
+          ["seal", "an animal", ["Please seal the envelope.", "A seal rested on the rock.", "The seal on the jar broke.", "The stamp will seal the form."], "A seal rested on the rock."]
+        ];
+        const [word, meaning, sentences, answer] = pick(items.slice(0, 2 + d));
+        return qBase("vocab", "Multiple meanings", d, "mc", `Which sentence uses “${word}” to mean “${meaning}”?`, answer, {
+          choices: sentences.map(s => ({ value: s, label: s })),
+          hint: "Some words have more than one meaning. Read the whole sentence.",
+          explanation: `The sentence “${answer}” uses “${word}” to mean “${meaning}”.`
+        });
+      });
+
+      addFamily("grammar", "Parts of speech", d => {
+        const items = [
+          ["The curious fox slipped through the narrow gap.", "curious", "adjective", ["noun", "verb", "adverb"]],
+          ["Maya carefully folded the letter.", "carefully", "adverb", ["adjective", "noun", "preposition"]],
+          ["The lantern glowed in the window.", "glowed", "verb", ["noun", "adjective", "pronoun"]],
+          ["Under the bridge, the stream moved quickly.", "under", "preposition", ["verb", "noun", "adverb"]],
+          ["They carried the boxes into the hall.", "They", "pronoun", ["adjective", "verb", "preposition"]]
+        ];
+        const [sentence, word, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("grammar", "Parts of speech", d, "mc", `In this sentence, what part of speech is “${word}”?`, answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Think about the job the word is doing in the sentence.",
+          explanation: `“${word}” is a ${answer} in this sentence.`
+        });
+      });
+
+      addFamily("grammar", "Subject-verb agreement", d => {
+        const items = [
+          ["The pack of cards ___ on the table.", "is", ["are", "were", "be"]],
+          ["The children ___ their books carefully.", "carry", ["carries", "carrying", "was carry"]],
+          ["Neither of the answers ___ correct.", "is", ["are", "were", "be"]],
+          ["The team ___ ready for the final match.", "is", ["are", "be", "were been"]],
+          ["Each of the pupils ___ a pencil.", "has", ["have", "having", "were having"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("grammar", "Subject-verb agreement", d, "mc", "Choose the word that agrees with the subject.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Find the true subject of the sentence before choosing the verb.",
+          explanation: `The correct form is “${answer}”.`
+        });
+      });
+
+      addFamily("grammar", "Pronouns", d => {
+        const items = [
+          ["Clara and I", "we", "___ went to the library after lunch.", ["Us", "Them", "Her"]],
+          ["the trophy", "it", "Noah polished ___ before assembly.", ["they", "him", "we"]],
+          ["Ben and Sam", "them", "The teacher gave ___ a new challenge.", ["they", "he", "we"]],
+          ["Maya", "she", "___ finished the story before dinner.", ["Her", "They", "Us"]],
+          ["the pencils", "they", "___ were left on the desk.", ["It", "He", "Them"]]
+        ];
+        const [noun, answer, sentence, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("grammar", "Pronouns", d, "mc", `Which pronoun correctly replaces “${noun}”?`, answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Check whether the pronoun is singular or plural and whether it is subject or object.",
+          explanation: `The correct pronoun is “${answer}”.`
+        });
+      });
+
+      addFamily("grammar", "Verb tense", d => {
+        const items = [
+          ["past", "Yesterday, Amira ___ the final chapter.", "read", ["reads", "will read", "reading"]],
+          ["present", "Every morning, the caretaker ___ the gate.", "opens", ["opened", "will open", "opening"]],
+          ["future", "Tomorrow, the class ___ the museum.", "will visit", ["visited", "visits", "visiting"]],
+          ["past progressive", "At noon, the pupils ___ in the hall.", "were waiting", ["wait", "will wait", "waits"]]
+        ];
+        const [tense, sentence, answer, distractors] = pick(items.slice(0, 3 + Math.min(d, 1)));
+        return qBase("grammar", "Verb tense", d, "mc", `Choose the correct ${tense} tense form.`, answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Use the time clue in the sentence.",
+          explanation: `The correct ${tense} tense form is “${answer}”.`
+        });
+      });
+
+      addFamily("grammar", "Apostrophes", d => {
+        const items = [
+          ["the bag belonging to Tom", "Tom's bag", ["Toms bag", "Toms' bag", "Tom bag"]],
+          ["the coats belonging to the girls", "the girls' coats", ["the girl's coats", "the girls coats", "the girls's coats"]],
+          ["it is raining", "it's raining", ["its raining", "its' raining", "it raining"]],
+          ["the nest belonging to the bird", "the bird's nest", ["the birds nest", "the birds' nest", "the bird nest"]],
+          ["the books belonging to the children", "the children's books", ["the childrens books", "the childrens' books", "the children books"]]
+        ];
+        const [phrase, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("grammar", "Apostrophes", d, "mc", `Which version correctly uses an apostrophe for “${phrase}”?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Ask whether the apostrophe shows missing letters or possession.",
+          explanation: `The correct version is “${answer}”.`
+        });
+      });
+
+      addFamily("grammar", "Commas in lists", d => {
+        const items = [
+          ["Maya packed pencils, a ruler, glue and scissors.", ["Maya packed pencils a ruler, glue and scissors.", "Maya packed pencils, a ruler glue and scissors.", "Maya packed pencils a ruler glue, and scissors."]],
+          ["The garden had roses, daisies, tulips and lilies.", ["The garden had roses daisies, tulips and lilies.", "The garden had roses, daisies tulips and lilies.", "The garden had, roses daisies tulips and lilies."]],
+          ["For lunch, Ben chose soup, bread, fruit and yoghurt.", ["For lunch Ben chose soup bread, fruit and yoghurt.", "For lunch, Ben chose soup bread fruit and yoghurt.", "For lunch Ben chose, soup bread, fruit and yoghurt."]]
+        ];
+        const [answer, distractors] = pick(items);
+        return qBase("grammar", "Commas in lists", d, "mc", "Which sentence uses commas correctly in a list?", answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Items in a list are usually separated by commas, with and before the final item.",
+          explanation: `The correctly punctuated list is: “${answer}”`
+        });
+      });
+
+      addFamily("grammar", "Direct speech", d => {
+        const items = [
+          ["“I found the key,” said Noah.", ["I found the key, said Noah.", "“I found the key” said Noah.", "“I found the key, said Noah.”"]],
+          ["“Where is the library?” asked Priya.", ["“Where is the library,” asked Priya?", "Where is the library? asked Priya.", "“Where is the library”? asked Priya."]],
+          ["“Be careful!” shouted Sam.", ["“Be careful”! shouted Sam.", "Be careful! shouted Sam.", "“Be careful shouted Sam!”"]],
+          ["Grace whispered, “The baby is asleep.”", ["Grace whispered “The baby is asleep”.", "Grace whispered, The baby is asleep.", "Grace whispered, “the baby is asleep”."]]
+        ];
+        const [answer, distractors] = pick(items.slice(0, 2 + d));
+        return qBase("grammar", "Direct speech", d, "mc", "Which sentence punctuates direct speech correctly?", answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Speech marks go around the spoken words. Keep the punctuation inside the speech marks.",
+          explanation: `The correct direct speech punctuation is: ${answer}`
+        });
+      });
+
+      addFamily("grammar", "Sentence types", d => {
+        const items = [
+          ["Please close the door quietly.", "command", ["question", "statement", "exclamation"]],
+          ["What time does the train leave?", "question", ["command", "statement", "exclamation"]],
+          ["The museum opens at ten o'clock.", "statement", ["question", "command", "exclamation"]],
+          ["What an enormous wave that is!", "exclamation", ["statement", "command", "question"]]
+        ];
+        const [sentence, answer, distractors] = pick(items);
+        return qBase("grammar", "Sentence types", d, "mc", "What type of sentence is this?", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Look at the purpose of the sentence and its punctuation.",
+          explanation: `This is a ${answer}.`
+        });
+      });
+
+      addFamily("grammar", "Adjectives and adverbs", d => {
+        const items = [
+          ["The careful driver stopped suddenly.", "suddenly", "adverb", ["adjective", "noun", "pronoun"]],
+          ["The careful driver stopped suddenly.", "careful", "adjective", ["adverb", "verb", "preposition"]],
+          ["The silver moon shone brightly.", "brightly", "adverb", ["adjective", "noun", "conjunction"]],
+          ["The silver moon shone brightly.", "silver", "adjective", ["adverb", "verb", "pronoun"]]
+        ];
+        const [sentence, word, answer, distractors] = pick(items);
+        return qBase("grammar", "Adjectives and adverbs", d, "mc", `Is “${word}” an adjective or an adverb in this sentence?`, answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Adjectives describe nouns; adverbs often describe verbs.",
+          explanation: `“${word}” is an ${answer === "adjective" ? "adjective" : "adverb"}.`
+        });
+      });
+
+      addFamily("grammar", "Relative clauses", d => {
+        const items = [
+          ["My cousin, who lives in Bristol, is visiting today.", ["My cousin who lives in Bristol is visiting today.", "My cousin, who lives in Bristol is visiting today.", "My cousin who lives in Bristol, is visiting today."]],
+          ["The book that I borrowed yesterday is missing.", ["The book, that I borrowed yesterday, is missing.", "The book that I borrowed yesterday, is missing.", "The book, that I borrowed yesterday is missing."]],
+          ["Mr Patel, whose class won the quiz, smiled proudly.", ["Mr Patel whose class won the quiz, smiled proudly.", "Mr Patel, whose class won the quiz smiled proudly.", "Mr Patel whose class won, the quiz smiled proudly."]]
+        ];
+        const [answer, distractors] = pick(items.slice(0, 2 + Math.min(d, 1)));
+        return qBase("grammar", "Relative clauses", d, "mc", "Which sentence punctuates the relative clause correctly?", answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Extra information can be separated with commas; essential information usually is not.",
+          explanation: `The correct sentence is: “${answer}”`
+        });
+      });
+
+      addFamily("grammar", "Punctuation marks", d => {
+        const items = [
+          ["What time does the film start", "?", [".", "!", ","]],
+          ["Watch out", "!", ["?", ",", ";"]],
+          ["The river was cold clear and fast", ",", ["?", "!", "'"]],
+          ["I packed my coat because it might rain", ".", ["?", "'", ":"]]
+        ];
+        const [sentence, answer, distractors] = pick(items);
+        return qBase("grammar", "Punctuation marks", d, "mc", `Which punctuation mark is most suitable at the end or missing point of this sentence: “${sentence}”`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Use the sentence meaning to choose the punctuation mark.",
+          explanation: `The best punctuation mark is ${answer}`
+        });
+      });
+
+      addFamily("spelling", "Correct spelling", d => {
+        const items = [
+          ["necessary", ["neccesary", "nesessary", "neccessary"]],
+          ["separate", ["seperate", "separrate", "seperrate"]],
+          ["definitely", ["definately", "definatly", "definitly"]],
+          ["beginning", ["begining", "begginning", "beggining"]],
+          ["library", ["libary", "liberry", "librery"]],
+          ["February", ["Febuary", "Feburary", "Febrary"]],
+          ["environment", ["enviroment", "environmant", "envieroment"]],
+          ["government", ["goverment", "governmant", "governement"]],
+          ["rhythm", ["rythm", "rhythym", "rithm"]]
+        ];
+        const [answer, distractors] = pick(items.slice(0, 4 + d));
+        return qBase("spelling", "Correct spelling", d, "mc", "Which spelling is correct?", answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Look carefully at every letter, not just the sound of the word.",
+          explanation: `The correct spelling is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Commonly confused words", d => {
+        const items = [
+          ["its", "The dog wagged ___ tail.", ["it's", "its'", "it is"]],
+          ["it's", "___ nearly time for the test to begin.", ["its", "its'", "it"]],
+          ["practise", "You should ___ your reading every day.", ["practice", "practiseing", "practiced"]],
+          ["practice", "Football ___ finished at five o'clock.", ["practise", "practised", "practising"]],
+          ["effect", "The medicine had a quick ___ on the headache.", ["affect", "affekt", "efect"]],
+          ["affect", "Lack of sleep can ___ your concentration.", ["effect", "efect", "affekt"]],
+          ["stationary", "The bus was ___ at the traffic lights.", ["stationery", "stationry", "stacionery"]]
+        ];
+        const [answer, sentence, distractors] = pick(items.slice(0, 4 + d));
+        return qBase("spelling", "Commonly confused words", d, "mc", "Choose the correct word for the sentence.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Think about the meaning of the word, not just its sound.",
+          explanation: `The correct word is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Plural forms", d => {
+        const items = [
+          ["baby", "babies", ["babys", "babyes", "babie's"]],
+          ["church", "churches", ["churchs", "churchies", "church's"]],
+          ["knife", "knives", ["knifes", "knive", "knive's"]],
+          ["child", "children", ["childs", "childes", "childrens"]],
+          ["shelf", "shelves", ["shelfs", "shelfes", "shelve"]],
+          ["hero", "heroes", ["heros", "heroies", "hero's"]],
+          ["story", "stories", ["storys", "storyes", "storie's"]]
+        ];
+        const [singular, answer, distractors] = pick(items.slice(0, 4 + d));
+        return qBase("spelling", "Plural forms", d, "mc", `What is the plural of “${singular}”?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Check whether the word changes ending before adding the plural ending.",
+          explanation: `The plural of “${singular}” is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Word endings", d => {
+        const items = [
+          ["happy", "happiness", ["happyness", "happyiness", "happieness"]],
+          ["hope", "hoping", ["hopeing", "hopping", "hoppeing"]],
+          ["run", "running", ["runing", "runnning", "runneing"]],
+          ["prefer", "preferred", ["prefered", "preffered", "prefared"]],
+          ["beauty", "beautiful", ["beautifull", "beautyful", "beautifal"]],
+          ["argue", "argument", ["arguement", "arguemant", "argment"]]
+        ];
+        const [root, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("spelling", "Word endings", d, "mc", `Which is the correct spelling made from “${root}”?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Check whether a final e is dropped or a consonant is doubled.",
+          explanation: `The correct spelling is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Silent letters", d => {
+        const items = [
+          ["knight", ["nite", "knite", "nightt"]],
+          ["island", ["iland", "iseland", "islend"]],
+          ["doubt", ["dout", "dowt", "dobt"]],
+          ["thumb", ["thum", "thumm", "thumbe"]],
+          ["honest", ["onest", "honnest", "honast"]],
+          ["solemn", ["sollem", "solem", "solumn"]]
+        ];
+        const [answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("spelling", "Silent letters", d, "mc", "Which word is spelt correctly with a silent letter?", answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Some words contain a letter that is not pronounced.",
+          explanation: `The correct spelling is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Able and ible", d => {
+        const items = [
+          ["possible", ["possable", "posible", "posseble"]],
+          ["reliable", ["reliible", "relyable", "relieable"]],
+          ["sensible", ["sensable", "sensibel", "sencible"]],
+          ["comfortable", ["comfortible", "comfertable", "comfortabel"]],
+          ["terrible", ["terrable", "terribel", "terible"]]
+        ];
+        const [answer, distractors] = pick(items.slice(0, 3 + Math.min(d, 2)));
+        return qBase("spelling", "Able and ible", d, "mc", "Choose the correct -able or -ible spelling.", answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Say the whole word, then check the ending carefully.",
+          explanation: `The correct spelling is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Cious and tious endings", d => {
+        const items = [
+          ["cautious", ["caucious", "cautios", "causcious"]],
+          ["precious", ["pretious", "precios", "preshous"]],
+          ["delicious", ["delitious", "delicios", "delishous"]],
+          ["ambitious", ["ambicious", "ambitios", "ambishous"]],
+          ["suspicious", ["suspitious", "suspicous", "suspishous"]]
+        ];
+        const [answer, distractors] = pick(items.slice(0, 3 + Math.min(d, 2)));
+        return qBase("spelling", "Cious and tious endings", d, "mc", "Choose the correct spelling.", answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "The endings -cious and -tious often sound similar. Look for the exact spelling.",
+          explanation: `The correct spelling is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Precise vocabulary", d => {
+        const items = [
+          ["The baby was asleep, so Ben ___ the answer.", "whispered", ["bellowed", "thundered", "announced"]],
+          ["After the long run, Priya ___ along the path.", "staggered", ["soared", "scribbled", "glittered"]],
+          ["The old gate ___ in the wind.", "creaked", ["sparkled", "boiled", "cheered"]],
+          ["The candle ___ in the draught.", "flickered", ["trudged", "muttered", "pounded"]],
+          ["The detective ___ the muddy footprint.", "examined", ["ignored", "devoured", "whispered"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("spelling", "Precise vocabulary", d, "mc", "Choose the most precise word to complete the sentence.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "The best word should match the action and mood of the sentence.",
+          explanation: `The most precise word is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Dictionary order", d => {
+        const sets = [
+          [["brave", "branch", "bright", "breeze"], ["branch", "brave", "breeze", "bright"]],
+          [["station", "staple", "stare", "start"], ["staple", "stare", "start", "station"]],
+          [["glimmer", "glide", "globe", "glance"], ["glance", "glide", "glimmer", "globe"]],
+          [["chapter", "chance", "change", "charge"], ["chance", "change", "chapter", "charge"]]
+        ];
+        const [words, ordered] = pick(sets);
+        const answer = ordered.join(", ");
+        const distractors = [shuffle(words).join(", "), words.slice().reverse().join(", "), [ordered[0], ordered[2], ordered[1], ordered[3]].join(", ")];
+        return qBase("spelling", "Dictionary order", d, "mc", "Which option puts the words in dictionary order?", answer, {
+          support: wordCards(words),
+          choices: makeChoices(answer, distractors),
+          hint: "Compare the words letter by letter from the beginning.",
+          explanation: `Dictionary order is: ${answer}.`
+        });
+      });
+
+      addFamily("sentence", "Connectives", d => {
+        const items = [
+          ["___ it was raining, the match continued.", "Although", ["Because", "Therefore", "Meanwhile"]],
+          ["Maya forgot her lunch, ___ her friend shared some fruit.", "so", ["although", "unless", "before"]],
+          ["The path was icy; ___, pupils walked carefully.", "therefore", ["however", "meanwhile", "although"]],
+          ["I enjoy mystery stories; ___, I prefer adventure stories.", "however", ["because", "therefore", "unless"]],
+          ["Finley packed his bag ___ he went to bed.", "before", ["unless", "therefore", "however"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("sentence", "Connectives", d, "mc", "Choose the best connective to complete the sentence.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Think about the relationship between the two parts of the sentence.",
+          explanation: `The best connective is “${answer}”.`
+        });
+      });
+
+      addFamily("sentence", "Sentence combining", d => {
+        const items = [
+          ["The bell rang. The pupils lined up.", "When the bell rang, the pupils lined up.", ["The bell rang the pupils lined up.", "The pupils lined when the bell rang up.", "The bell, rang when pupils lined up."]],
+          ["The dog was tired. It had chased the ball for an hour.", "The dog was tired because it had chased the ball for an hour.", ["The dog was tired, it had chased the ball for an hour.", "Because tired the dog chased for an hour.", "The dog chased tired because the ball."]],
+          ["The window was open. Cold air entered the room.", "Cold air entered the room because the window was open.", ["Cold air entered because room the window was open.", "The window was open cold air entered the room.", "Cold air, because the window was open entered."]]
+        ];
+        const [base, answer, distractors] = pick(items);
+        return qBase("sentence", "Sentence combining", d, "mc", "Which sentence combines the two ideas most clearly?", answer, {
+          passage: base,
+          choices: makeChoices(answer, distractors),
+          hint: "The best answer should be grammatical and show the link between ideas.",
+          explanation: `The clearest combined sentence is: “${answer}”`
+        });
+      });
+
+      addFamily("sentence", "Reordering words", d => {
+        const sentences = [
+          ["after the rain stopped the team returned to the pitch", "After the rain stopped, the team returned to the pitch."],
+          ["before opening the box clara read the label carefully", "Before opening the box, Clara read the label carefully."],
+          ["although the path was steep the walkers kept climbing", "Although the path was steep, the walkers kept climbing."],
+          ["when the lights dimmed the audience fell silent", "When the lights dimmed, the audience fell silent."]
+        ];
+        const [scrambled, answer] = pick(sentences);
+        const distractors = [answer.replace(",", ""), answer.toLowerCase(), answer.replace(".", "?")];
+        return qBase("sentence", "Reordering words", d, "mc", "Which option is the best punctuated sentence?", answer, {
+          passage: scrambled,
+          choices: makeChoices(answer, distractors),
+          hint: "Use a capital letter at the start and punctuation to show the opening phrase.",
+          explanation: `The best version is: “${answer}”`
+        });
+      });
+
+      addFamily("sentence", "Paragraph order", d => {
+        const items = [
+          [["Finally, she labelled each pot.", "First, Grace filled the pots with soil.", "Then she planted three seeds in each one."], ["First, Grace filled the pots with soil.", "Then she planted three seeds in each one.", "Finally, she labelled each pot."]],
+          [["After that, he checked the map.", "At dawn, Noah packed his rucksack.", "By lunchtime, he had reached the old bridge."], ["At dawn, Noah packed his rucksack.", "After that, he checked the map.", "By lunchtime, he had reached the old bridge."]],
+          [["In conclusion, cycling is a healthy way to travel.", "Cycling can reduce traffic near school.", "It also gives pupils useful exercise."], ["Cycling can reduce traffic near school.", "It also gives pupils useful exercise.", "In conclusion, cycling is a healthy way to travel."]]
+        ];
+        const [mixed, ordered] = pick(items);
+        const answer = ordered.map((s, i) => `${i+1}. ${s}`).join(" ");
+        const distractors = [mixed.map((s, i) => `${i+1}. ${s}`).join(" "), ordered.slice().reverse().map((s, i) => `${i+1}. ${s}`).join(" "), [ordered[1], ordered[0], ordered[2]].map((s, i) => `${i+1}. ${s}`).join(" ")];
+        return qBase("sentence", "Paragraph order", d, "mc", "Which option puts the sentences in the most logical order?", answer, {
+          support: `<div class="passage-title">Sentences</div>${mixed.map((s, i) => `<p><strong>${String.fromCharCode(65+i)}.</strong> ${escapeHtml(s)}</p>`).join("")}`,
+          choices: makeChoices(answer, distractors),
+          hint: "Look for time words and an opening or concluding sentence.",
+          explanation: `The logical order is: ${answer}`
+        });
+      });
+
+      addFamily("sentence", "Best openings", d => {
+        const items = [
+          ["a suspense story", "The floorboard creaked, although nobody else was supposed to be in the house.", ["I am going to write about a house.", "The house was a building and it had rooms.", "This story starts now."]],
+          ["a persuasive speech", "Every pupil deserves a quiet, welcoming library where they can read and think.", ["Libraries are things with books.", "I might talk about a library maybe.", "There was a shelf and it was brown."]],
+          ["a description of a storm", "Black clouds rolled over the hill like a heavy blanket, swallowing the last strip of sunlight.", ["The weather was not very nice.", "Storms are weather things.", "I saw a cloud and it was there."]]
+        ];
+        const [purpose, answer, distractors] = pick(items);
+        return qBase("sentence", "Best openings", d, "mc", `Which is the strongest opening for ${purpose}?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "A strong opening should be precise, interesting and suited to the task.",
+          explanation: `The strongest opening is: “${answer}”`
+        });
+      });
+
+      addFamily("sentence", "Improve expression", d => {
+        const items = [
+          ["The dog was very, very big and it was very scary.", "The enormous dog loomed at the gate, making Sam step back.", ["The dog was big big and scary scary.", "The dog was a dog and it was very big.", "The very dog was very scary and very big."]],
+          ["I went to the park and it was nice and I played.", "At the park, I played on the swings and raced across the grass.", ["I went park nice played.", "The park was nice and park and nice.", "I played and it was and I went."]],
+          ["The room was messy and had lots of things.", "Books, socks and crumpled paper were scattered across the messy room.", ["The room was things and messy lots.", "The room was very stuff with things.", "Messy room things lots had."]]
+        ];
+        const [weak, answer, distractors] = pick(items);
+        return qBase("sentence", "Improve expression", d, "mc", "Which sentence improves the expression best?", answer, {
+          passage: `Weak sentence: ${weak}`,
+          choices: makeChoices(answer, distractors),
+          hint: "Choose the sentence with precise vocabulary and clear grammar.",
+          explanation: `The improved sentence is: “${answer}”`
+        });
+      });
+
+      addFamily("sentence", "Cloze passage", d => {
+        const items = [
+          ["The path was muddy, ___ the walkers moved slowly.", "so", ["although", "unless", "before"]],
+          ["Priya revised carefully ___ she wanted to improve her score.", "because", ["however", "meanwhile", "unless"]],
+          ["The museum was quiet; ___, the café was crowded.", "however", ["therefore", "because", "before"]],
+          ["___ the bell rang, the class packed away their books.", "When", ["Unless", "Although", "Therefore"]]
+        ];
+        const [passage, answer, distractors] = pick(items.slice(0, 2 + d));
+        return qBase("sentence", "Cloze passage", d, "mc", "Choose the word that best fits the gap.", answer, {
+          passage,
+          choices: makeChoices(answer, distractors),
+          hint: "Read the whole sentence before and after the gap.",
+          explanation: `The word “${answer}” fits the meaning of the sentence.`
+        });
+      });
+
+      addFamily("sentence", "Formal and informal tone", d => {
+        const items = [
+          ["a letter to a headteacher", "I would be grateful if you could consider our suggestion.", ["Please do this because it's really cool.", "You have got to sort this out now.", "This thing is kind of okay, yeah?"]],
+          ["an email to a local museum", "Could you please confirm the time of our visit?", ["Tell me the time, thanks.", "What time is it then???", "We need the museum thing now."]],
+          ["a report about a science investigation", "The results show that the plant in sunlight grew the tallest.", ["The sunny plant totally smashed it.", "I reckon the plant liked the sun loads.", "The plant thing was best."]]
+        ];
+        const [purpose, answer, distractors] = pick(items);
+        return qBase("sentence", "Formal and informal tone", d, "mc", `Which sentence is most suitable for ${purpose}?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Formal writing should be clear, polite and precise.",
+          explanation: `The most suitable formal sentence is: “${answer}”`
+        });
+      });
+
+      addFamily("sentence", "Topic sentences", d => {
+        const items = [
+          ["a paragraph about the benefits of reading", "Reading regularly can improve vocabulary, imagination and concentration.", ["I have a blue bookmark.", "Books are made of paper.", "Yesterday I sat on a chair."]],
+          ["a paragraph about healthy school lunches", "A healthy lunch can give pupils the energy they need for the afternoon.", ["My lunchbox is red.", "Some sandwiches are triangle shaped.", "There is a table in the hall."]],
+          ["a paragraph about protecting wildlife", "Small changes in our habits can make gardens safer for wildlife.", ["A hedgehog is small.", "I once saw a bird.", "The gate was green."]]
+        ];
+        const [subject, answer, distractors] = pick(items);
+        return qBase("sentence", "Topic sentences", d, "mc", `Which is the best topic sentence for ${subject}?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "A topic sentence introduces the main idea of the whole paragraph.",
+          explanation: `The best topic sentence is: “${answer}”`
+        });
+      });
+
+      addFamily("verbal", "Word analogies", d => {
+        const items = [
+          ["Bird is to nest as bee is to ___.", "hive", ["web", "den", "stable"]],
+          ["Page is to book as brick is to ___.", "wall", ["river", "shoe", "cloud"]],
+          ["Doctor is to hospital as teacher is to ___.", "school", ["garage", "forest", "airport"]],
+          ["Pen is to ink as car is to ___.", "fuel", ["paper", "grass", "thread"]],
+          ["Shell is to tortoise as bark is to ___.", "tree", ["bird", "door", "river"]]
+        ];
+        const [prompt, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("verbal", "Word analogies", d, "mc", prompt, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Work out the relationship in the first pair.",
+          explanation: `The matching word is “${answer}”.`
+        });
+      });
+
+      addFamily("verbal", "Hidden words", d => {
+        const items = [
+          ["The brave new team entered quietly.", "newt", ["frog", "toad", "mole"]],
+          ["Clara made a neat label.", "dean", ["seal", "lamp", "coin"]],
+          ["A calm owl waited near the wall.", "mow", ["bat", "rat", "owl"]],
+          ["The silver vase leaned slightly.", "seal", ["hare", "goat", "deer"]],
+          ["A sharp echo rang across the hall.", "hero", ["lion", "bear", "wolf"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("verbal", "Hidden words", d, "mc", "Which word is hidden across neighbouring letters in the sentence?", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Look across the end of one word and the start of the next.",
+          explanation: `The hidden word is “${answer}”.`
+        });
+      });
+
+      addFamily("verbal", "Letter codes", d => {
+        const words = ["cat", "dog", "pen", "map", "sun", "box", "hat", "cup"];
+        const word = pick(words);
+        const shift = rint(1, Math.min(3, d));
+        const encode = w => w.split("").map(ch => String.fromCharCode(((ch.charCodeAt(0)-97+shift)%26)+97)).join("");
+        const answer = encode(word);
+        const distractors = [encode(word).split("").reverse().join(""), word, word.split("").map(ch => String.fromCharCode(((ch.charCodeAt(0)-97+shift+1)%26)+97)).join("")];
+        return qBase("verbal", "Letter codes", d, "mc", `In a code, each letter is moved ${shift} place${shift>1?"s":""} forward in the alphabet. What is “${word.toUpperCase()}” in this code?`, answer.toUpperCase(), {
+          choices: makeChoices(answer.toUpperCase(), distractors.map(x => x.toUpperCase())),
+          hint: "Move each letter forward by the same number of places.",
+          explanation: `${word.toUpperCase()} becomes ${answer.toUpperCase()}.`
+        });
+      });
+
+      addFamily("verbal", "Anagrams", d => {
+        const words = ["listen", "silent", "rescue", "secure", "garden", "danger", "stone", "tones", "alert", "alter"];
+        const answer = pick(words.slice(0, 4 + d));
+        const letters = shuffle(answer.split("")).join(" ").toUpperCase();
+        const distractors = shuffle(words.filter(w => w !== answer && w.length === answer.length)).slice(0, 3);
+        while (distractors.length < 3) distractors.push(pick(["planet", "castle", "pencil", "school"]).slice(0, answer.length));
+        return qBase("verbal", "Anagrams", d, "mc", `Which word can be made from these letters: ${letters}?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Rearrange all the letters exactly once.",
+          explanation: `The letters can be rearranged to make “${answer}”.`
+        });
+      });
+
+      addFamily("verbal", "One-letter changes", d => {
+        const items = [
+          ["cold", "old", "not young"],
+          ["cart", "cat", "a pet animal"],
+          ["plate", "late", "not on time"],
+          ["brave", "rave", "speak wildly with excitement"],
+          ["stone", "tone", "quality of sound"]
+        ];
+        const [start, answer, clue] = pick(items.slice(0, 3 + d));
+        const distractors = [start, answer + "s", start.slice(1), start.replace(/[aeiou]/, "a")].filter(x => x !== answer);
+        return qBase("verbal", "One-letter changes", d, "mc", `Remove one letter from “${start}” to make a word meaning “${clue}”.`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Try removing one letter at a time, then check the clue.",
+          explanation: `Removing one letter from “${start}” can make “${answer}”.`
+        });
+      });
+
+      addFamily("verbal", "Classification", d => {
+        const sets = [
+          [["violin", "piano", "flute"], "trumpet", ["castle", "river", "pencil"], "musical instruments"],
+          [["circle", "square", "triangle"], "hexagon", ["window", "forest", "summer"], "shapes"],
+          [["oak", "elm", "pine"], "beech", ["tulip", "rose", "daisy"], "trees"],
+          [["Monday", "Friday", "Sunday"], "Tuesday", ["April", "summer", "noon"], "days of the week"]
+        ];
+        const [group, answer, distractors, reason] = pick(sets);
+        return qBase("verbal", "Classification", d, "mc", `Which word belongs with this group: ${group.join(", ")}?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Find what the three words have in common.",
+          explanation: `They are all ${reason}, so “${answer}” belongs with them.`
+        });
+      });
+
+      addFamily("verbal", "Compound middle word", d => {
+        const items = [
+          ["rain", "bow", "tie", "rainbow", "bowtie"],
+          ["book", "case", "load", "bookcase", "caseload"],
+          ["sun", "flower", "pot", "sunflower", "flowerpot"],
+          ["head", "light", "house", "headlight", "lighthouse"],
+          ["foot", "ball", "room", "football", "ballroom"]
+        ];
+        const [left, answer, right, whole1, whole2] = pick(items.slice(0, 3 + d));
+        return qBase("verbal", "Compound middle word", d, "mc", `Which word can go after “${left}” and before “${right}” to make two compound words?`, answer, {
+          choices: makeChoices(answer, ["tree", "paper", "stone", "water", "star"].filter(x => x !== answer)),
+          hint: "Test the middle word with both sides.",
+          explanation: `${left}+${answer} = ${whole1}, and ${answer}+${right} = ${whole2}.`
+        });
+      });
+
+      addFamily("verbal", "Letter sequences", d => {
+        const start = rint(1, 8);
+        const step = rint(1, Math.min(4, d + 1));
+        const nums = [start, start + step, start + 2*step, start + 3*step];
+        const letters = nums.map(n => String.fromCharCode(64 + n));
+        const answer = String.fromCharCode(64 + start + 4*step);
+        return qBase("verbal", "Letter sequences", d, "mc", `What letter comes next? ${letters.join("  ")}  ___`, answer, {
+          choices: makeChoices(answer, [String.fromCharCode(answer.charCodeAt(0)+1), String.fromCharCode(answer.charCodeAt(0)-1), String.fromCharCode(64 + start + 5*step)]),
+          hint: "Use alphabet positions: A=1, B=2 and so on.",
+          explanation: `The sequence moves forward by ${step} each time, so the next letter is ${answer}.`
+        });
+      });
+
+      addFamily("verbal", "Missing word from clues", d => {
+        const items = [
+          ["It can be a place to sit and part of a committee.", "chair", ["table", "floor", "window"]],
+          ["It can be a flying animal and a piece of sports equipment.", "bat", ["ball", "net", "fox"]],
+          ["It can mean fair and also a pale colour.", "light", ["dark", "bright", "heavy"]],
+          ["It can be a tree covering and the sound a dog makes.", "bark", ["leaf", "growl", "trunk"]],
+          ["It can mean a contest and also something used to light a candle.", "match", ["game", "flame", "stick"]]
+        ];
+        const [clue, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("verbal", "Missing word from clues", d, "mc", `Which word fits both meanings? ${clue}`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Look for one word with two different meanings.",
+          explanation: `The word is “${answer}”.`
+        });
+      });
+
+      addFamily("verbal", "Opposite pairs", d => {
+        const pairs = [
+          ["arrival", "departure"], ["increase", "decrease"], ["accept", "refuse"], ["victory", "defeat"], ["expand", "contract"], ["include", "exclude"]
+        ];
+        const [a, b] = pick(pairs.slice(0, 3 + d));
+        const answer = `${a} / ${b}`;
+        const distractors = shuffle(pairs.filter(p => p[0] !== a)).slice(0, 3).map(p => `${a} / ${p[1]}`);
+        return qBase("verbal", "Opposite pairs", d, "mc", `Which pair contains opposites?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Both words in the pair should have opposite meanings.",
+          explanation: `“${a}” and “${b}” are opposites.`
+        });
+      });
+
+      addFamily("writing", "Descriptive micro-writing", d => {
+        const settings = ["an empty railway platform at night", "a forest path after rain", "a busy market just before closing", "a silent museum gallery", "a beach before a storm"];
+        const setting = pick(settings);
+        return qBase("writing", "Descriptive micro-writing", d, "writing", `Write a short description of ${setting}. Aim for vivid detail rather than a long story.`, "self-checked", {
+          minWords: 45,
+          minSentences: 3,
+          focus: "description",
+          hint: "Use at least one sensory detail and one comparison, such as a simile.",
+          model: `The platform waited under yellow lamps, silent except for the hiss of rain. A newspaper slid along the tiles like a frightened mouse, and the dark rails shone like ribbons of oil.`,
+          explanation: "Descriptive writing is judged by precise detail, control of sentences and atmosphere."
+        });
+      });
+
+      addFamily("writing", "Persuasive micro-writing", d => {
+        const topics = ["more trees should be planted near school", "the library should stay open at lunchtime", "pupils should walk to school when possible", "the class should choose a charity project", "break time should include a quiet reading area"];
+        const topic = pick(topics);
+        return qBase("writing", "Persuasive micro-writing", d, "writing", `Write a short persuasive paragraph arguing that ${topic}.`, "self-checked", {
+          minWords: 45,
+          minSentences: 3,
+          focus: "persuasion",
+          hint: "Give a clear opinion, a reason and a persuasive technique such as a rhetorical question or modal verb.",
+          model: `We should plant more trees near school because they would give shade, help wildlife and make the entrance calmer. Surely a greener school would be better for everyone?`,
+          explanation: "Persuasive writing should have a clear viewpoint and convincing reasons."
+        });
+      });
+
+      addFamily("writing", "Dialogue micro-writing", d => {
+        const situations = ["two friends finding a locked box", "a pupil explaining a missing homework diary", "a coach encouraging a nervous runner", "a shopkeeper discovering a broken window", "siblings hearing a strange noise upstairs"];
+        const situation = pick(situations);
+        return qBase("writing", "Dialogue micro-writing", d, "writing", `Write a short piece of dialogue for this situation: ${situation}.`, "self-checked", {
+          minWords: 35,
+          minSentences: 3,
+          focus: "dialogue",
+          hint: "Use speech marks and include a speech verb such as said, asked, whispered or replied.",
+          model: `“Did you hear that?” whispered Maya, gripping the torch. “It came from the cupboard,” Ben replied, although he did not move any closer.`,
+          explanation: "Dialogue should be punctuated clearly and show character or tension."
+        });
+      });
+
+      addFamily("writing", "Story opening choices", d => {
+        const items = [
+          ["mystery", "The envelope had no stamp, no address and no name—only a single silver key taped to the back.", ["I will now write a mystery story.", "There was an envelope and it was quite interesting.", "The mystery was about a thing that happened."]],
+          ["adventure", "By sunrise, the map had changed again, and the mountain path now pointed straight into the clouds.", ["This adventure is starting now.", "I went on a trip and it was good.", "There was a mountain and a map and some clouds."]],
+          ["school story", "The new boy sat alone until a paper aeroplane landed on his desk with the words 'Open me' written across one wing.", ["School is a place where children learn.", "This is a story about school.", "The boy was new and then something happened."]]
+        ];
+        const [genre, answer, distractors] = pick(items);
+        return qBase("writing", "Story opening choices", d, "mc", `Which opening is most effective for a ${genre} story?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "A strong opening creates interest and gives the reader a reason to continue.",
+          explanation: `The best opening is: “${answer}”`
+        });
+      });
+
+      addFamily("writing", "Planning structure", d => {
+        const items = [
+          ["a story", "opening problem → build-up → climax → resolution", ["resolution → title → list → address", "facts → price → recipe → glossary", "question → answer → comma → adjective"]],
+          ["a persuasive letter", "clear viewpoint → reasons → evidence → polite closing", ["setting → climax → cliff-hanger → villain", "shopping list → weather → dialogue → ending", "alphabetical order → rhyme → title → answer"]],
+          ["a non-fiction explanation", "introduction → ordered steps or reasons → conclusion", ["joke → mystery → cliff-hanger → dialogue", "random facts → sudden ending → title → list", "answer → question → character → problem"]]
+        ];
+        const [task, answer, distractors] = pick(items);
+        return qBase("writing", "Planning structure", d, "mc", `Which plan best fits ${task}?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "A plan should match the purpose of the writing.",
+          explanation: `The best structure is: ${answer}.`
+        });
+      });
+
+      addFamily("writing", "Editing punctuation", d => {
+        const items = [
+          ["when the bell rang sam grabbed his coat and ran outside", "When the bell rang, Sam grabbed his coat and ran outside.", ["When the bell rang Sam grabbed his coat, and ran outside", "when the bell rang, Sam grabbed his coat and ran outside.", "When the bell rang Sam grabbed his coat and ran outside?"]],
+          ["i cant believe we won shouted maya", "“I can't believe we won!” shouted Maya.", ["I cant believe we won! shouted Maya.", "“i can't believe we won,” shouted maya.", "I can't believe we won shouted Maya!"]],
+          ["after lunch the class visited the museum", "After lunch, the class visited the museum.", ["After lunch the class, visited the museum.", "after lunch, the class visited the museum.", "After lunch the class visited the museum?"]]
+        ];
+        const [raw, answer, distractors] = pick(items.slice(0, 2 + Math.min(d, 1)));
+        return qBase("writing", "Editing punctuation", d, "mc", "Which option edits the sentence correctly?", answer, {
+          passage: raw,
+          choices: makeChoices(answer, distractors),
+          hint: "Check capital letters, commas and final punctuation.",
+          explanation: `The correct edited sentence is: “${answer}”`
+        });
+      });
+
+      addFamily("writing", "Show not tell", d => {
+        const items = [
+          ["tired", "His eyelids drooped, and he dragged his feet across the hall.", ["He was tired.", "Tiredness happened to him.", "He did a tired thing."]],
+          ["angry", "Her fists tightened and her voice dropped to a sharp whisper.", ["She was angry.", "Anger was her mood.", "She felt bad."]],
+          ["excited", "He bounced on his toes, unable to stop grinning at the sealed envelope.", ["He was excited.", "Excitement was there.", "He felt a feeling."]]
+        ];
+        const [feeling, answer, distractors] = pick(items);
+        return qBase("writing", "Show not tell", d, "mc", `Which sentence best shows that a character is ${feeling}, rather than simply telling it?`, answer, {
+          choices: makeChoices(answer, distractors),
+          hint: "Showing uses actions, body language and detail.",
+          explanation: `The strongest example is: “${answer}”`
+        });
+      });
+
+      addFamily("writing", "Summary writing", d => {
+        const items = [
+          ["A class found litter by a pond, learned it could harm animals, and organised a Saturday clean-up.", ["litter", "clean-up"], "Write one sentence summarising this information in no more than 25 words."],
+          ["The school garden had empty beds, so pupils planted beans and sunflowers, watered them daily and saw them grow by July.", ["garden", "pupils"], "Write one sentence summarising this information in no more than 25 words."],
+          ["A lost dog was found because neighbours searched different streets, made posters and contacted the owner.", ["dog", "neighbours"], "Write one sentence summarising this information in no more than 25 words."]
+        ];
+        const [text, keywords, prompt] = pick(items);
+        return qBase("writing", "Summary writing", d, "writing", prompt, "self-checked", {
+          passage: text,
+          minWords: 8,
+          maxWords: 25,
+          minSentences: 1,
+          focus: "summary",
+          keywords,
+          hint: "Keep only the main idea. Leave out tiny details.",
+          model: `The main events can be combined into one clear sentence without copying every detail.`,
+          explanation: "A summary should be brief, accurate and focused on the main point."
+        });
+      });
+
+      addFamily("reading", "Selectable retrieval answers", d => {
+        const name = pick(names);
+        const pet = pick(["tortoise", "hamster", "rabbit", "guinea pig", "budgie"]);
+        const place = pick(["the science room", "the library", "the courtyard", "Room 6", "the school office"]);
+        const time = pick(["10:15", "11:30", "13:45", "14:20", "15:05"]);
+        const passage = `${name} wrote a notice for the class. The missing ${pet} was last seen near ${place} at ${time}. Anyone who finds it should tell Mrs Green before going home.`;
+        const ask = pick(["pet", "place", "time"]);
+        const answers = { pet, place, time };
+        const prompts = { pet: "What animal is missing?", place: "Where was it last seen?", time: "What time was it last seen?" };
+        return qBase("reading", "Selectable retrieval answers", d, "short", prompts[ask], answers[ask], {
+          passage,
+          hint: "Find and copy the exact detail from the notice.",
+          explanation: `The notice states the answer is “${answers[ask]}”.`
+        });
+      });
+
+      addFamily("vocab", "Selectable synonyms", d => {
+        const items = [
+          ["tiny", "small", ["small", "little"]],
+          ["rapid", "quick", ["quick", "fast", "speedy"]],
+          ["silent", "quiet", ["quiet", "soundless"]],
+          ["difficult", "hard", ["hard", "challenging"]],
+          ["begin", "start", ["start", "commence"]],
+          ["finish", "end", ["end", "complete"]]
+        ];
+        const [word, answer, accept] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Selectable synonyms", d, "short", `Write one word that means the same as “${word}”.`, answer, {
+          accept,
+          hint: "Think of a word with a similar meaning. Keep it to one word.",
+          explanation: `One suitable synonym for “${word}” is “${answer}”.`
+        });
+      });
+
+      addFamily("grammar", "Contractions", d => {
+        const items = [
+          ["do not", "don't"],
+          ["cannot", "can't"],
+          ["will not", "won't"],
+          ["they are", "they're"],
+          ["we have", "we've"],
+          ["I would", "I'd"]
+        ];
+        const [phrase, answer] = pick(items.slice(0, 3 + d));
+        return qBase("grammar", "Contractions", d, "short", `Write the contraction for “${phrase}”.`, answer, {
+          hint: "A contraction uses an apostrophe to show missing letters.",
+          explanation: `The contraction of “${phrase}” is “${answer}”.`
+        });
+      });
+
+      addFamily("spelling", "Clickable spelling correction", d => {
+        const items = [
+          ["seperate", "separate"],
+          ["definately", "definitely"],
+          ["neccesary", "necessary"],
+          ["libary", "library"],
+          ["goverment", "government"],
+          ["begining", "beginning"]
+        ];
+        const [wrong, answer] = pick(items.slice(0, 3 + d));
+        return qBase("spelling", "Clickable spelling correction", d, "short", `Choose the correct spelling for ${wrong}`, answer, {
+          hint: "Look for missing letters or letters in the wrong order.",
+          explanation: `The correct spelling is “${answer}”.`
+        });
+      });
+
+      addFamily("sentence", "Missing punctuation selection", d => {
+        const items = [
+          ["What time is the train", "?", ["question mark", "?"]],
+          ["Watch out", "!", ["exclamation mark", "!"]],
+          ["The bag contained pens pencils and paper", ",", ["comma", ","]],
+          ["I cant find my shoes", "'", ["apostrophe", "'"]]
+        ];
+        const [sentence, answer, accept] = pick(items.slice(0, 3 + Math.min(d, 1)));
+        return qBase("sentence", "Missing punctuation selection", d, "short", `Which punctuation mark is needed in this sentence? “${sentence}”`, answer, {
+          accept,
+          hint: "Think about the sentence job: question, exclamation, list or contraction.",
+          explanation: `The missing punctuation mark is ${answer}.`
+        });
+      });
+
+      addFamily("verbal", "Selectable hidden words", d => {
+        const items = [
+          ["A brave new teacher arrived.", "newt"],
+          ["The silver vase leaned left.", "seal"],
+          ["He sat in a red chair.", "tin"],
+          ["Clara made a neat label.", "dean"]
+        ];
+        const [sentence, answer] = pick(items.slice(0, 2 + Math.min(d, 2)));
+        return qBase("verbal", "Selectable hidden words", d, "short", "Type the hidden word that appears across neighbouring letters.", answer, {
+          passage: sentence,
+          hint: "Look across the end of one word and the beginning of the next.",
+          explanation: `The hidden word is “${answer}”.`
+        });
+      });
+
+    }
+
+    function renderHome() {
+      els.topicGrid.innerHTML = Object.keys(TOPICS).map(id => {
+        const t = TOPICS[id];
+        const count = id === "mixed" ? BANK.length : BANK.filter(q => q.topic === id).length;
+        const level = id === "mixed" ? Math.round(ACTIVE_TOPICS.reduce((a, k) => a + topicLevel(k), 0) / ACTIVE_TOPICS.length) : topicLevel(id);
+        const total = id === "mixed" ? progress.lifetime.total : progress.topics[id].total;
+        const correct = id === "mixed" ? progress.lifetime.correct : progress.topics[id].correct;
+        const pct = total ? Math.round(correct / total * 100) : 0;
+        return `<button class="topic-card" type="button" data-topic="${id}">
+          <div>
+            <div class="topic-icon">${t.icon}</div>
+            <h2>${escapeHtml(t.name)}</h2>
+            <p>${escapeHtml(t.blurb)}</p>
+          </div>
+          <div class="mini-stats"><span>${count} variants</span><span>${dotLevel(level)}</span><span>${total ? pct + "% accuracy" : "new"}</span></div>
+        </button>`;
+      }).join("");
+      els.bankSummary.textContent = `${BANK.length}+ English question variants • no typed answers • click and drag/drop tasks`;
+      document.querySelectorAll(".topic-card").forEach(card => {
+        card.addEventListener("click", () => startRound(card.dataset.topic));
+      });
+    }
+
+    function startRound(topic) {
+      state = {
+        topic,
+        currentQuestion: null,
+        currentEntry: null,
+        used: new Set(),
+        index: 0,
+        length: Number(els.sessionLength.value),
+        score: 0,
+        answered: false,
+        history: []
+      };
+      els.homeScreen.classList.add("hidden");
+      els.resultsScreen.classList.add("hidden");
+      els.homeToolbar.classList.add("hidden");
+      els.quizScreen.classList.remove("hidden");
+      els.quizTitle.textContent = TOPICS[topic].name;
+      loadQuestion();
+    }
+
+    function pickEntry() {
+      const topicIds = state.topic === "mixed" ? ACTIVE_TOPICS : [state.topic];
+      const target = state.topic === "mixed" ? Math.round(ACTIVE_TOPICS.reduce((a, t) => a + topicLevel(t), 0) / ACTIVE_TOPICS.length) : topicLevel(state.topic);
+      let candidates = BANK.filter(e => topicIds.includes(e.topic) && Math.abs(e.difficulty - target) <= 1 && !state.used.has(e.id));
+      if (!candidates.length) candidates = BANK.filter(e => topicIds.includes(e.topic) && !state.used.has(e.id));
+      if (!candidates.length) {
+        state.used.clear();
+        candidates = BANK.filter(e => topicIds.includes(e.topic));
+      }
+      return pick(candidates);
+    }
+
+
+    function extendBankNoTyped300() {
+      const animals = ["fox", "owl", "badger", "otter", "squirrel", "heron", "seal", "deer"];
+      const settings = ["library", "harbour", "market", "museum", "station", "garden", "school hall", "campsite"];
+      const names2 = ["Amina", "Leo", "Sofia", "Noah", "Priya", "Ethan", "Lila", "Zara", "Oscar", "Maya"];
+      const feelings = ["anxious", "relieved", "curious", "determined", "frustrated", "delighted", "suspicious", "confident"];
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+      addFamily("reading", "Selectable inference", d => {
+        const name = pick(names2), place = pick(settings), feeling = pick(feelings);
+        const clues = {
+          anxious: ["kept twisting the strap of the bag", "checked the clock three times"],
+          relieved: ["let out a long breath", "smiled when the lost key appeared"],
+          curious: ["leaned closer to the half-open door", "wondered why the box was humming"],
+          determined: ["straightened the map", "said she would not turn back"],
+          frustrated: ["pressed her lips together", "rubbed out the same word again"],
+          delighted: ["clapped his hands", "could not stop grinning"],
+          suspicious: ["narrowed her eyes", "noticed that the story kept changing"],
+          confident: ["stood tall", "answered without hesitating"]
+        };
+        const passage = `${name} paused in the ${place}. ${name} ${pick(clues[feeling])}, then took one careful step forward.`;
+        return qBase("reading", "Selectable inference", d, "mc", `How is ${name} most likely feeling?`, feeling, {
+          passage,
+          choices: makeChoices(feeling, shuffle(feelings.filter(f => f !== feeling)).slice(0, 5)),
+          hint: "Use the character's actions as evidence.",
+          explanation: `The action in the passage suggests ${name} is ${feeling}.`
+        });
+      }, 10);
+
+      addFamily("reading", "Evidence matching", d => {
+        const mood = pick(["lonely", "excited", "worried", "proud", "impatient"]);
+        const evidence = {
+          lonely: "He ate lunch at the end of the bench while the others chatted in groups.",
+          excited: "She bounced on her toes and gripped the envelope with both hands.",
+          worried: "He read the note twice, and the smile faded from his face.",
+          proud: "She pinned the certificate to the board and stood a little taller.",
+          impatient: "He drummed his fingers on the desk and kept looking towards the door."
+        };
+        const answer = evidence[mood];
+        return qBase("reading", "Evidence matching", d, "mc", `Which sentence is the best evidence that the character is ${mood}?`, answer, {
+          choices: makeChoices(answer, shuffle(Object.values(evidence).filter(e => e !== answer)).slice(0, 4)),
+          hint: "Choose the evidence that shows the feeling through behaviour.",
+          explanation: `The chosen sentence gives direct evidence of being ${mood}.`
+        });
+      }, 10);
+
+      addFamily("reading", "Best title", d => {
+        const items = [
+          ["A group of pupils repaired an old pond, planted reeds and watched frogs return in spring.", "The Pond Comes Back to Life"],
+          ["During a power cut, a family told stories by torchlight and discovered a forgotten photo album.", "Stories in the Dark"],
+          ["A cyclist trained each morning until she finally completed the steep hill without stopping.", "Conquering the Hill"],
+          ["The school council collected ideas, voted fairly and chose a quiet reading corner for the playground.", "A Fair Choice for Break Time"]
+        ];
+        const [passage, answer] = pick(items);
+        return qBase("reading", "Best title", d, "mc", "Which title best matches the whole text?", answer, {
+          passage,
+          choices: makeChoices(answer, ["A Rainy Afternoon", "The Fastest Runner", "A List of Instructions", "The Missing Pencil", "A Difficult Sum"]),
+          hint: "A title should capture the main idea, not a tiny detail.",
+          explanation: `“${answer}” matches the main idea of the text.`
+        });
+      }, 10);
+
+      addFamily("reading", "Sequencing events drag-drop", d => {
+        const sets = [
+          ["Mina found a torn map", "she followed the river path", "she reached the hidden gate", "she unlocked the garden"],
+          ["The class planted seeds", "they watered them each week", "green shoots appeared", "sunflowers opened in July"],
+          ["Owen missed the bus", "he phoned his aunt", "she drove him to the station", "he caught the later train"],
+          ["A storm damaged the sign", "the shopkeeper fetched tools", "neighbours held the ladder", "the sign was fixed before lunch"]
+        ];
+        const answer = pick(sets);
+        return qBase("reading", "Sequencing events drag-drop", d, "order", "Put the events into the most logical order.", answer, {
+          answerType: "sequence",
+          items: shuffle(answer),
+          hint: "Look for causes and time words.",
+          explanation: "A clear sequence follows what must happen first, next and last."
+        });
+      }, 10);
+
+      addFamily("reading", "Fact, opinion or inference", d => {
+        const triples = [
+          ["The train left at 08:40.", "fact"],
+          ["The station was the prettiest building in town.", "opinion"],
+          ["Lena packed an umbrella, so she expected rain.", "inference"],
+          ["The poster was printed in blue ink.", "fact"],
+          ["The soup tasted wonderful.", "opinion"],
+          ["The lights were off, so the shop was probably closed.", "inference"]
+        ];
+        const [sentence, answer] = pick(triples.slice(0, 3 + d));
+        return qBase("reading", "Fact, opinion or inference", d, "mc", `What kind of statement is this? “${sentence}”`, answer, {
+          choices: textChoicesLocal(["fact", "opinion", "inference", "command"]),
+          hint: "A fact can be checked, an opinion is a view, and an inference is worked out from clues.",
+          explanation: `This statement is a ${answer}.`
+        });
+      }, 10);
+
+      addFamily("vocab", "Context synonym selection", d => {
+        const items = [
+          ["The path was narrow, so the walkers went in single file.", "thin", ["wide", "noisy", "heavy"]],
+          ["The ancient gate creaked in the wind.", "old", ["new", "bright", "soft"]],
+          ["The puppy was timid and hid behind the chair.", "shy", ["bold", "large", "sleepy"]],
+          ["The instructions were precise, with no extra words.", "exact", ["vague", "late", "angry"]],
+          ["The crowd was enormous by the final race.", "huge", ["tiny", "silent", "careful"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Context synonym selection", d, "mc", "Which word is closest in meaning to the underlined idea in the sentence?", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Use the rest of the sentence to work out the meaning.",
+          explanation: `In this context, the closest meaning is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("vocab", "Antonym selection", d => {
+        const pairs = [["generous", "selfish"], ["scarce", "plentiful"], ["expand", "shrink"], ["fragile", "strong"], ["optimistic", "pessimistic"], ["transparent", "cloudy"]];
+        const [word, answer] = pick(pairs.slice(0, 3 + d));
+        const all = pairs.map(p => p[1]).concat(["ordinary", "recent", "gentle", "simple"]);
+        return qBase("vocab", "Antonym selection", d, "mc", `Which word is the opposite of “${word}”?`, answer, {
+          choices: makeChoices(answer, shuffle(all.filter(x => x !== answer)).slice(0, 5)),
+          hint: "An antonym has the opposite meaning.",
+          explanation: `The opposite of “${word}” is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("vocab", "Prefix and suffix meaning", d => {
+        const items = [
+          ["unhappy", "not happy"], ["preheat", "heat before"], ["redo", "do again"], ["careless", "without care"], ["hopeful", "full of hope"], ["misread", "read wrongly"]
+        ];
+        const [word, answer] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Prefix and suffix meaning", d, "mc", `What does “${word}” mean?`, answer, {
+          choices: makeChoices(answer, ["very happy", "do after", "full of anger", "without sound", "read loudly"]),
+          hint: "Look at the prefix or suffix added to the root word.",
+          explanation: `“${word}” means “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("vocab", "Word class in context", d => {
+        const items = [
+          ["The children watched the ducks swim.", "watched", "verb"],
+          ["A silver ribbon lay on the table.", "silver", "adjective"],
+          ["Carefully, she lifted the lid.", "carefully", "adverb"],
+          ["The lantern hung above the door.", "lantern", "noun"],
+          ["They shared the prize between them.", "they", "pronoun"]
+        ];
+        const [sentence, word, answer] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Word class in context", d, "mc", `In the sentence, what word class is “${word}”?`, answer, {
+          passage: sentence,
+          choices: textChoicesLocal(["noun", "verb", "adjective", "adverb", "pronoun"]),
+          hint: "Think about the job the word is doing in this sentence.",
+          explanation: `In this sentence, “${word}” is a ${answer}.`
+        });
+      }, 10);
+
+      addFamily("vocab", "Definition matching drag-drop", d => {
+        const pools = [
+          {"fragile":"easily broken", "rapid":"very quick", "ancient":"very old", "scarce":"hard to find"},
+          {"reluctant":"not willing", "vivid":"bright and clear", "fortunate":"lucky", "brief":"short"},
+          {"conceal":"hide", "inspect":"look at carefully", "expand":"make larger", "select":"choose"}
+        ];
+        const answer = pick(pools);
+        return qBase("vocab", "Definition matching drag-drop", d, "match", "Match each word to its definition.", answer, {
+          answerType: "mapping",
+          hint: "Match the meaning, not just the sound of the word.",
+          explanation: "Each word has been matched to its correct definition."
+        });
+      }, 10);
+
+      addFamily("grammar", "Punctuation correction selection", d => {
+        const items = [
+          ["when the bell rang maya ran outside", "When the bell rang, Maya ran outside."],
+          ["i cant find my trainers", "I can't find my trainers."],
+          ["what time does the library close", "What time does the library close?"],
+          ["the box held pencils rulers and glue", "The box held pencils, rulers and glue."],
+          ["look out shouted ben", "“Look out!” shouted Ben."]
+        ];
+        const [raw, answer] = pick(items.slice(0, 3 + d));
+        return qBase("grammar", "Punctuation correction selection", d, "proofread", "Choose the correctly punctuated version.", answer, {
+          passage: raw,
+          choices: makeChoices(answer, [raw + ".", raw.charAt(0).toUpperCase() + raw.slice(1) + ".", raw + "?", raw.replace(/ /, ", ") + "."]),
+          hint: "Check capital letters, commas, apostrophes and final punctuation.",
+          explanation: `The correct version is: “${answer}”`
+        });
+      }, 10);
+
+      addFamily("grammar", "Apostrophe purpose", d => {
+        const items = [
+          ["The girl's coat was red.", "possession"],
+          ["I don't know the answer.", "missing letters"],
+          ["The teachers' room was locked.", "plural possession"],
+          ["We haven't finished yet.", "missing letters"]
+        ];
+        const [sentence, answer] = pick(items);
+        return qBase("grammar", "Apostrophe purpose", d, "mc", "What is the apostrophe doing in this sentence?", answer, {
+          passage: sentence,
+          choices: textChoicesLocal(["possession", "missing letters", "plural possession", "a plural only"]),
+          hint: "Ask whether the apostrophe shows ownership or omitted letters.",
+          explanation: `Here the apostrophe shows ${answer}.`
+        });
+      }, 10);
+
+      addFamily("grammar", "Clause matching", d => {
+        const answer = {"main clause":"the sentence part that can stand alone", "subordinate clause":"adds extra information but cannot stand alone", "relative clause":"starts with a word such as who, which or that", "phrase":"a group of words without a full verb"};
+        return qBase("grammar", "Clause matching", d, "match", "Match each grammar term to its meaning.", answer, {
+          answerType: "mapping",
+          hint: "A main clause can make sense by itself.",
+          explanation: "Each grammar term has been matched to its meaning."
+        });
+      }, 10);
+
+      addFamily("grammar", "Pronoun reference", d => {
+        const items = [
+          ["Nina gave the torch to Freya because she was leading the way.", "Freya"],
+          ["Tom passed the note to Ravi after he found it under the desk.", "Tom"],
+          ["The dog chased the cat until it climbed the fence.", "cat"],
+          ["The coach praised Ella because she had trained every morning.", "Ella"]
+        ];
+        const [sentence, answer] = pick(items);
+        return qBase("grammar", "Pronoun reference", d, "mc", "Who or what does the pronoun refer to?", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, ["Nina", "Freya", "Tom", "Ravi", "dog", "cat", "coach", "Ella"].filter(x => x !== answer)),
+          hint: "Look for the noun that makes the sentence sensible.",
+          explanation: `The pronoun refers to ${answer}.`
+        });
+      }, 10);
+
+      addFamily("grammar", "Verb tense selection", d => {
+        const items = [
+          ["Yesterday, Sam ____ the winning goal.", "scored", ["scores", "will score", "score"]],
+          ["Tomorrow, the class ____ the museum.", "will visit", ["visited", "visits", "visit"]],
+          ["Every morning, birds ____ in the oak tree.", "sing", ["sang", "will sing", "sings"]],
+          ["By noon, we had ____ the posters.", "finished", ["finish", "finishes", "finishing"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + Math.min(d, 1)));
+        return qBase("grammar", "Verb tense selection", d, "cloze", "Choose the verb form that completes the sentence correctly.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Use the time clue in the sentence.",
+          explanation: `The correct verb form is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("spelling", "Correct spelling selection", d => {
+        const words = [["separate", ["seperate", "separrate", "sepperate"]], ["necessary", ["neccesary", "neccessary", "necesary"]], ["definitely", ["definately", "defanitely", "definetly"]], ["government", ["goverment", "govermant", "govvernment"]], ["beginning", ["begining", "begginning", "begininng"]], ["library", ["libary", "liberry", "librery"]]];
+        const [answer, wrongs] = pick(words.slice(0, 3 + d));
+        return qBase("spelling", "Correct spelling selection", d, "proofread", "Choose the correctly spelt word.", answer, {
+          choices: makeChoices(answer, wrongs),
+          hint: "Look carefully for missing or doubled letters.",
+          explanation: `The correct spelling is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("spelling", "Homophone cloze", d => {
+        const items = [
+          ["The children left ____ coats in the cloakroom.", "their", ["there", "they're"]],
+          ["We could ____ the bells from the tower.", "hear", ["here", "hair"]],
+          ["The boat sailed across the ____.", "sea", ["see", "C"]],
+          ["Please ____ your name at the top.", "write", ["right", "rite"]],
+          ["The puppy wagged ____ tail.", "its", ["it's", "its'"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("spelling", "Homophone cloze", d, "cloze", "Choose the correct homophone for the gap.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Choose the word that fits the meaning of the sentence.",
+          explanation: `The correct homophone is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("spelling", "Suffix change rules", d => {
+        const items = [["happy", "happiness"], ["hope", "hopeful"], ["drop", "dropped"], ["carry", "carried"], ["magic", "magician"], ["beauty", "beautiful"]];
+        const [root, answer] = pick(items.slice(0, 3 + d));
+        return qBase("spelling", "Suffix change rules", d, "mc", `Add the suffix correctly to make a word from “${root}”.`, answer, {
+          choices: makeChoices(answer, [root + "ed", root + "ness", root + "full", root.replace(/y$/, "i") + "ness", root + root.slice(-1) + "ed"].filter(x => normalise(x) !== normalise(answer))),
+          hint: "Think about whether to drop e, change y to i, or double a consonant.",
+          explanation: `The correct form is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("spelling", "Dictionary order drag-drop", d => {
+        const groups = [["cabin", "cable", "cactus", "candle"], ["repair", "repeat", "reply", "rescue"], ["bright", "bring", "brisk", "brittle"], ["market", "marsh", "master", "matrix"], ["silent", "silver", "simple", "single"]];
+        const answer = pick(groups).slice().sort((a,b)=>a.localeCompare(b));
+        return qBase("spelling", "Dictionary order drag-drop", d, "order", "Put the words into dictionary order.", answer, {
+          answerType: "sequence",
+          items: shuffle(answer),
+          hint: "Compare letters from left to right.",
+          explanation: `The dictionary order is ${answer.join(", ")}.`
+        });
+      }, 10);
+
+      addFamily("sentence", "Sentence order drag-drop", d => {
+        const sets = [
+          ["First, the team unpacked the equipment.", "Next, they checked the safety ropes.", "After that, they climbed the practice wall.", "Finally, they recorded their times."],
+          ["At dawn, the beach was almost empty.", "Soon, families arrived with towels and buckets.", "By midday, the sand was crowded.", "In the evening, only footprints remained."],
+          ["The lights flickered once.", "A low hum filled the hall.", "Then the screen burst into colour.", "Everyone leaned forward to watch."]
+        ];
+        const answer = pick(sets);
+        return qBase("sentence", "Sentence order drag-drop", d, "order", "Drag the sentences into a clear paragraph order.", answer, {
+          answerType: "sequence",
+          items: shuffle(answer),
+          hint: "Use time connectives and cause-and-effect clues.",
+          explanation: "The paragraph order follows the sequence of events."
+        });
+      }, 10);
+
+      addFamily("sentence", "Cloze word selection", d => {
+        const items = [
+          ["The boy walked ____ into the room because he did not want to be noticed.", "quietly", ["rarely", "brightly", "roughly"]],
+          ["The match was cancelled ____ the pitch was flooded.", "because", ["although", "unless", "therefore"]],
+          ["Mia practised daily; ____, her spelling improved.", "therefore", ["however", "meanwhile", "although"]],
+          ["The path was steep, ____ the walkers continued.", "but", ["because", "so", "unless"]]
+        ];
+        const [sentence, answer, distractors] = pick(items.slice(0, 3 + Math.min(d, 1)));
+        return qBase("sentence", "Cloze word selection", d, "cloze", "Choose the word that best completes the sentence.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, distractors),
+          hint: "Read the whole sentence and decide what relationship the missing word must show.",
+          explanation: `The best word for the gap is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("sentence", "Connective matching", d => {
+        const answer = {"because":"gives a reason", "however":"shows contrast", "therefore":"shows a result", "meanwhile":"shows something happening at the same time"};
+        return qBase("sentence", "Connective matching", d, "match", "Match each connective to its job.", answer, {
+          answerType: "mapping",
+          hint: "Think about the relationship each connective creates between ideas.",
+          explanation: "Each connective has been matched to its purpose."
+        });
+      }, 10);
+
+      addFamily("sentence", "Best sentence combining", d => {
+        const items = [
+          ["The rain stopped. The team went outside.", "When the rain stopped, the team went outside."],
+          ["Luca opened the box. It was covered in dust.", "Luca opened the box, which was covered in dust."],
+          ["The path was muddy. We reached the campsite.", "Although the path was muddy, we reached the campsite."],
+          ["The dog barked. The gate creaked open.", "As the gate creaked open, the dog barked."]
+        ];
+        const [raw, answer] = pick(items);
+        return qBase("sentence", "Best sentence combining", d, "mc", "Which option combines the sentences most clearly?", answer, {
+          passage: raw,
+          choices: makeChoices(answer, [raw.replace(". ", " and "), raw.toLowerCase(), raw.replace(".", ",")]),
+          hint: "Choose the option that links the ideas clearly and punctuates them accurately.",
+          explanation: `The clearest combined sentence is: “${answer}”`
+        });
+      }, 10);
+
+      addFamily("sentence", "Topic sentence selection", d => {
+        const topics = [
+          ["a paragraph about how bees help gardens", "Bees are important in gardens because they carry pollen from flower to flower."],
+          ["a paragraph about keeping a school library tidy", "A tidy school library helps everyone find books quickly and enjoy reading."],
+          ["a paragraph about training for a race", "Preparing for a race takes regular practice, patience and sensible rest."],
+          ["a paragraph about reducing plastic waste", "Reducing plastic waste begins with small choices that many people can make." ]
+        ];
+        const [topic, answer] = pick(topics);
+        return qBase("sentence", "Topic sentence selection", d, "mc", `Which topic sentence best introduces ${topic}?`, answer, {
+          choices: makeChoices(answer, ["It was very good and people liked it.", "There are many things to say about this.", "This paragraph is going to begin now.", "I do not know much about the topic."]),
+          hint: "A topic sentence should introduce the main idea clearly.",
+          explanation: `The best topic sentence clearly states the paragraph's focus.`
+        });
+      }, 10);
+
+      addFamily("verbal", "Hidden word selection", d => {
+        const items = [["A brave new teacher arrived.", "newt"], ["The silver vase leaned left.", "seal"], ["He sat in a red chair.", "tin"], ["Clara made a neat label.", "dean"], ["The small ant escaped.", "llan"]];
+        const [sentence, answer] = pick(items.slice(0, 3 + Math.min(d, 2)));
+        return qBase("verbal", "Hidden word selection", d, "mc", "Choose the hidden word that appears across neighbouring letters.", answer, {
+          passage: sentence,
+          choices: makeChoices(answer, ["seal", "newt", "tin", "dean", "ant", "ear", "rat"].filter(x => x !== answer)),
+          hint: "Look across the end of one word and the beginning of the next.",
+          explanation: `The hidden word is “${answer}”.`
+        });
+      }, 10);
+
+      addFamily("verbal", "Letter sequence selection", d => {
+        const starts = ["A", "C", "E", "G", "J", "M"];
+        const start = pick(starts).charCodeAt(0);
+        const step = pick([2, 3, 4].slice(0, 1 + Math.min(d, 2)));
+        const seq = [0,1,2,3].map(i => String.fromCharCode(start + i*step));
+        const ans = String.fromCharCode(start + 4*step);
+        return qBase("verbal", "Letter sequence selection", d, "mc", `What letter comes next? ${seq.join("  ")}  ___`, ans, {
+          choices: makeChoices(ans, [String.fromCharCode(start + 3*step + 1), String.fromCharCode(start + 5*step), String.fromCharCode(start + 4*step - 1), String.fromCharCode(start + step)]),
+          hint: "Find the jump through the alphabet.",
+          explanation: `The sequence moves forward ${step} letters each time, so the next letter is ${ans}.`
+        });
+      }, 10);
+
+      addFamily("verbal", "Analogy selection", d => {
+        const items = [["kitten", "cat", "puppy", "dog"], ["page", "book", "petal", "flower"], ["seed", "plant", "egg", "bird"], ["finger", "hand", "toe", "foot"], ["wheel", "bicycle", "sail", "boat"]];
+        const [a,b,c,answer] = pick(items.slice(0, 3 + d));
+        return qBase("verbal", "Analogy selection", d, "mc", `${a} is to ${b} as ${c} is to ____`, answer, {
+          choices: makeChoices(answer, [a, b, c, "tree", "house"]),
+          hint: "Work out the relationship in the first pair, then apply it to the second pair.",
+          explanation: `${a} relates to ${b} in the same way that ${c} relates to ${answer}.`
+        });
+      }, 10);
+
+      addFamily("writing", "Best opening selection", d => {
+        const genre = pick(["mystery", "adventure", "school story", "suspense story"]);
+        const strong = {
+          mystery: "The envelope had no stamp, no address and no name—only a single silver key taped to the back.",
+          adventure: "By sunrise, the map had changed again, and the mountain path now pointed straight into the clouds.",
+          "school story": "The new boy sat alone until a paper aeroplane landed on his desk with the words ‘Open me’ across one wing.",
+          "suspense story": "The cupboard door opened by itself, just wide enough for a cold breath of air to escape."
+        }[genre];
+        return qBase("writing", "Best opening selection", d, "mc", `Which opening is most effective for a ${genre}?`, strong, {
+          choices: makeChoices(strong, ["This is a story and it starts now.", "Something happened one day and it was interesting.", "I am going to write about a character.", "The story was good and had a beginning."]),
+          hint: "A strong opening creates interest and gives a specific image or question.",
+          explanation: "The best opening is specific, controlled and interesting."
+        });
+      }, 10);
+
+      addFamily("writing", "Plan order drag-drop", d => {
+        const plan = pick([
+          ["Introduce a clear viewpoint", "Give the first strong reason", "Add evidence or an example", "End with a polite final appeal"],
+          ["Introduce the setting", "Create a problem", "Build tension", "Resolve the problem"],
+          ["State the topic", "Explain the first step", "Explain the next step", "Finish with the result"]
+        ]);
+        return qBase("writing", "Plan order drag-drop", d, "order", "Drag the planning steps into the best order.", plan, {
+          answerType: "sequence",
+          items: shuffle(plan),
+          hint: "A plan should move from introduction to development to ending.",
+          explanation: "The planning order moves logically from start to finish."
+        });
+      }, 10);
+
+      addFamily("writing", "Improve expression selection", d => {
+        const items = [
+          ["The dog was very very loud.", "The dog barked so loudly that the windows seemed to shake."],
+          ["It was nice in the garden.", "Sunlight spilled across the garden, warming the lavender and the stone path."],
+          ["He was scared.", "His hands trembled as he stepped towards the dark doorway."],
+          ["The food was good.", "The soup was rich with herbs and steam curled from the bowl."]
+        ];
+        const [weak, answer] = pick(items);
+        return qBase("writing", "Improve expression selection", d, "mc", "Which sentence improves the expression most effectively?", answer, {
+          passage: weak,
+          choices: makeChoices(answer, [weak, weak.replace("very very", "quite"), "It was a thing that happened in a way.", "This sentence is better because it says more."]),
+          hint: "Choose precise detail rather than vague words.",
+          explanation: "The strongest option uses more precise vocabulary and imagery."
+        });
+      }, 10);
+
+      addFamily("writing", "Best summary selection", d => {
+        const items = [
+          ["A class found litter by a pond, learned it could harm animals and organised a Saturday clean-up.", "A class organised a pond clean-up after learning litter could harm animals."],
+          ["The school garden had empty beds, so pupils planted beans and sunflowers, watered them daily and watched them grow by July.", "Pupils planted and cared for a school garden until the plants grew."],
+          ["A lost dog was found because neighbours searched different streets, made posters and contacted the owner.", "Neighbours helped find a lost dog by searching, making posters and contacting its owner."]
+        ];
+        const [text, answer] = pick(items);
+        return qBase("writing", "Best summary selection", d, "mc", "Which is the best concise summary?", answer, {
+          passage: text,
+          choices: makeChoices(answer, ["This text has some people and events in it.", text, "The story is mainly about being outside and doing tasks.", "Everything happened because it was a normal day."]),
+          hint: "A good summary keeps the main idea and leaves out minor details.",
+          explanation: "The best summary is accurate, brief and focused on the main point."
+        });
+      }, 10);
+
+      function textChoicesLocal(items) {
+        return shuffle(items).map(v => ({ value: v, label: v }));
+      }
+    }
+
+
+    function typeLabel(kind) {
+      return kind === "order" ? "drag/drop ordering" : kind === "match" ? "drag/drop matching" : kind === "cloze" ? "clickable cloze" : kind === "proofread" ? "clickable proofreading" : "select answer";
+    }
+
+    function displayValue(value) {
+      if (Array.isArray(value)) return value.join(" → ");
+      if (value && typeof value === "object") return Object.keys(value).map(k => `${k}: ${value[k]}`).join("; ");
+      return String(value);
+    }
+
+    function smartDistractors(q) {
+      if (Array.isArray(q.distractors)) return q.distractors;
+      if (q.answerType === "number") {
+        const a = Number(q.answer);
+        return [a + 1, a - 1, a + 2, Math.max(0, a - 2), a + 5].filter(v => Number.isFinite(v) && v !== a);
+      }
+      if (q.answerType === "money") {
+        const a = Number(q.answer);
+        return [a + 1, Math.max(0, a - 1), a + .5, Math.max(0, a - .5)].map(v => Math.round(v * 100) / 100).filter(v => v !== a);
+      }
+      if (q.answerType === "list") {
+        const shown = Array.isArray(q.answer) ? q.answer.join(", ") : String(q.answer);
+        return [shown.split(",").reverse().join(","), "none", "all of them", "cannot tell"];
+      }
+      const title = String(q.title || "").toLowerCase();
+      if (title.includes("contraction")) return ["dont", "cant", "wont", "theyre", "weve", "Id", "do'nt", "ca'nt"].filter(x => normalise(x) !== normalise(q.answer));
+      if (title.includes("spelling") || title.includes("misspelling")) {
+        const a = String(q.answer);
+        return [a.replace(/e/g, "a"), a.replace(/a/g, "e"), a.slice(0, -1), a + a.slice(-1), a.replace(/([a-z])([a-z])/i, "$2$1")].filter(x => x && normalise(x) !== normalise(a));
+      }
+      if (title.includes("punctuation")) return [".", ",", "?", "!", "'", ";"].filter(x => normalise(x) !== normalise(q.answer));
+      if (title.includes("synonym")) return ["opposite", "similar", "different", "rare", "ordinary", "clear"].filter(x => normalise(x) !== normalise(q.answer));
+      if (title.includes("hidden")) return ["seal", "newt", "dean", "tin", "ant", "ear", "rat"].filter(x => normalise(x) !== normalise(q.answer));
+      return ["Cannot tell", "None of these", "All of these", "Another answer"];
+    }
+
+    function writingDistractors(q, model) {
+      const focus = q.focus || "writing";
+      if (focus === "description") return [
+        "It was nice and interesting, and there were some things there.",
+        "I am going to describe the place now, and it was good.",
+        "The place was very very scary and nice and good at the same time."
+      ];
+      if (focus === "persuasion") return [
+        "I think this because I think it, and everyone should agree.",
+        "This is a thing that people might do at some point.",
+        "It is good, so that is the end of my reason."
+      ];
+      if (focus === "dialogue") return [
+        "They talked about it and then they said some things to each other.",
+        "What is that said Maya Ben said I do not know",
+        "The two people had a conversation and it was exciting."
+      ];
+      if (focus === "summary") return [
+        "The text has lots of details and many things happened in it.",
+        "This is about a topic and some people did something somewhere.",
+        "A very long explanation with every small detail copied even though it is not a summary."
+      ];
+      return ["A vague sentence with little detail.", "A confusing answer that does not match the task.", "A response with weak punctuation and no clear purpose."];
+    }
+
+    function makeNonTypedQuestion(q) {
+      if (q.kind === "writing") {
+        const model = q.model && !/checklist/i.test(q.model) ? q.model : "A clear answer should be concise, accurate and focused on the main point.";
+        let newPrompt = "Which response best fulfils this writing task?";
+        if (q.focus === "summary") newPrompt = "Which sentence is the best concise summary of the text?";
+        else if (q.focus === "description") newPrompt = q.prompt.replace(/^Write a short description of/i, "Which response gives the strongest short description of").replace(/\. Aim.*$/i, "?");
+        else if (q.focus === "persuasion") newPrompt = q.prompt.replace(/^Write a short persuasive paragraph arguing that/i, "Which response gives the strongest persuasive paragraph arguing that").replace(/\.$/, "?");
+        else if (q.focus === "dialogue") newPrompt = q.prompt.replace(/^Write a short piece of dialogue for this situation:/i, "Which response gives the strongest dialogue for this situation:").replace(/\.$/, "?");
+        return Object.assign({}, q, {
+          kind: "mc",
+          prompt: newPrompt,
+          answer: model,
+          answerType: "text",
+          choices: makeChoices(model, writingDistractors(q, model)),
+          hint: q.hint || "Choose the response that is clear, relevant and controlled.",
+          explanation: `${q.explanation || "A strong answer fits the purpose and uses controlled language."} The best response is clear, relevant and carefully expressed.`
+        });
+      }
+      if (q.kind === "short") {
+        const next = Object.assign({}, q, { kind: "mc" });
+        if (!next.choices) next.choices = makeChoices(next.answer, smartDistractors(next), v => next.answerType === "money" ? money(Number(v)) : Array.isArray(v) ? v.join(", ") : String(v));
+        if (/^write/i.test(next.prompt)) next.prompt = next.prompt.replace(/^Write/i, "Choose");
+        if (/^type/i.test(next.prompt)) next.prompt = next.prompt.replace(/^Type/i, "Choose");
+        if (/^correct this spelling/i.test(next.prompt)) next.prompt = next.prompt.replace(/^Choose the correct spelling for/i, "Choose the correct spelling for");
+        return next;
+      }
+      return q;
+    }
+
+    function renderChoiceButtons(q) {
+      els.answerForm.classList.add("hidden");
+      q.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice-btn";
+        btn.textContent = choice.label;
+        btn.addEventListener("click", () => submitAnswer(choice.value, btn));
+        els.choicesWrap.appendChild(btn);
+      });
+    }
+
+    function makeDragToken(text) {
+      const token = document.createElement("div");
+      token.className = "drag-token";
+      token.draggable = true;
+      token.tabIndex = 0;
+      token.textContent = text;
+      token.dataset.value = text;
+      token.addEventListener("dragstart", e => {
+        window.__dragToken = token;
+        e.dataTransfer.setData("text/plain", text);
+      });
+      token.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const bank = document.getElementById("dragBank");
+          const answer = document.getElementById("orderZone") || token.closest(".interaction-wrap")?.querySelector(".match-slot");
+          if (token.parentElement && token.parentElement.id === "dragBank" && answer) answer.appendChild(token);
+          else if (bank) bank.appendChild(token);
+        }
+      });
+      token.addEventListener("click", () => {
+        const bank = document.getElementById("dragBank");
+        const order = document.getElementById("orderZone");
+        if (order) {
+          if (token.parentElement === bank) order.appendChild(token);
+          else bank.appendChild(token);
+        } else if (bank && token.parentElement && token.parentElement.classList && token.parentElement.classList.contains("match-slot")) {
+          bank.appendChild(token);
+        }
+      });
+      return token;
+    }
+
+    function allowDrop(zone) {
+      zone.addEventListener("dragover", e => e.preventDefault());
+      zone.addEventListener("drop", e => {
+        e.preventDefault();
+        const token = window.__dragToken;
+        if (!token) return;
+        if (zone.classList.contains("match-slot") && zone.firstElementChild) {
+          const bank = document.getElementById("dragBank");
+          if (bank) bank.appendChild(zone.firstElementChild);
+        }
+        zone.appendChild(token);
+      });
+    }
+
+    function renderOrderQuestion(q) {
+      els.answerForm.classList.add("hidden");
+      els.choicesWrap.className = "choices interaction-wrap";
+      els.choicesWrap.innerHTML = `<p class="drag-instructions">Drag the cards into the answer box in the correct order. You can also click a card to move it.</p><div class="drag-bank" id="dragBank"></div><div class="drop-zone" id="orderZone" data-placeholder="Drop the cards here in order"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div>`;
+      const bank = document.getElementById("dragBank");
+      const orderZone = document.getElementById("orderZone");
+      allowDrop(bank);
+      allowDrop(orderZone);
+      shuffle(q.items || q.answer).forEach(item => bank.appendChild(makeDragToken(item)));
+      document.getElementById("clearInteractiveBtn").addEventListener("click", () => [...orderZone.children].forEach(t => bank.appendChild(t)));
+      document.getElementById("checkInteractiveBtn").addEventListener("click", () => {
+        const answer = [...orderZone.children].map(t => t.dataset.value);
+        if (answer.length !== q.answer.length) {
+          els.feedbackPanel.className = "feedback-panel hint";
+          els.feedbackPanel.innerHTML = `<strong>Nearly there</strong><p>Move all ${q.answer.length} cards into the answer box before checking.</p>`;
+          els.feedbackPanel.classList.remove("hidden");
+          return;
+        }
+        submitAnswer(answer);
+      });
+    }
+
+    function renderMatchQuestion(q) {
+      els.answerForm.classList.add("hidden");
+      const keys = Object.keys(q.answer);
+      const values = shuffle(Object.values(q.answer));
+      els.choicesWrap.className = "choices interaction-wrap";
+      els.choicesWrap.innerHTML = `<p class="drag-instructions">Drag each answer card into the matching box. You can also click a placed card to return it.</p><div class="drag-bank" id="dragBank"></div><div class="match-grid" id="matchGrid"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div>`;
+      const bank = document.getElementById("dragBank");
+      const grid = document.getElementById("matchGrid");
+      allowDrop(bank);
+      values.forEach(v => bank.appendChild(makeDragToken(v)));
+      keys.forEach(k => {
+        const row = document.createElement("div");
+        row.className = "match-row";
+        row.innerHTML = `<div class="match-term">${escapeHtml(k)}</div><div class="match-slot" data-key="${escapeHtml(k)}"></div>`;
+        grid.appendChild(row);
+        allowDrop(row.querySelector(".match-slot"));
+      });
+      bank.addEventListener("click", e => e.stopPropagation());
+      document.getElementById("clearInteractiveBtn").addEventListener("click", () => [...grid.querySelectorAll(".match-slot .drag-token")].forEach(t => bank.appendChild(t)));
+      document.getElementById("checkInteractiveBtn").addEventListener("click", () => {
+        const answer = {};
+        let complete = true;
+        [...grid.querySelectorAll(".match-slot")].forEach(slot => {
+          if (!slot.firstElementChild) complete = false;
+          answer[slot.dataset.key] = slot.firstElementChild ? slot.firstElementChild.dataset.value : "";
+        });
+        if (!complete) {
+          els.feedbackPanel.className = "feedback-panel hint";
+          els.feedbackPanel.innerHTML = `<strong>Nearly there</strong><p>Fill every matching box before checking.</p>`;
+          els.feedbackPanel.classList.remove("hidden");
+          return;
+        }
+        submitAnswer(answer);
+      });
+    }
+
+    function disableInteractive() {
+      els.choicesWrap.classList.add("disabled-interaction");
+      [...els.choicesWrap.querySelectorAll(".drag-token")].forEach(t => { t.draggable = false; t.tabIndex = -1; });
+      [...els.choicesWrap.querySelectorAll("button")].forEach(b => b.disabled = true);
+    }
+
+    function loadQuestion() {
+      state.answered = false;
+      els.feedbackPanel.className = "feedback-panel hidden";
+      els.feedbackPanel.innerHTML = "";
+      els.nextBtn.classList.add("hidden");
+      els.hintBtn.disabled = false;
+      els.answerForm.reset();
+      els.answerForm.classList.add("hidden");
+      els.answerInput.classList.add("hidden");
+      els.answerTextArea.classList.add("hidden");
+      els.answerInput.disabled = true;
+      els.answerTextArea.disabled = true;
+      els.submitBtn.disabled = true;
+      els.choicesWrap.className = "choices";
+      els.choicesWrap.innerHTML = "";
+
+      const entry = pickEntry();
+      state.currentEntry = entry;
+      state.used.add(entry.id);
+      let q = entry.gen(entry.difficulty, entry.seed);
+      q.difficulty = entry.difficulty;
+      q = makeNonTypedQuestion(q);
+      state.currentQuestion = q;
+
+      const topicName = TOPICS[q.topic].name;
+      els.tagRow.innerHTML = `<span class="tag">${escapeHtml(topicName)}</span><span class="tag">${escapeHtml(q.title)}</span><span class="tag">Level ${q.difficulty}</span><span class="tag">${typeLabel(q.kind)}</span>`;
+      els.questionText.textContent = q.prompt;
+      if (q.passage) {
+        els.passageBox.classList.remove("hidden");
+        els.passageBox.innerHTML = `<div class="passage-title">Text</div>${escapeHtml(q.passage).replace(/\n/g, "<br>")}`;
+      } else {
+        els.passageBox.classList.add("hidden");
+        els.passageBox.innerHTML = "";
+      }
+      if (q.support) {
+        els.supportBox.classList.remove("hidden");
+        els.supportBox.innerHTML = q.support;
+      } else {
+        els.supportBox.classList.add("hidden");
+        els.supportBox.innerHTML = "";
+      }
+
+      if (q.kind === "order") {
+        renderOrderQuestion(q);
+      } else if (q.kind === "match") {
+        renderMatchQuestion(q);
+      } else {
+        if (!q.choices) q.choices = makeChoices(q.answer, smartDistractors(q), v => q.answerType === "money" ? money(Number(v)) : String(v));
+        renderChoiceButtons(q);
+      }
+      updateTopBar();
+    }
+
+    function updateTopBar() {
+      els.scoreText.textContent = `Score ${state.score}`;
+      els.questionCountText.textContent = `Question ${Math.min(state.index + 1, state.length)} of ${state.length}`;
+      const level = state.topic === "mixed" ? Math.round(ACTIVE_TOPICS.reduce((a, t) => a + topicLevel(t), 0) / ACTIVE_TOPICS.length) : topicLevel(state.topic);
+      els.levelText.textContent = `Level ${level}`;
+      els.progressFill.style.width = `${(state.index / state.length) * 100}%`;
+    }
+
+    function submitAnswer(value, button = null) {
+      if (state.answered) return;
+      const q = state.currentQuestion;
+      let correct = isCorrect(value, q);
+      let extraHtml = "";
+      state.answered = true;
+      if (correct) state.score += 1;
+      updateProgress(q.topic, correct);
+
+      if (q.kind === "mc" || q.kind === "cloze" || q.kind === "proofread") {
+        [...els.choicesWrap.children].forEach(btn => {
+          btn.disabled = true;
+          const btnChoice = q.choices.find(c => c.label === btn.textContent);
+          if (btnChoice && isCorrect(btnChoice.value, q)) btn.classList.add("correct");
+        });
+        if (button && !correct) button.classList.add("wrong");
+      } else if (q.kind === "order" || q.kind === "match") {
+        disableInteractive();
+      }
+
+      const expected = answerLabel(q);
+      const entered = displayValue(value);
+      state.history.push({
+        topic: TOPICS[q.topic].name,
+        title: q.title,
+        prompt: q.prompt,
+        correct,
+        answer: expected,
+        entered,
+        explanation: q.explanation
+      });
+
+      els.feedbackPanel.className = `feedback-panel ${correct ? "good" : "bad"}`;
+      els.feedbackPanel.innerHTML = correct
+        ? `<strong>Correct.</strong><p>${escapeHtml(q.explanation || "Good work.")}</p>${extraHtml}`
+        : `<strong>Not quite.</strong><p>Correct answer: <span class="kbd">${escapeHtml(expected)}</span></p><p>${escapeHtml(q.explanation || "Review the clue and try a similar question next.")}</p>${extraHtml}`;
+      els.feedbackPanel.classList.remove("hidden");
+      els.nextBtn.classList.remove("hidden");
+      els.hintBtn.disabled = true;
+      updateTopBar();
+    }
+
+    function updateProgress(topic, correct) {
+      const p = progress.topics[topic];
+      p.total += 1;
+      progress.lifetime.total += 1;
+      if (correct) {
+        p.correct += 1;
+        progress.lifetime.correct += 1;
+        p.streak += 1;
+        p.misses = 0;
+        p.bestStreak = Math.max(p.bestStreak || 0, p.streak);
+        if (p.streak >= 3 && p.level < 5) {
+          p.level += 1;
+          p.streak = 0;
+        }
+      } else {
+        p.streak = 0;
+        p.misses = (p.misses || 0) + 1;
+        if (p.misses >= 2 && p.level > 1) {
+          p.level -= 1;
+          p.misses = 0;
+        }
+      }
+      saveProgress();
+    }
+
+    function nextQuestion() {
+      state.index += 1;
+      if (state.index >= state.length) showResults();
+      else loadQuestion();
+    }
+
+    function showHint() {
+      const q = state.currentQuestion;
+      els.feedbackPanel.className = "feedback-panel hint";
+      els.feedbackPanel.innerHTML = `<strong>Hint</strong><p>${escapeHtml(q.hint)}</p>`;
+      els.feedbackPanel.classList.remove("hidden");
+    }
+
+    function showResults() {
+      els.quizScreen.classList.add("hidden");
+      els.resultsScreen.classList.remove("hidden");
+      els.progressFill.style.width = "100%";
+      const pct = Math.round((state.score / state.length) * 100);
+      els.finalScore.textContent = `${state.score}/${state.length}`;
+      els.finalMessage.textContent = pct >= 85 ? "Excellent accuracy. Try a longer mixed round next." : pct >= 65 ? "Good progress. Review the amber areas below and keep practising." : "Keep going. Use hints and read the feedback carefully before the next round.";
+
+      const byTopic = {};
+      state.history.forEach(h => {
+        byTopic[h.topic] = byTopic[h.topic] || { total: 0, correct: 0 };
+        byTopic[h.topic].total += 1;
+        if (h.correct) byTopic[h.topic].correct += 1;
+      });
+      els.topicReview.innerHTML = Object.keys(byTopic).map(topic => {
+        const item = byTopic[topic];
+        const p = Math.round(item.correct / item.total * 100);
+        const rag = p >= 75 ? "Green" : p >= 50 ? "Amber" : "Red";
+        return `<div class="review-card"><strong>${escapeHtml(topic)}</strong><br>${item.correct}/${item.total} correct<br><span class="kbd">${rag}</span></div>`;
+      }).join("");
+
+      els.reviewWrap.innerHTML = `<table><thead><tr><th>#</th><th>Topic</th><th>Result</th><th>Answer / feedback</th></tr></thead><tbody>${state.history.map((h, i) => `<tr><td>${i+1}</td><td>${escapeHtml(h.topic)}<br><small>${escapeHtml(h.title)}</small></td><td>${h.correct ? "✓ Correct" : "✗ Review"}</td><td><strong>${escapeHtml(h.answer)}</strong><br><small>${escapeHtml(h.explanation)}</small></td></tr>`).join("")}</tbody></table>`;
+    }
+
+    function goHome() {
+      els.quizScreen.classList.add("hidden");
+      els.resultsScreen.classList.add("hidden");
+      els.homeToolbar.classList.remove("hidden");
+      els.homeScreen.classList.remove("hidden");
+      renderHome();
+    }
+
+    els.answerForm.addEventListener("submit", e => {
+      e.preventDefault();
+      return false;
+    });
+    els.hintBtn.addEventListener("click", showHint);
+    els.nextBtn.addEventListener("click", nextQuestion);
+    els.backBtn.addEventListener("click", goHome);
+    els.homeBtn.addEventListener("click", goHome);
+    els.playAgainBtn.addEventListener("click", () => startRound(state.topic));
+    els.resetProgressBtn.addEventListener("click", () => {
+      if (confirm("Reset all English Practice Quest progress?")) {
+        progress = defaultProgress();
+        saveProgress();
+        renderHome();
+      }
+    });
+
+    buildBank();
+    extendBankNoTyped300();
+    renderHome();
+  </script>
+</body>
+</html>
