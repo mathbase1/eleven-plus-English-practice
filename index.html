@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,13 +57,6 @@
       letter-spacing: -0.04em;
     }
 
-    .subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.45;
-    }
-
     .mascot {
       width: 110px;
       height: 110px;
@@ -81,7 +74,7 @@
       gap: 12px;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
     }
 
     .pill, select, button, input, textarea {
@@ -107,6 +100,17 @@
 
     .screen { margin-top: 22px; }
     .hidden { display: none !important; }
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
 
     .topic-grid {
       display: grid;
@@ -126,13 +130,15 @@
       display: grid;
       align-content: space-between;
       gap: 14px;
+      text-align: left;
     }
 
     .topic-card:hover, .topic-card:focus-visible {
       transform: translateY(-4px);
       box-shadow: var(--shadow);
       border-color: rgba(31,111,235,.45);
-      outline: none;
+      outline: 3px solid rgba(31,111,235,.35);
+      outline-offset: 3px;
     }
 
     .topic-icon {
@@ -149,13 +155,14 @@
     .topic-card h2 {
       margin: 0 0 7px;
       font-size: 1.2rem;
+      color: var(--ink);
     }
 
     .topic-card p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.35;
-      font-size: .96rem;
+      line-height: 1.5;
+      font-size: 1rem;
     }
 
     .mini-stats {
@@ -163,7 +170,7 @@
       gap: 8px;
       flex-wrap: wrap;
       color: var(--muted);
-      font-size: .9rem;
+      font-size: 1rem;
     }
 
     .level-dots {
@@ -259,7 +266,8 @@
       line-height: 1.6;
       color: #243b55;
       margin: 6px 0 14px;
-      max-width: 900px;
+      max-width: 72ch;
+      white-space: pre-line;
     }
 
     .passage-box:empty, .support-box:empty { display: none; }
@@ -272,14 +280,19 @@
 
     .question-text {
       font-size: clamp(1.16rem, 2vw, 1.47rem);
-      line-height: 1.4;
+      line-height: 1.55;
       font-weight: 800;
-      margin: 0 0 12px;
+      margin: 0 0 16px;
+      max-width: 72ch;
+      white-space: pre-line;
+      scroll-margin-top: 18px;
     }
+
+    #homeHeading:focus, #resultsHeading:focus, .question-text:focus { outline: none; }
 
     .choices {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: 1fr;
       gap: 10px;
       margin-top: 12px;
     }
@@ -298,7 +311,8 @@
 
     button:hover:not(:disabled), button:focus-visible:not(:disabled) {
       transform: translateY(-2px);
-      outline: none;
+      outline: 3px solid rgba(31,111,235,.35);
+      outline-offset: 3px;
       box-shadow: 0 13px 24px rgba(31,111,235,.26);
     }
 
@@ -311,6 +325,9 @@
       border: 2px solid var(--line);
       box-shadow: 0 7px 18px rgba(22,50,79,.08);
       min-height: 58px;
+      line-height: 1.5;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
     }
 
     .choice-btn.correct { border-color: rgba(21,127,59,.85); background: #edf9f1; }
@@ -343,7 +360,8 @@
 
     input[type="text"]:focus, textarea:focus {
       border-color: var(--accent);
-      outline: none;
+      outline: 3px solid rgba(31,111,235,.24);
+      outline-offset: 2px;
       box-shadow: 0 0 0 4px rgba(31,111,235,.12);
     }
 
@@ -396,6 +414,23 @@
       border: 1px solid var(--line);
       border-radius: 16px;
       background: #fff;
+    }
+
+    .word-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .word-card {
+      flex: 1 1 120px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      text-align: center;
+      font-weight: 900;
     }
 
     table {
@@ -491,7 +526,7 @@
     .drop-zone {
       min-height: 76px;
       padding: 12px;
-      border: 2px dashed #9bb8e5;
+      border: 2px dashed #5579ad;
       border-radius: 16px;
       background: #ffffff;
       align-content: flex-start;
@@ -500,7 +535,7 @@
 
     .drop-zone::before {
       content: attr(data-placeholder);
-      color: #8aa0ba;
+      color: #4f6884;
       font-weight: 800;
       position: absolute;
       left: 14px;
@@ -524,9 +559,17 @@
       min-height: 46px;
       display: inline-flex;
       align-items: center;
+      max-width: 100%;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
     }
 
     .drag-token:active { cursor: grabbing; }
+    .drag-token.selected {
+      border-color: var(--accent);
+      background: #eaf2ff;
+      outline: 3px solid rgba(31,111,235,.22);
+    }
 
     .match-grid {
       display: grid;
@@ -550,10 +593,15 @@
 
     .match-slot {
       min-height: 52px;
-      border: 2px dashed #9bb8e5;
+      border: 2px dashed #5579ad;
       border-radius: 14px;
       background: #fbfdff;
       padding: 7px;
+    }
+
+    .match-slot:focus-visible {
+      outline: 3px solid rgba(31,111,235,.35);
+      outline-offset: 2px;
     }
 
     .match-slot .drag-token { width: 100%; justify-content: center; }
@@ -567,6 +615,19 @@
       .mascot { width: 82px; height: 82px; font-size: 2.4rem; }
       .app { width: min(100% - 18px, 1160px); padding-top: 12px; }
       .choices { grid-template-columns: 1fr; }
+      .toolbar { justify-content: stretch; }
+      .toolbar .pill, .toolbar button { flex: 1 1 100%; }
+      .match-grid { grid-template-columns: minmax(0, 1fr); }
+      .match-row { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
     }
   </style>
 </head>
@@ -574,14 +635,12 @@
   <main class="app">
     <header class="hero">
       <div>
-        <h1>11+ English Practice Quest</h1>
-        <p class="subtitle">UK 11+ English practice for GL, CEM and independent-school style exams: comprehension, vocabulary, grammar, spelling, verbal reasoning and writing skills. All answers use click, selection or drag-and-drop tasks.</p>
+        <h1 id="homeHeading" tabindex="-1">11+ English Practice Quest</h1>
       </div>
       <div class="mascot" aria-hidden="true">📚</div>
     </header>
 
     <section class="toolbar" id="homeToolbar">
-      <div class="pill" id="bankSummary">Question bank loading…</div>
       <label class="pill">Questions per round
         <select id="sessionLength" aria-label="Questions per round">
           <option value="10">10</option>
@@ -608,14 +667,14 @@
               <span id="levelText">Level 2</span>
             </div>
           </div>
-          <div class="meter" aria-label="Round progress"><div class="meter-fill" id="progressFill"></div></div>
+          <div class="meter" id="progressMeter" role="progressbar" aria-label="Questions completed" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0"><div class="meter-fill" id="progressFill"></div></div>
         </div>
 
         <article class="question-panel" id="questionPanel">
           <div class="tag-row" id="tagRow"></div>
           <div class="passage-box hidden" id="passageBox"></div>
           <div class="support-box hidden" id="supportBox"></div>
-          <p class="question-text" id="questionText"></p>
+          <h2 class="question-text" id="questionText" tabindex="-1"></h2>
           <div class="choices" id="choicesWrap"></div>
           <form class="answer-row hidden" id="answerForm">
             <input id="answerInput" type="text" autocomplete="off" aria-label="Your answer" />
@@ -635,7 +694,7 @@
 
     <section class="screen hidden" id="resultsScreen">
       <div class="results-panel">
-        <h2>Round complete!</h2>
+        <h2 id="resultsHeading" tabindex="-1">Round complete!</h2>
         <div class="big-score" id="finalScore">0/0</div>
         <p id="finalMessage"></p>
         <div class="review-grid" id="topicReview"></div>
@@ -688,7 +747,7 @@
       mixed: {
         name: "Mixed Practice",
         icon: "⭐",
-        blurb: "A shuffled round across the full generic 11+ English skill set."
+        blurb: "A balanced round across all seven English skill areas."
       }
     };
 
@@ -697,7 +756,7 @@
     let familyCounter = 0;
 
     const els = {
-      bankSummary: document.getElementById("bankSummary"),
+      homeHeading: document.getElementById("homeHeading"),
       topicGrid: document.getElementById("topicGrid"),
       homeScreen: document.getElementById("homeScreen"),
       quizScreen: document.getElementById("quizScreen"),
@@ -709,6 +768,7 @@
       scoreText: document.getElementById("scoreText"),
       questionCountText: document.getElementById("questionCountText"),
       levelText: document.getElementById("levelText"),
+      progressMeter: document.getElementById("progressMeter"),
       progressFill: document.getElementById("progressFill"),
       tagRow: document.getElementById("tagRow"),
       passageBox: document.getElementById("passageBox"),
@@ -724,6 +784,7 @@
       backBtn: document.getElementById("backBtn"),
       feedbackPanel: document.getElementById("feedbackPanel"),
       finalScore: document.getElementById("finalScore"),
+      resultsHeading: document.getElementById("resultsHeading"),
       finalMessage: document.getElementById("finalMessage"),
       topicReview: document.getElementById("topicReview"),
       playAgainBtn: document.getElementById("playAgainBtn"),
@@ -747,28 +808,54 @@
       length: 15,
       score: 0,
       answered: false,
-      history: []
+      history: [],
+      questionKeys: new Set(),
+      previousQuestionKeys: new Set(),
+      roundSeed: 1
     };
 
     function loadProgress() {
       try {
         const raw = localStorage.getItem("elevenPlusEnglishProgressV2");
-        const parsed = raw ? JSON.parse(raw) : defaultProgress();
+        const parsed = raw ? JSON.parse(raw) : {};
         const base = defaultProgress();
-        ACTIVE_TOPICS.forEach(id => parsed.topics[id] = Object.assign(base.topics[id], parsed.topics[id] || {}));
-        parsed.lifetime = Object.assign(base.lifetime, parsed.lifetime || {});
-        return parsed;
+        const storedTopics = parsed && typeof parsed.topics === "object" ? parsed.topics : {};
+        ACTIVE_TOPICS.forEach(id => {
+          const stored = storedTopics[id] && typeof storedTopics[id] === "object" ? storedTopics[id] : {};
+          const total = Math.max(0, Math.floor(Number(stored.total) || 0));
+          base.topics[id] = {
+            level: clamp(Math.round(Number(stored.level) || 2), 1, 5),
+            total,
+            correct: clamp(Math.floor(Number(stored.correct) || 0), 0, total),
+            streak: clamp(Math.floor(Number(stored.streak) || 0), 0, 2),
+            misses: clamp(Math.floor(Number(stored.misses) || 0), 0, 1),
+            bestStreak: Math.max(0, Math.floor(Number(stored.bestStreak) || 0))
+          };
+        });
+        const lifetime = parsed && typeof parsed.lifetime === "object" ? parsed.lifetime : {};
+        const lifetimeTotal = Math.max(0, Math.floor(Number(lifetime.total) || 0));
+        base.lifetime = {
+          total: lifetimeTotal,
+          correct: clamp(Math.floor(Number(lifetime.correct) || 0), 0, lifetimeTotal)
+        };
+        return base;
       } catch (e) {
         return defaultProgress();
       }
     }
 
     function saveProgress() {
-      localStorage.setItem("elevenPlusEnglishProgressV2", JSON.stringify(progress));
+      try {
+        localStorage.setItem("elevenPlusEnglishProgressV2", JSON.stringify(progress));
+      } catch (e) {
+        // Practice continues even when storage is unavailable.
+      }
     }
 
     function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
-    function rint(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    let randomSource = Math.random;
+    function randomUnit() { return randomSource(); }
+    function rint(min, max) { return Math.floor(randomUnit() * (max - min + 1)) + min; }
     function pick(arr) { return arr[rint(0, arr.length - 1)]; }
     function shuffle(arr) {
       const copy = arr.slice();
@@ -777,6 +864,40 @@
         [copy[i], copy[j]] = [copy[j], copy[i]];
       }
       return copy;
+    }
+    function hashString(value) {
+      let hash = 2166136261;
+      const text = String(value);
+      for (let i = 0; i < text.length; i++) {
+        hash ^= text.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      return hash >>> 0;
+    }
+    function seededRandom(seed) {
+      let value = seed >>> 0;
+      return function() {
+        value += 0x6D2B79F5;
+        let t = value;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function withSeed(seed, callback) {
+      const previous = randomSource;
+      randomSource = seededRandom(seed);
+      try { return callback(); }
+      finally { randomSource = previous; }
+    }
+    function freshSeed() {
+      try {
+        const value = new Uint32Array(1);
+        crypto.getRandomValues(value);
+        return value[0] || 1;
+      } catch (e) {
+        return (Date.now() ^ Math.floor(Math.random() * 0xffffffff)) >>> 0 || 1;
+      }
     }
     function escapeHtml(s) {
       return String(s).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
@@ -795,6 +916,16 @@
         .replace(/\s+/g, " ")
         .trim()
         .replace(/^[\s\"'.,;:!?()]+|[\s\"'.,;:!?()]+$/g, "");
+    }
+    function comparisonKey(value) {
+      const raw = String(value).trim();
+      return /[A-Za-z0-9]/.test(raw) ? normalise(raw) : raw;
+    }
+    function formatSentences(value) {
+      return String(value).replace(/([.!?][”\"']?)\s+(?=[A-Z“\"'])/g, "$1\n\n");
+    }
+    function formatTextHtml(value) {
+      return escapeHtml(formatSentences(value)).replace(/\n/g, "<br>");
     }
     function wordCount(text) {
       const m = String(text).trim().match(/[A-Za-z]+(?:'[A-Za-z]+)?/g);
@@ -819,19 +950,12 @@
       const seen = new Set();
       const items = [];
       [answer].concat(distractors || []).forEach(v => {
-        const key = normalise(v);
+        const key = comparisonKey(v);
         if (!seen.has(key)) {
           seen.add(key);
           items.push({ value: v, label: labelFn ? labelFn(v) : String(v) });
         }
       });
-      const fillers = ["None of these", "Cannot tell", "All of these", "Both are possible", "Another answer"];
-      let guard = 0;
-      while (items.length < 4 && guard < 20) {
-        const f = fillers[guard % fillers.length] + (guard > 4 ? " " + guard : "");
-        if (!seen.has(normalise(f))) items.push({ value: f, label: f });
-        guard++;
-      }
       return shuffle(items.slice(0, 4));
     }
 
@@ -854,7 +978,7 @@
     }
 
     function wordCards(items) {
-      return `<div class="table-card"><table><tbody><tr>${items.map(i => `<td style="text-align:center;font-weight:900">${escapeHtml(i)}</td>`).join("")}</tr></tbody></table></div>`;
+      return `<div class="word-cards" aria-label="Words to compare">${items.map(i => `<span class="word-card">${escapeHtml(i)}</span>`).join("")}</div>`;
     }
 
     function addFamily(topic, title, gen, count = 8) {
@@ -896,9 +1020,9 @@
         const targetItems = q.answer.map(x => String(x).toLowerCase()).sort();
         return inputItems.length === targetItems.length && inputItems.every((x, i) => x === targetItems[i]);
       }
-      const clean = normalise(value);
-      if (Array.isArray(q.accept)) return q.accept.map(normalise).includes(clean);
-      return clean === normalise(q.answer);
+      const clean = comparisonKey(value);
+      if (Array.isArray(q.accept)) return q.accept.map(comparisonKey).includes(clean);
+      return clean === comparisonKey(q.answer);
     }
 
     function gradeWriting(text, q) {
@@ -956,7 +1080,7 @@
             text: `${name} unlocked the shed and stared at the empty hook where the class trophy usually hung. A smear of mud crossed the floorboards. ${name} did not call out at first; instead, they crouched down and followed the marks with careful eyes.`,
             answer: "curious and suspicious",
             distractors: ["sleepy and relaxed", "proud and joyful", "impatient with a game"],
-            clue: "the missing trophy and mud marks make ${name} investigate."
+            clue: `the missing trophy and mud marks make ${name} investigate.`
           },
           {
             text: `The rain began just as ${name} reached the bus stop. Everyone else huddled under the shelter, but ${name} opened the faded umbrella and held it over the youngest child in the queue. The child smiled, and ${name} pretended not to notice the rain dripping down one sleeve.`,
@@ -1033,7 +1157,7 @@
       addFamily("reading", "Sequencing events", d => {
         const name = pick(names);
         const object = pick(["map", "ticket", "lantern", "key", "notebook"]);
-        const text = `${name} found a torn ${object} under the bench. First, ${name} smoothed it flat on the table. Next, a tiny symbol in the corner was circled in red. After that, ${name} compared it with the notice board. Finally, ${name} hurried to tell the teacher.`;
+        const text = `A torn ${object} lay under the bench. First, ${name} picked it up and smoothed it flat on the table. Next, ${name} noticed a tiny symbol circled in red in the corner. After that, ${name} compared it with the notice board. Finally, ${name} hurried to tell the teacher.`;
         const ask = pick(["first", "after", "finally"]);
         const prompts = {
           first: "What did the character do first?",
@@ -1041,13 +1165,13 @@
           finally: "What happened finally?"
         };
         const answers = {
-          first: `smoothed the ${object} flat`,
+          first: `picked up and smoothed the ${object} flat`,
           after: "compared it with the notice board",
           finally: "hurried to tell the teacher"
         };
         return qBase("reading", "Sequencing events", d, "mc", prompts[ask], answers[ask], {
           passage: text,
-          choices: makeChoices(answers[ask], [`found a torn ${object}`, "circled a symbol in red", "went home", "ignored the notice board"]),
+          choices: makeChoices(answers[ask], [`saw a torn ${object} under the bench`, "noticed a symbol circled in red", "went home", "ignored the notice board"]),
           hint: "Look for sequence words such as first, next, after that and finally.",
           explanation: `The passage shows the order clearly. The answer is “${answers[ask]}”.`
         });
@@ -1099,7 +1223,7 @@
           "The museum is more exciting than the cinema.",
           "The race was far too difficult."
         ];
-        const askFact = Math.random() < 0.5;
+        const askFact = randomUnit() < 0.5;
         const answer = askFact ? pick(facts) : pick(opinions);
         const options = shuffle([answer, ...shuffle(askFact ? opinions : facts).slice(0, 3)]);
         return qBase("reading", "Fact and opinion", d, "mc", `Which sentence is a ${askFact ? "fact" : "opinion"}?`, answer, {
@@ -1337,7 +1461,7 @@
           ["The pack of cards ___ on the table.", "is", ["are", "were", "be"]],
           ["The children ___ their books carefully.", "carry", ["carries", "carrying", "was carry"]],
           ["Neither of the answers ___ correct.", "is", ["are", "were", "be"]],
-          ["The team ___ ready for the final match.", "is", ["are", "be", "were been"]],
+          ["Each runner ___ ready for the final match.", "is", ["are", "be", "were been"]],
           ["Each of the pupils ___ a pencil.", "has", ["have", "having", "were having"]]
         ];
         const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
@@ -1461,7 +1585,7 @@
 
       addFamily("grammar", "Relative clauses", d => {
         const items = [
-          ["My cousin, who lives in Bristol, is visiting today.", ["My cousin who lives in Bristol is visiting today.", "My cousin, who lives in Bristol is visiting today.", "My cousin who lives in Bristol, is visiting today."]],
+          ["My cousin Priya, who lives in Bristol, is visiting today.", ["My cousin Priya who lives in Bristol is visiting today.", "My cousin Priya, who lives in Bristol is visiting today.", "My cousin Priya who lives in Bristol, is visiting today."]],
           ["The book that I borrowed yesterday is missing.", ["The book, that I borrowed yesterday, is missing.", "The book that I borrowed yesterday, is missing.", "The book, that I borrowed yesterday is missing."]],
           ["Mr Patel, whose class won the quiz, smiled proudly.", ["Mr Patel whose class won the quiz, smiled proudly.", "Mr Patel, whose class won the quiz smiled proudly.", "Mr Patel whose class won, the quiz smiled proudly."]]
         ];
@@ -1475,13 +1599,13 @@
 
       addFamily("grammar", "Punctuation marks", d => {
         const items = [
-          ["What time does the film start", "?", [".", "!", ","]],
-          ["Watch out", "!", ["?", ",", ";"]],
-          ["The river was cold clear and fast", ",", ["?", "!", "'"]],
-          ["I packed my coat because it might rain", ".", ["?", "'", ":"]]
+          ["What time does the film start ___", "?", [".", "!", ","]],
+          ["Watch out ___", "!", ["?", ",", ";"]],
+          ["The river was cold ___ clear and fast", ",", ["?", "!", "'"]],
+          ["I packed my coat because it might rain ___", ".", ["?", "'", ":"]]
         ];
         const [sentence, answer, distractors] = pick(items);
-        return qBase("grammar", "Punctuation marks", d, "mc", `Which punctuation mark is most suitable at the end or missing point of this sentence: “${sentence}”`, answer, {
+        return qBase("grammar", "Punctuation marks", d, "mc", `Which punctuation mark should replace the gap in this sentence: “${sentence}”`, answer, {
           choices: makeChoices(answer, distractors),
           hint: "Use the sentence meaning to choose the punctuation mark.",
           explanation: `The best punctuation mark is ${answer}`
@@ -1512,7 +1636,7 @@
         const items = [
           ["its", "The dog wagged ___ tail.", ["it's", "its'", "it is"]],
           ["it's", "___ nearly time for the test to begin.", ["its", "its'", "it"]],
-          ["practise", "You should ___ your reading every day.", ["practice", "practiseing", "practiced"]],
+          ["practise", "You should ___ your reading every day.", ["practice", "practised", "practising"]],
           ["practice", "Football ___ finished at five o'clock.", ["practise", "practised", "practising"]],
           ["effect", "The medicine had a quick ___ on the headache.", ["affect", "affekt", "efect"]],
           ["affect", "Lack of sleep can ___ your concentration.", ["effect", "efect", "affekt"]],
@@ -1617,7 +1741,7 @@
           ["After the long run, Priya ___ along the path.", "staggered", ["soared", "scribbled", "glittered"]],
           ["The old gate ___ in the wind.", "creaked", ["sparkled", "boiled", "cheered"]],
           ["The candle ___ in the draught.", "flickered", ["trudged", "muttered", "pounded"]],
-          ["The detective ___ the muddy footprint.", "examined", ["ignored", "devoured", "whispered"]]
+          ["The detective knelt down and ___ the muddy footprint for clues.", "examined", ["ignored", "devoured", "whispered"]]
         ];
         const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
         return qBase("spelling", "Precise vocabulary", d, "mc", "Choose the most precise word to complete the sentence.", answer, {
@@ -1804,10 +1928,10 @@
       addFamily("verbal", "Hidden words", d => {
         const items = [
           ["The brave new team entered quietly.", "newt", ["frog", "toad", "mole"]],
-          ["Clara made a neat label.", "dean", ["seal", "lamp", "coin"]],
+          ["Clara made an excellent label.", "dean", ["seal", "lamp", "coin"]],
           ["A calm owl waited near the wall.", "mow", ["bat", "rat", "owl"]],
-          ["The silver vase leaned slightly.", "seal", ["hare", "goat", "deer"]],
-          ["A sharp echo rang across the hall.", "hero", ["lion", "bear", "wolf"]]
+          ["The house always looked welcoming.", "seal", ["hare", "goat", "deer"]],
+          ["The teacher opened the cupboard.", "hero", ["lion", "bear", "wolf"]]
         ];
         const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
         return qBase("verbal", "Hidden words", d, "mc", "Which word is hidden across neighbouring letters in the sentence?", answer, {
@@ -1825,7 +1949,7 @@
         const encode = w => w.split("").map(ch => String.fromCharCode(((ch.charCodeAt(0)-97+shift)%26)+97)).join("");
         const answer = encode(word);
         const distractors = [encode(word).split("").reverse().join(""), word, word.split("").map(ch => String.fromCharCode(((ch.charCodeAt(0)-97+shift+1)%26)+97)).join("")];
-        return qBase("verbal", "Letter codes", d, "mc", `In a code, each letter is moved ${shift} place${shift>1?"s":""} forward in the alphabet. What is “${word.toUpperCase()}” in this code?`, answer.toUpperCase(), {
+        return qBase("verbal", "Letter codes", d, "mc", `In a code, each letter is moved ${shift} place${shift>1?"s":""} forward in the alphabet. After Z, continue again from A. What is “${word.toUpperCase()}” in this code?`, answer.toUpperCase(), {
           choices: makeChoices(answer.toUpperCase(), distractors.map(x => x.toUpperCase())),
           hint: "Move each letter forward by the same number of places.",
           explanation: `${word.toUpperCase()} becomes ${answer.toUpperCase()}.`
@@ -1833,7 +1957,7 @@
       });
 
       addFamily("verbal", "Anagrams", d => {
-        const words = ["listen", "silent", "rescue", "secure", "garden", "danger", "stone", "tones", "alert", "alter"];
+        const words = ["listen", "rescue", "garden", "planet", "castle", "pencil", "school", "bridge", "candle", "forest"];
         const answer = pick(words.slice(0, 4 + d));
         const letters = shuffle(answer.split("")).join(" ").toUpperCase();
         const distractors = shuffle(words.filter(w => w !== answer && w.length === answer.length)).slice(0, 3);
@@ -1894,8 +2018,8 @@
       });
 
       addFamily("verbal", "Letter sequences", d => {
-        const start = rint(1, 8);
         const step = rint(1, Math.min(4, d + 1));
+        const start = rint(1, 26 - 5 * step);
         const nums = [start, start + step, start + 2*step, start + 3*step];
         const letters = nums.map(n => String.fromCharCode(64 + n));
         const answer = String.fromCharCode(64 + start + 4*step);
@@ -1939,12 +2063,19 @@
       addFamily("writing", "Descriptive micro-writing", d => {
         const settings = ["an empty railway platform at night", "a forest path after rain", "a busy market just before closing", "a silent museum gallery", "a beach before a storm"];
         const setting = pick(settings);
+        const models = {
+          "an empty railway platform at night": "The platform waited under yellow lamps, silent except for the hiss of rain. A newspaper slid along the tiles like a frightened mouse, and the dark rails shone like ribbons of oil.",
+          "a forest path after rain": "Raindrops clung to the ferns like glass beads. Beneath the dripping branches, the narrow path gleamed with mud and the sharp scent of wet earth filled the still air.",
+          "a busy market just before closing": "Canvas awnings flapped above the last hurried shoppers. Traders called out final prices while the warm smells of bread and spices drifted between half-empty stalls.",
+          "a silent museum gallery": "Portraits watched from the shadowed walls as pale evening light stretched across the polished floor. Even the soft tick of the clock seemed too loud for the sleeping gallery.",
+          "a beach before a storm": "The sea had turned the colour of slate, and gulls wheeled inland beneath a bruised sky. Along the empty beach, the wind chased sand in stinging silver ribbons."
+        };
         return qBase("writing", "Descriptive micro-writing", d, "writing", `Write a short description of ${setting}. Aim for vivid detail rather than a long story.`, "self-checked", {
           minWords: 45,
           minSentences: 3,
           focus: "description",
           hint: "Use at least one sensory detail and one comparison, such as a simile.",
-          model: `The platform waited under yellow lamps, silent except for the hiss of rain. A newspaper slid along the tiles like a frightened mouse, and the dark rails shone like ribbons of oil.`,
+          model: models[setting],
           explanation: "Descriptive writing is judged by precise detail, control of sentences and atmosphere."
         });
       });
@@ -1952,12 +2083,19 @@
       addFamily("writing", "Persuasive micro-writing", d => {
         const topics = ["more trees should be planted near school", "the library should stay open at lunchtime", "pupils should walk to school when possible", "the class should choose a charity project", "break time should include a quiet reading area"];
         const topic = pick(topics);
+        const models = {
+          "more trees should be planted near school": "We should plant more trees near school because they would give shade, help wildlife and make the entrance calmer. Surely a greener school would be better for everyone?",
+          "the library should stay open at lunchtime": "The library should stay open at lunchtime so pupils have a calm place to read, research or finish work. Why leave such a useful space empty when it could help us?",
+          "pupils should walk to school when possible": "Pupils should walk to school when possible because it reduces traffic and provides healthy exercise. Even one walking day each week could make the school gates safer.",
+          "the class should choose a charity project": "Our class should choose a charity project so we can turn our ideas into practical help. By voting fairly, everyone could support a cause that matters to us.",
+          "break time should include a quiet reading area": "Break time should include a quiet reading area for pupils who need a peaceful place to recharge. A small, supervised corner would make playtime more welcoming for everyone."
+        };
         return qBase("writing", "Persuasive micro-writing", d, "writing", `Write a short persuasive paragraph arguing that ${topic}.`, "self-checked", {
           minWords: 45,
           minSentences: 3,
           focus: "persuasion",
           hint: "Give a clear opinion, a reason and a persuasive technique such as a rhetorical question or modal verb.",
-          model: `We should plant more trees near school because they would give shade, help wildlife and make the entrance calmer. Surely a greener school would be better for everyone?`,
+          model: models[topic],
           explanation: "Persuasive writing should have a clear viewpoint and convincing reasons."
         });
       });
@@ -1965,12 +2103,19 @@
       addFamily("writing", "Dialogue micro-writing", d => {
         const situations = ["two friends finding a locked box", "a pupil explaining a missing homework diary", "a coach encouraging a nervous runner", "a shopkeeper discovering a broken window", "siblings hearing a strange noise upstairs"];
         const situation = pick(situations);
+        const models = {
+          "two friends finding a locked box": "“The lock is covered in dust,” whispered Maya, kneeling beside the box. “Then nobody has opened it for years,” Ben replied, reaching carefully for the keyhole.",
+          "a pupil explaining a missing homework diary": "“I put my diary in the front pocket this morning,” explained Zara. Mr Ellis nodded. “Retrace your steps, and I’ll check whether it was handed in.”",
+          "a coach encouraging a nervous runner": "“My legs feel like jelly,” admitted Leo at the starting line. “Focus on the first bend, not the finish,” his coach replied. “You are ready for this.”",
+          "a shopkeeper discovering a broken window": "“That window was whole when I locked up,” said the shopkeeper, staring at the glass. “Don’t touch anything,” warned Priya. “We should call for help.”",
+          "siblings hearing a strange noise upstairs": "“Did you hear that?” whispered Maya, gripping the torch. “It came from the cupboard,” Ben replied, although he did not move any closer."
+        };
         return qBase("writing", "Dialogue micro-writing", d, "writing", `Write a short piece of dialogue for this situation: ${situation}.`, "self-checked", {
           minWords: 35,
           minSentences: 3,
           focus: "dialogue",
           hint: "Use speech marks and include a speech verb such as said, asked, whispered or replied.",
-          model: `“Did you hear that?” whispered Maya, gripping the torch. “It came from the cupboard,” Ben replied, although he did not move any closer.`,
+          model: models[situation],
           explanation: "Dialogue should be punctuated clearly and show character or tension."
         });
       });
@@ -2034,11 +2179,11 @@
 
       addFamily("writing", "Summary writing", d => {
         const items = [
-          ["A class found litter by a pond, learned it could harm animals, and organised a Saturday clean-up.", ["litter", "clean-up"], "Write one sentence summarising this information in no more than 25 words."],
-          ["The school garden had empty beds, so pupils planted beans and sunflowers, watered them daily and saw them grow by July.", ["garden", "pupils"], "Write one sentence summarising this information in no more than 25 words."],
-          ["A lost dog was found because neighbours searched different streets, made posters and contacted the owner.", ["dog", "neighbours"], "Write one sentence summarising this information in no more than 25 words."]
+          ["A class found litter by a pond, learned it could harm animals, and organised a Saturday clean-up.", ["litter", "clean-up"], "Write one sentence summarising this information in no more than 25 words.", "Pupils organised a Saturday clean-up after learning that litter by the pond could harm wildlife."],
+          ["The school garden had empty beds, so pupils planted beans and sunflowers, watered them daily and saw them grow by July.", ["garden", "pupils"], "Write one sentence summarising this information in no more than 25 words.", "Pupils transformed empty garden beds by planting and watering beans and sunflowers until they grew."],
+          ["A lost dog was found because neighbours searched different streets, made posters and contacted the owner.", ["dog", "neighbours"], "Write one sentence summarising this information in no more than 25 words.", "Neighbours found a lost dog by searching streets, making posters and contacting its owner."]
         ];
-        const [text, keywords, prompt] = pick(items);
+        const [text, keywords, prompt, model] = pick(items);
         return qBase("writing", "Summary writing", d, "writing", prompt, "self-checked", {
           passage: text,
           minWords: 8,
@@ -2047,22 +2192,27 @@
           focus: "summary",
           keywords,
           hint: "Keep only the main idea. Leave out tiny details.",
-          model: `The main events can be combined into one clear sentence without copying every detail.`,
+          model,
           explanation: "A summary should be brief, accurate and focused on the main point."
         });
       });
 
       addFamily("reading", "Selectable retrieval answers", d => {
         const name = pick(names);
-        const pet = pick(["tortoise", "hamster", "rabbit", "guinea pig", "budgie"]);
-        const place = pick(["the science room", "the library", "the courtyard", "Room 6", "the school office"]);
-        const time = pick(["10:15", "11:30", "13:45", "14:20", "15:05"]);
+        const pets = ["tortoise", "hamster", "rabbit", "guinea pig", "budgie"];
+        const places = ["the science room", "the library", "the courtyard", "Room 6", "the school office"];
+        const times = ["10:15", "11:30", "13:45", "14:20", "15:05"];
+        const pet = pick(pets);
+        const place = pick(places);
+        const time = pick(times);
         const passage = `${name} wrote a notice for the class. The missing ${pet} was last seen near ${place} at ${time}. Anyone who finds it should tell Mrs Green before going home.`;
         const ask = pick(["pet", "place", "time"]);
         const answers = { pet, place, time };
         const prompts = { pet: "What animal is missing?", place: "Where was it last seen?", time: "What time was it last seen?" };
+        const distractors = { pet: pets, place: places, time: times }[ask].filter(value => value !== answers[ask]);
         return qBase("reading", "Selectable retrieval answers", d, "short", prompts[ask], answers[ask], {
           passage,
+          choices: makeChoices(answers[ask], distractors),
           hint: "Find and copy the exact detail from the notice.",
           explanation: `The notice states the answer is “${answers[ask]}”.`
         });
@@ -2070,16 +2220,17 @@
 
       addFamily("vocab", "Selectable synonyms", d => {
         const items = [
-          ["tiny", "small", ["small", "little"]],
-          ["rapid", "quick", ["quick", "fast", "speedy"]],
-          ["silent", "quiet", ["quiet", "soundless"]],
-          ["difficult", "hard", ["hard", "challenging"]],
-          ["begin", "start", ["start", "commence"]],
-          ["finish", "end", ["end", "complete"]]
+          ["tiny", "small", ["small", "little"], ["huge", "noisy", "rough"]],
+          ["rapid", "quick", ["quick", "fast", "speedy"], ["slow", "late", "still"]],
+          ["silent", "quiet", ["quiet", "soundless"], ["noisy", "bright", "rough"]],
+          ["difficult", "hard", ["hard", "challenging"], ["easy", "brief", "smooth"]],
+          ["begin", "start", ["start", "commence"], ["finish", "pause", "end"]],
+          ["finish", "end", ["end", "complete"], ["begin", "start", "continue"]]
         ];
-        const [word, answer, accept] = pick(items.slice(0, 3 + d));
+        const [word, answer, accept, distractors] = pick(items.slice(0, 3 + d));
         return qBase("vocab", "Selectable synonyms", d, "short", `Write one word that means the same as “${word}”.`, answer, {
           accept,
+          choices: makeChoices(answer, distractors),
           hint: "Think of a word with a similar meaning. Keep it to one word.",
           explanation: `One suitable synonym for “${word}” is “${answer}”.`
         });
@@ -2087,15 +2238,16 @@
 
       addFamily("grammar", "Contractions", d => {
         const items = [
-          ["do not", "don't"],
-          ["cannot", "can't"],
-          ["will not", "won't"],
-          ["they are", "they're"],
-          ["we have", "we've"],
-          ["I would", "I'd"]
+          ["do not", "don't", ["doesn't", "didn't", "dont"]],
+          ["cannot", "can't", ["couldn't", "can", "cant"]],
+          ["will not", "won't", ["wouldn't", "will", "wont"]],
+          ["they are", "they're", ["their", "there", "theyre"]],
+          ["we have", "we've", ["we're", "we'd", "weve"]],
+          ["I would", "I'd", ["I'll", "I've", "Id"]]
         ];
-        const [phrase, answer] = pick(items.slice(0, 3 + d));
+        const [phrase, answer, distractors] = pick(items.slice(0, 3 + d));
         return qBase("grammar", "Contractions", d, "short", `Write the contraction for “${phrase}”.`, answer, {
+          choices: makeChoices(answer, distractors),
           hint: "A contraction uses an apostrophe to show missing letters.",
           explanation: `The contraction of “${phrase}” is “${answer}”.`
         });
@@ -2134,14 +2286,15 @@
 
       addFamily("verbal", "Selectable hidden words", d => {
         const items = [
-          ["A brave new teacher arrived.", "newt"],
-          ["The silver vase leaned left.", "seal"],
-          ["He sat in a red chair.", "tin"],
-          ["Clara made a neat label.", "dean"]
+          ["A brave new teacher arrived.", "newt", ["seal", "tin", "dean"]],
+          ["The house always looked welcoming.", "seal", ["newt", "tin", "dean"]],
+          ["He sat in a red chair.", "tin", ["newt", "seal", "dean"]],
+          ["Clara made an excellent label.", "dean", ["newt", "seal", "tin"]]
         ];
-        const [sentence, answer] = pick(items.slice(0, 2 + Math.min(d, 2)));
+        const [sentence, answer, distractors] = pick(items.slice(0, 2 + Math.min(d, 2)));
         return qBase("verbal", "Selectable hidden words", d, "short", "Type the hidden word that appears across neighbouring letters.", answer, {
           passage: sentence,
+          choices: makeChoices(answer, distractors),
           hint: "Look across the end of one word and the beginning of the next.",
           explanation: `The hidden word is “${answer}”.`
         });
@@ -2152,27 +2305,26 @@
     function renderHome() {
       els.topicGrid.innerHTML = Object.keys(TOPICS).map(id => {
         const t = TOPICS[id];
-        const count = id === "mixed" ? BANK.length : BANK.filter(q => q.topic === id).length;
         const level = id === "mixed" ? Math.round(ACTIVE_TOPICS.reduce((a, k) => a + topicLevel(k), 0) / ACTIVE_TOPICS.length) : topicLevel(id);
         const total = id === "mixed" ? progress.lifetime.total : progress.topics[id].total;
         const correct = id === "mixed" ? progress.lifetime.correct : progress.topics[id].correct;
         const pct = total ? Math.round(correct / total * 100) : 0;
         return `<button class="topic-card" type="button" data-topic="${id}">
           <div>
-            <div class="topic-icon">${t.icon}</div>
+            <div class="topic-icon" aria-hidden="true">${t.icon}</div>
             <h2>${escapeHtml(t.name)}</h2>
             <p>${escapeHtml(t.blurb)}</p>
           </div>
-          <div class="mini-stats"><span>${count} variants</span><span>${dotLevel(level)}</span><span>${total ? pct + "% accuracy" : "new"}</span></div>
+          <div class="mini-stats"><span>${dotLevel(level)}</span><span>${total ? pct + "% correct so far" : "Ready to start"}</span></div>
         </button>`;
       }).join("");
-      els.bankSummary.textContent = `${BANK.length}+ English question variants • no typed answers • click and drag/drop tasks`;
       document.querySelectorAll(".topic-card").forEach(card => {
         card.addEventListener("click", () => startRound(card.dataset.topic));
       });
     }
 
     function startRound(topic) {
+      const previousQuestionKeys = state.topic === topic && state.questionKeys ? new Set(state.questionKeys) : new Set();
       state = {
         topic,
         currentQuestion: null,
@@ -2182,7 +2334,11 @@
         length: Number(els.sessionLength.value),
         score: 0,
         answered: false,
-        history: []
+        history: [],
+        questionKeys: new Set(),
+        previousQuestionKeys,
+        topicCounts: {},
+        roundSeed: freshSeed()
       };
       els.homeScreen.classList.add("hidden");
       els.resultsScreen.classList.add("hidden");
@@ -2194,14 +2350,60 @@
 
     function pickEntry() {
       const topicIds = state.topic === "mixed" ? ACTIVE_TOPICS : [state.topic];
-      const target = state.topic === "mixed" ? Math.round(ACTIVE_TOPICS.reduce((a, t) => a + topicLevel(t), 0) / ACTIVE_TOPICS.length) : topicLevel(state.topic);
-      let candidates = BANK.filter(e => topicIds.includes(e.topic) && Math.abs(e.difficulty - target) <= 1 && !state.used.has(e.id));
-      if (!candidates.length) candidates = BANK.filter(e => topicIds.includes(e.topic) && !state.used.has(e.id));
-      if (!candidates.length) {
-        state.used.clear();
-        candidates = BANK.filter(e => topicIds.includes(e.topic));
+      const availableTopics = topicIds.filter(topic => BANK.some(entry => entry.topic === topic && !state.used.has(entry.id)));
+      if (!availableTopics.length) return null;
+      let chosenTopic = availableTopics[0];
+      if (state.topic === "mixed") {
+        const fewest = Math.min(...availableTopics.map(topic => state.topicCounts[topic] || 0));
+        chosenTopic = pick(availableTopics.filter(topic => (state.topicCounts[topic] || 0) === fewest));
+      }
+      const target = topicLevel(chosenTopic);
+      const available = BANK.filter(entry => entry.topic === chosenTopic && !state.used.has(entry.id));
+      const exact = available.filter(entry => entry.difficulty === target);
+      const adjacent = available.filter(entry => Math.abs(entry.difficulty - target) === 1);
+      let candidates;
+      if (exact.length && (!adjacent.length || randomUnit() < 0.8)) candidates = exact;
+      else if (adjacent.length) candidates = adjacent;
+      else if (exact.length) candidates = exact;
+      else {
+        const nearestDistance = Math.min(...available.map(entry => Math.abs(entry.difficulty - target)));
+        candidates = available.filter(entry => Math.abs(entry.difficulty - target) === nearestDistance);
       }
       return pick(candidates);
+    }
+
+    function stableAnswerValue(answer) {
+      if (Array.isArray(answer)) return answer.map(stableAnswerValue).join("→");
+      if (answer && typeof answer === "object") return Object.keys(answer).sort().map(key => `${normalise(key)}:${stableAnswerValue(answer[key])}`).join("|");
+      return comparisonKey(answer);
+    }
+
+    function supportFingerprint(support) {
+      return String(support || "")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&[a-z]+;/gi, " ")
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean)
+        .sort()
+        .join(" ");
+    }
+
+    function questionFingerprint(q) {
+      return [
+        q.topic,
+        normalise(q.prompt),
+        normalise(q.passage || ""),
+        supportFingerprint(q.support),
+        stableAnswerValue(q.answer)
+      ].join("¦");
+    }
+
+    function generateQuestion(entry, variantAttempt) {
+      const seed = hashString(`${state.roundSeed}|${entry.id}|${variantAttempt}`);
+      let q = withSeed(seed, () => entry.gen(entry.difficulty, entry.seed));
+      q.difficulty = entry.difficulty;
+      return makeNonTypedQuestion(q);
     }
 
 
@@ -2218,10 +2420,10 @@
           anxious: ["kept twisting the strap of the bag", "checked the clock three times"],
           relieved: ["let out a long breath", "smiled when the lost key appeared"],
           curious: ["leaned closer to the half-open door", "wondered why the box was humming"],
-          determined: ["straightened the map", "said she would not turn back"],
-          frustrated: ["pressed her lips together", "rubbed out the same word again"],
-          delighted: ["clapped his hands", "could not stop grinning"],
-          suspicious: ["narrowed her eyes", "noticed that the story kept changing"],
+          determined: ["straightened the map", "refused to turn back"],
+          frustrated: ["pressed their lips together", "rubbed out the same word again"],
+          delighted: ["clapped with delight", "could not stop grinning"],
+          suspicious: ["narrowed their eyes", "noticed that the story kept changing"],
           confident: ["stood tall", "answered without hesitating"]
         };
         const passage = `${name} paused in the ${place}. ${name} ${pick(clues[feeling])}, then took one careful step forward.`;
@@ -2301,14 +2503,14 @@
 
       addFamily("vocab", "Context synonym selection", d => {
         const items = [
-          ["The path was narrow, so the walkers went in single file.", "thin", ["wide", "noisy", "heavy"]],
-          ["The ancient gate creaked in the wind.", "old", ["new", "bright", "soft"]],
-          ["The puppy was timid and hid behind the chair.", "shy", ["bold", "large", "sleepy"]],
-          ["The instructions were precise, with no extra words.", "exact", ["vague", "late", "angry"]],
-          ["The crowd was enormous by the final race.", "huge", ["tiny", "silent", "careful"]]
+          ["The path was narrow, so the walkers went in single file.", "narrow", "not wide", ["wide", "noisy", "heavy"]],
+          ["The ancient gate creaked in the wind.", "ancient", "old", ["new", "bright", "soft"]],
+          ["The puppy was timid and hid behind the chair.", "timid", "shy", ["bold", "large", "sleepy"]],
+          ["The instructions were precise, with no extra words.", "precise", "exact", ["vague", "late", "angry"]],
+          ["The crowd was enormous by the final race.", "enormous", "huge", ["tiny", "silent", "careful"]]
         ];
-        const [sentence, answer, distractors] = pick(items.slice(0, 3 + d));
-        return qBase("vocab", "Context synonym selection", d, "mc", "Which word is closest in meaning to the underlined idea in the sentence?", answer, {
+        const [sentence, word, answer, distractors] = pick(items.slice(0, 3 + d));
+        return qBase("vocab", "Context synonym selection", d, "mc", `Which option is closest in meaning to “${word}” in this sentence?`, answer, {
           passage: sentence,
           choices: makeChoices(answer, distractors),
           hint: "Use the rest of the sentence to work out the meaning.",
@@ -2317,7 +2519,7 @@
       }, 10);
 
       addFamily("vocab", "Antonym selection", d => {
-        const pairs = [["generous", "selfish"], ["scarce", "plentiful"], ["expand", "shrink"], ["fragile", "strong"], ["optimistic", "pessimistic"], ["transparent", "cloudy"]];
+        const pairs = [["generous", "selfish"], ["scarce", "plentiful"], ["expand", "shrink"], ["fragile", "strong"], ["optimistic", "pessimistic"], ["transparent", "opaque"]];
         const [word, answer] = pick(pairs.slice(0, 3 + d));
         const all = pairs.map(p => p[1]).concat(["ordinary", "recent", "gentle", "simple"]);
         return qBase("vocab", "Antonym selection", d, "mc", `Which word is the opposite of “${word}”?`, answer, {
@@ -2389,15 +2591,15 @@
 
       addFamily("grammar", "Apostrophe purpose", d => {
         const items = [
-          ["The girl's coat was red.", "possession"],
-          ["I don't know the answer.", "missing letters"],
+          ["The girl's coat was red.", "singular possession"],
+          ["I don't know the answer.", "a contraction showing missing letters"],
           ["The teachers' room was locked.", "plural possession"],
-          ["We haven't finished yet.", "missing letters"]
+          ["We haven't finished yet.", "a contraction showing missing letters"]
         ];
         const [sentence, answer] = pick(items);
         return qBase("grammar", "Apostrophe purpose", d, "mc", "What is the apostrophe doing in this sentence?", answer, {
           passage: sentence,
-          choices: textChoicesLocal(["possession", "missing letters", "plural possession", "a plural only"]),
+          choices: textChoicesLocal(["singular possession", "a contraction showing missing letters", "plural possession", "a plural only"]),
           hint: "Ask whether the apostrophe shows ownership or omitted letters.",
           explanation: `Here the apostrophe shows ${answer}.`
         });
@@ -2414,13 +2616,13 @@
 
       addFamily("grammar", "Pronoun reference", d => {
         const items = [
-          ["Nina gave the torch to Freya because she was leading the way.", "Freya"],
-          ["Tom passed the note to Ravi after he found it under the desk.", "Tom"],
-          ["The dog chased the cat until it climbed the fence.", "cat"],
-          ["The coach praised Ella because she had trained every morning.", "Ella"]
+          ["Freya was leading the way, so Nina gave the torch to her.", "her", "Freya"],
+          ["After Tom found the note under the desk, he passed it to Ravi.", "he", "Tom"],
+          ["The cat scrambled up the fence while the dog barked at it.", "it", "cat"],
+          ["Because Ella had trained every morning, the coach praised her.", "her", "Ella"]
         ];
-        const [sentence, answer] = pick(items);
-        return qBase("grammar", "Pronoun reference", d, "mc", "Who or what does the pronoun refer to?", answer, {
+        const [sentence, pronoun, answer] = pick(items);
+        return qBase("grammar", "Pronoun reference", d, "mc", `Who or what does the pronoun “${pronoun}” refer to?`, answer, {
           passage: sentence,
           choices: makeChoices(answer, ["Nina", "Freya", "Tom", "Ravi", "dog", "cat", "coach", "Ella"].filter(x => x !== answer)),
           hint: "Look for the noun that makes the sentence sensible.",
@@ -2472,9 +2674,9 @@
       }, 10);
 
       addFamily("spelling", "Suffix change rules", d => {
-        const items = [["happy", "happiness"], ["hope", "hopeful"], ["drop", "dropped"], ["carry", "carried"], ["magic", "magician"], ["beauty", "beautiful"]];
-        const [root, answer] = pick(items.slice(0, 3 + d));
-        return qBase("spelling", "Suffix change rules", d, "mc", `Add the suffix correctly to make a word from “${root}”.`, answer, {
+        const items = [["happy", "-ness", "happiness"], ["hope", "-ful", "hopeful"], ["drop", "-ed", "dropped"], ["carry", "-ed", "carried"], ["magic", "-ian", "magician"], ["beauty", "-ful", "beautiful"]];
+        const [root, suffix, answer] = pick(items.slice(0, 3 + d));
+        return qBase("spelling", "Suffix change rules", d, "mc", `Add ${suffix} correctly to “${root}”.`, answer, {
           choices: makeChoices(answer, [root + "ed", root + "ness", root + "full", root.replace(/y$/, "i") + "ness", root + root.slice(-1) + "ed"].filter(x => normalise(x) !== normalise(answer))),
           hint: "Think about whether to drop e, change y to i, or double a consonant.",
           explanation: `The correct form is “${answer}”.`
@@ -2496,7 +2698,7 @@
         const sets = [
           ["First, the team unpacked the equipment.", "Next, they checked the safety ropes.", "After that, they climbed the practice wall.", "Finally, they recorded their times."],
           ["At dawn, the beach was almost empty.", "Soon, families arrived with towels and buckets.", "By midday, the sand was crowded.", "In the evening, only footprints remained."],
-          ["The lights flickered once.", "A low hum filled the hall.", "Then the screen burst into colour.", "Everyone leaned forward to watch."]
+          ["The caretaker switched on the projector.", "A low hum filled the hall.", "Then the screen burst into colour.", "Everyone leaned forward to watch."]
         ];
         const answer = pick(sets);
         return qBase("sentence", "Sentence order drag-drop", d, "order", "Drag the sentences into a clear paragraph order.", answer, {
@@ -2564,7 +2766,7 @@
       }, 10);
 
       addFamily("verbal", "Hidden word selection", d => {
-        const items = [["A brave new teacher arrived.", "newt"], ["The silver vase leaned left.", "seal"], ["He sat in a red chair.", "tin"], ["Clara made a neat label.", "dean"], ["The small ant escaped.", "llan"]];
+        const items = [["A brave new teacher arrived.", "newt"], ["The house always looked welcoming.", "seal"], ["He sat in a red chair.", "tin"], ["Clara made an excellent label.", "dean"], ["The storm ended before noon.", "mend"]];
         const [sentence, answer] = pick(items.slice(0, 3 + Math.min(d, 2)));
         return qBase("verbal", "Hidden word selection", d, "mc", "Choose the hidden word that appears across neighbouring letters.", answer, {
           passage: sentence,
@@ -2576,8 +2778,9 @@
 
       addFamily("verbal", "Letter sequence selection", d => {
         const starts = ["A", "C", "E", "G", "J", "M"];
-        const start = pick(starts).charCodeAt(0);
         const step = pick([2, 3, 4].slice(0, 1 + Math.min(d, 2)));
+        const validStarts = starts.filter(letter => letter.charCodeAt(0) + 5 * step <= 90);
+        const start = pick(validStarts).charCodeAt(0);
         const seq = [0,1,2,3].map(i => String.fromCharCode(start + i*step));
         const ans = String.fromCharCode(start + 4*step);
         return qBase("verbal", "Letter sequence selection", d, "mc", `What letter comes next? ${seq.join("  ")}  ___`, ans, {
@@ -2667,6 +2870,16 @@
       return kind === "order" ? "drag/drop ordering" : kind === "match" ? "drag/drop matching" : kind === "cloze" ? "clickable cloze" : kind === "proofread" ? "clickable proofreading" : "select answer";
     }
 
+    function studentActivityTitle(title) {
+      return String(title)
+        .replace(/^Selectable\s+/i, "")
+        .replace(/^Clickable\s+/i, "")
+        .replace(/\s+drag-drop$/i, "")
+        .replace(/\s+selection$/i, "")
+        .replace(/\bcloze\b/i, "gap-fill")
+        .trim();
+    }
+
     function displayValue(value) {
       if (Array.isArray(value)) return value.join(" → ");
       if (value && typeof value === "object") return Object.keys(value).map(k => `${k}: ${value[k]}`).join("; ");
@@ -2693,7 +2906,7 @@
         const a = String(q.answer);
         return [a.replace(/e/g, "a"), a.replace(/a/g, "e"), a.slice(0, -1), a + a.slice(-1), a.replace(/([a-z])([a-z])/i, "$2$1")].filter(x => x && normalise(x) !== normalise(a));
       }
-      if (title.includes("punctuation")) return [".", ",", "?", "!", "'", ";"].filter(x => normalise(x) !== normalise(q.answer));
+      if (title.includes("punctuation")) return [".", ",", "?", "!", "'", ";"].filter(x => comparisonKey(x) !== comparisonKey(q.answer));
       if (title.includes("synonym")) return ["opposite", "similar", "different", "rare", "ordinary", "clear"].filter(x => normalise(x) !== normalise(q.answer));
       if (title.includes("hidden")) return ["seal", "newt", "dean", "tin", "ant", "ear", "rat"].filter(x => normalise(x) !== normalise(q.answer));
       return ["Cannot tell", "None of these", "All of these", "Another answer"];
@@ -2702,24 +2915,24 @@
     function writingDistractors(q, model) {
       const focus = q.focus || "writing";
       if (focus === "description") return [
-        "It was nice and interesting, and there were some things there.",
-        "I am going to describe the place now, and it was good.",
-        "The place was very very scary and nice and good at the same time."
+        "The place was quiet and quite interesting, with several things to see in the distance.",
+        "I walked through the setting, looked around for a while and then decided to continue my journey.",
+        "Everything was beautiful and atmospheric, and the whole scene looked very impressive."
       ];
       if (focus === "persuasion") return [
-        "I think this because I think it, and everyone should agree.",
-        "This is a thing that people might do at some point.",
-        "It is good, so that is the end of my reason."
+        "Some people may like this idea, although there are different opinions and it may be difficult to arrange.",
+        "I think the idea sounds good, but I have not included any evidence or explained how it would help pupils.",
+        "Everyone must agree with this brilliant idea because there is no possible reason to think differently."
       ];
       if (focus === "dialogue") return [
-        "They talked about it and then they said some things to each other.",
-        "What is that said Maya Ben said I do not know",
-        "The two people had a conversation and it was exciting."
+        "The two characters discussed the problem for several minutes before deciding what they should do next.",
+        "What was that asked Maya Ben replied that he did not know but he was worried",
+        "“I am surprised,” said the first person. “So am I,” said the second person, and then they continued talking."
       ];
       if (focus === "summary") return [
-        "The text has lots of details and many things happened in it.",
-        "This is about a topic and some people did something somewhere.",
-        "A very long explanation with every small detail copied even though it is not a summary."
+        "The text explains that several events took place and that the people involved eventually reached an outcome.",
+        String(q.passage || "The original information is copied without selecting the main point."),
+        "One small detail from the passage is mentioned, but its main idea and outcome are left out."
       ];
       return ["A vague sentence with little detail.", "A confusing answer that does not match the task.", "A response with weak punctuation and no clear purpose."];
     }
@@ -2755,44 +2968,94 @@
 
     function renderChoiceButtons(q) {
       els.answerForm.classList.add("hidden");
-      q.choices.forEach(choice => {
+      q.choices.forEach((choice, index) => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "choice-btn";
-        btn.textContent = choice.label;
+        btn.dataset.choiceIndex = String(index);
+        btn.textContent = formatSentences(choice.label);
         btn.addEventListener("click", () => submitAnswer(choice.value, btn));
         els.choicesWrap.appendChild(btn);
       });
     }
 
+    let selectedDragToken = null;
+
+    function announceInteraction(message) {
+      const status = document.getElementById("interactionStatus");
+      if (status) status.textContent = message;
+    }
+
+    function clearDragSelection() {
+      if (selectedDragToken) {
+        selectedDragToken.classList.remove("selected");
+        selectedDragToken.setAttribute("aria-pressed", "false");
+      }
+      selectedDragToken = null;
+    }
+
+    function selectMatchToken(token) {
+      if (selectedDragToken === token) {
+        clearDragSelection();
+        announceInteraction(`${token.dataset.value} deselected.`);
+        return;
+      }
+      clearDragSelection();
+      selectedDragToken = token;
+      token.classList.add("selected");
+      token.setAttribute("aria-pressed", "true");
+      announceInteraction(`${token.dataset.value} selected. Now choose a matching box.`);
+    }
+
+    function placeSelectedToken(slot) {
+      if (!selectedDragToken) {
+        announceInteraction("Choose an answer card first.");
+        return;
+      }
+      const bank = document.getElementById("dragBank");
+      if (slot.firstElementChild && bank) bank.appendChild(slot.firstElementChild);
+      const token = selectedDragToken;
+      slot.appendChild(token);
+      clearDragSelection();
+      announceInteraction(`${token.dataset.value} placed with ${slot.dataset.key}.`);
+    }
+
     function makeDragToken(text) {
-      const token = document.createElement("div");
+      const token = document.createElement("button");
+      token.type = "button";
       token.className = "drag-token";
       token.draggable = true;
-      token.tabIndex = 0;
       token.textContent = text;
       token.dataset.value = text;
+      token.setAttribute("aria-pressed", "false");
       token.addEventListener("dragstart", e => {
         window.__dragToken = token;
         e.dataTransfer.setData("text/plain", text);
       });
-      token.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          const bank = document.getElementById("dragBank");
-          const answer = document.getElementById("orderZone") || token.closest(".interaction-wrap")?.querySelector(".match-slot");
-          if (token.parentElement && token.parentElement.id === "dragBank" && answer) answer.appendChild(token);
-          else if (bank) bank.appendChild(token);
+      token.addEventListener("keydown", event => {
+        if (["Enter", " ", "Space", "Spacebar"].includes(event.key)) {
+          event.preventDefault();
+          token.click();
         }
       });
-      token.addEventListener("click", () => {
+      token.addEventListener("click", event => {
+        event.stopPropagation();
         const bank = document.getElementById("dragBank");
         const order = document.getElementById("orderZone");
         if (order) {
-          if (token.parentElement === bank) order.appendChild(token);
-          else bank.appendChild(token);
-        } else if (bank && token.parentElement && token.parentElement.classList && token.parentElement.classList.contains("match-slot")) {
+          if (token.parentElement === bank) {
+            order.appendChild(token);
+            announceInteraction(`${text} added to the answer order.`);
+          } else {
+            bank.appendChild(token);
+            announceInteraction(`${text} returned to the card bank.`);
+          }
+        } else if (bank && token.parentElement?.classList.contains("match-slot")) {
           bank.appendChild(token);
+          clearDragSelection();
+          announceInteraction(`${text} returned to the card bank.`);
+        } else if (bank && token.parentElement === bank) {
+          selectMatchToken(token);
         }
       });
       return token;
@@ -2808,20 +3071,36 @@
           const bank = document.getElementById("dragBank");
           if (bank) bank.appendChild(zone.firstElementChild);
         }
-        zone.appendChild(token);
+        if (zone.id === "orderZone") {
+          const siblings = [...zone.querySelectorAll(".drag-token")].filter(item => item !== token);
+          const next = siblings.find(item => {
+            const rect = item.getBoundingClientRect();
+            return e.clientY < rect.top + rect.height / 2 || (e.clientY <= rect.bottom && e.clientX < rect.left + rect.width / 2);
+          });
+          if (next) zone.insertBefore(token, next);
+          else zone.appendChild(token);
+        } else {
+          zone.appendChild(token);
+        }
+        clearDragSelection();
+        announceInteraction(`${token.dataset.value} moved.`);
       });
     }
 
     function renderOrderQuestion(q) {
       els.answerForm.classList.add("hidden");
       els.choicesWrap.className = "choices interaction-wrap";
-      els.choicesWrap.innerHTML = `<p class="drag-instructions">Drag the cards into the answer box in the correct order. You can also click a card to move it.</p><div class="drag-bank" id="dragBank"></div><div class="drop-zone" id="orderZone" data-placeholder="Drop the cards here in order"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div>`;
+      els.choicesWrap.innerHTML = `<p class="drag-instructions">Put every card into the answer box in the correct order. Drag a card, or select it to add it. Select it again to return it.</p><div class="drag-bank" id="dragBank" aria-label="Cards available to order"></div><div class="drop-zone" id="orderZone" aria-label="Your answer order" data-placeholder="Place the cards here in order"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div><p id="interactionStatus" class="sr-only" aria-live="polite"></p>`;
       const bank = document.getElementById("dragBank");
       const orderZone = document.getElementById("orderZone");
       allowDrop(bank);
       allowDrop(orderZone);
       shuffle(q.items || q.answer).forEach(item => bank.appendChild(makeDragToken(item)));
-      document.getElementById("clearInteractiveBtn").addEventListener("click", () => [...orderZone.children].forEach(t => bank.appendChild(t)));
+      document.getElementById("clearInteractiveBtn").addEventListener("click", () => {
+        [...orderZone.children].forEach(t => bank.appendChild(t));
+        clearDragSelection();
+        announceInteraction("The answer order has been cleared.");
+      });
       document.getElementById("checkInteractiveBtn").addEventListener("click", () => {
         const answer = [...orderZone.children].map(t => t.dataset.value);
         if (answer.length !== q.answer.length) {
@@ -2839,7 +3118,7 @@
       const keys = Object.keys(q.answer);
       const values = shuffle(Object.values(q.answer));
       els.choicesWrap.className = "choices interaction-wrap";
-      els.choicesWrap.innerHTML = `<p class="drag-instructions">Drag each answer card into the matching box. You can also click a placed card to return it.</p><div class="drag-bank" id="dragBank"></div><div class="match-grid" id="matchGrid"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div>`;
+      els.choicesWrap.innerHTML = `<p class="drag-instructions">Match every card to the correct box. Drag a card, or select a card and then select its matching box.</p><div class="drag-bank" id="dragBank" aria-label="Answer cards to match"></div><div class="match-grid" id="matchGrid"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div><p id="interactionStatus" class="sr-only" aria-live="polite"></p>`;
       const bank = document.getElementById("dragBank");
       const grid = document.getElementById("matchGrid");
       allowDrop(bank);
@@ -2847,12 +3126,25 @@
       keys.forEach(k => {
         const row = document.createElement("div");
         row.className = "match-row";
-        row.innerHTML = `<div class="match-term">${escapeHtml(k)}</div><div class="match-slot" data-key="${escapeHtml(k)}"></div>`;
+        row.innerHTML = `<div class="match-term">${escapeHtml(k)}</div><div class="match-slot" data-key="${escapeHtml(k)}" role="button" tabindex="0" aria-label="Choose an answer for ${escapeHtml(k)}"></div>`;
         grid.appendChild(row);
-        allowDrop(row.querySelector(".match-slot"));
+        const slot = row.querySelector(".match-slot");
+        allowDrop(slot);
+        slot.addEventListener("click", event => {
+          if (!event.target.closest(".drag-token")) placeSelectedToken(slot);
+        });
+        slot.addEventListener("keydown", event => {
+          if (["Enter", " ", "Space", "Spacebar"].includes(event.key)) {
+            event.preventDefault();
+            placeSelectedToken(slot);
+          }
+        });
       });
-      bank.addEventListener("click", e => e.stopPropagation());
-      document.getElementById("clearInteractiveBtn").addEventListener("click", () => [...grid.querySelectorAll(".match-slot .drag-token")].forEach(t => bank.appendChild(t)));
+      document.getElementById("clearInteractiveBtn").addEventListener("click", () => {
+        [...grid.querySelectorAll(".match-slot .drag-token")].forEach(t => bank.appendChild(t));
+        clearDragSelection();
+        announceInteraction("All matches have been cleared.");
+      });
       document.getElementById("checkInteractiveBtn").addEventListener("click", () => {
         const answer = {};
         let complete = true;
@@ -2871,6 +3163,7 @@
     }
 
     function disableInteractive() {
+      clearDragSelection();
       els.choicesWrap.classList.add("disabled-interaction");
       [...els.choicesWrap.querySelectorAll(".drag-token")].forEach(t => { t.draggable = false; t.tabIndex = -1; });
       [...els.choicesWrap.querySelectorAll("button")].forEach(b => b.disabled = true);
@@ -2892,20 +3185,40 @@
       els.choicesWrap.className = "choices";
       els.choicesWrap.innerHTML = "";
 
-      const entry = pickEntry();
+      let entry = null;
+      let q = null;
+      let questionKey = "";
+      for (let candidateAttempt = 0; candidateAttempt < BANK.length; candidateAttempt++) {
+        const candidateEntry = pickEntry();
+        if (!candidateEntry) break;
+        for (let variantAttempt = 0; variantAttempt < 6; variantAttempt++) {
+          const candidateQuestion = generateQuestion(candidateEntry, variantAttempt);
+          const candidateKey = questionFingerprint(candidateQuestion);
+          const repeatedThisRound = state.questionKeys.has(candidateKey);
+          const repeatedLastRound = state.previousQuestionKeys.has(candidateKey);
+          if (repeatedThisRound || (repeatedLastRound && candidateAttempt < 24)) continue;
+          entry = candidateEntry;
+          q = candidateQuestion;
+          questionKey = candidateKey;
+          break;
+        }
+        state.used.add(candidateEntry.id);
+        if (q) break;
+      }
+      if (!entry || !q) {
+        throw new Error("The question bank could not produce another unique question for this round.");
+      }
       state.currentEntry = entry;
-      state.used.add(entry.id);
-      let q = entry.gen(entry.difficulty, entry.seed);
-      q.difficulty = entry.difficulty;
-      q = makeNonTypedQuestion(q);
+      state.questionKeys.add(questionKey);
+      state.topicCounts[q.topic] = (state.topicCounts[q.topic] || 0) + 1;
       state.currentQuestion = q;
 
       const topicName = TOPICS[q.topic].name;
-      els.tagRow.innerHTML = `<span class="tag">${escapeHtml(topicName)}</span><span class="tag">${escapeHtml(q.title)}</span><span class="tag">Level ${q.difficulty}</span><span class="tag">${typeLabel(q.kind)}</span>`;
-      els.questionText.textContent = q.prompt;
+      els.tagRow.innerHTML = `<span class="tag">${escapeHtml(topicName)}</span><span class="tag">${escapeHtml(studentActivityTitle(q.title))}</span><span class="tag">Level ${q.difficulty}</span>`;
+      els.questionText.textContent = formatSentences(q.prompt);
       if (q.passage) {
         els.passageBox.classList.remove("hidden");
-        els.passageBox.innerHTML = `<div class="passage-title">Text</div>${escapeHtml(q.passage).replace(/\n/g, "<br>")}`;
+        els.passageBox.innerHTML = `<div class="passage-title">Text</div>${formatTextHtml(q.passage)}`;
       } else {
         els.passageBox.classList.add("hidden");
         els.passageBox.innerHTML = "";
@@ -2927,14 +3240,21 @@
         renderChoiceButtons(q);
       }
       updateTopBar();
+      requestAnimationFrame(() => {
+        els.questionText.focus({ preventScroll: true });
+        els.questionText.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      });
     }
 
     function updateTopBar() {
       els.scoreText.textContent = `Score ${state.score}`;
       els.questionCountText.textContent = `Question ${Math.min(state.index + 1, state.length)} of ${state.length}`;
-      const level = state.topic === "mixed" ? Math.round(ACTIVE_TOPICS.reduce((a, t) => a + topicLevel(t), 0) / ACTIVE_TOPICS.length) : topicLevel(state.topic);
+      const level = state.currentQuestion ? state.currentQuestion.difficulty : topicLevel(state.topic);
       els.levelText.textContent = `Level ${level}`;
-      els.progressFill.style.width = `${(state.index / state.length) * 100}%`;
+      const completed = Math.min(state.index + (state.answered ? 1 : 0), state.length);
+      els.progressFill.style.width = `${(completed / state.length) * 100}%`;
+      els.progressMeter.setAttribute("aria-valuemax", String(state.length));
+      els.progressMeter.setAttribute("aria-valuenow", String(completed));
     }
 
     function submitAnswer(value, button = null) {
@@ -2949,10 +3269,19 @@
       if (q.kind === "mc" || q.kind === "cloze" || q.kind === "proofread") {
         [...els.choicesWrap.children].forEach(btn => {
           btn.disabled = true;
-          const btnChoice = q.choices.find(c => c.label === btn.textContent);
-          if (btnChoice && isCorrect(btnChoice.value, q)) btn.classList.add("correct");
+          const btnChoice = q.choices[Number(btn.dataset.choiceIndex)];
+          if (btnChoice && isCorrect(btnChoice.value, q)) {
+            btn.classList.add("correct");
+            btn.textContent = `${formatSentences(btnChoice.label)}\n\n✓ Correct answer`;
+            btn.setAttribute("aria-label", `${btnChoice.label}. Correct answer.`);
+          }
         });
-        if (button && !correct) button.classList.add("wrong");
+        if (button && !correct) {
+          const selectedChoice = q.choices[Number(button.dataset.choiceIndex)];
+          button.classList.add("wrong");
+          button.textContent = `${formatSentences(selectedChoice ? selectedChoice.label : value)}\n\n✗ Your answer`;
+          button.setAttribute("aria-label", `${selectedChoice ? selectedChoice.label : value}. Your answer was not correct.`);
+        }
       } else if (q.kind === "order" || q.kind === "match") {
         disableInteractive();
       }
@@ -2961,7 +3290,7 @@
       const entered = displayValue(value);
       state.history.push({
         topic: TOPICS[q.topic].name,
-        title: q.title,
+        title: studentActivityTitle(q.title),
         prompt: q.prompt,
         correct,
         answer: expected,
@@ -2971,8 +3300,8 @@
 
       els.feedbackPanel.className = `feedback-panel ${correct ? "good" : "bad"}`;
       els.feedbackPanel.innerHTML = correct
-        ? `<strong>Correct.</strong><p>${escapeHtml(q.explanation || "Good work.")}</p>${extraHtml}`
-        : `<strong>Not quite.</strong><p>Correct answer: <span class="kbd">${escapeHtml(expected)}</span></p><p>${escapeHtml(q.explanation || "Review the clue and try a similar question next.")}</p>${extraHtml}`;
+        ? `<strong>Correct.</strong><p>${formatTextHtml(q.explanation || "Good work.")}</p>${extraHtml}`
+        : `<strong>Not quite.</strong><p>Correct answer: <span class="kbd">${formatTextHtml(expected)}</span></p><p>${formatTextHtml(q.explanation || "Review the clue and try a similar question next.")}</p>${extraHtml}`;
       els.feedbackPanel.classList.remove("hidden");
       els.nextBtn.classList.remove("hidden");
       els.hintBtn.disabled = true;
@@ -3013,7 +3342,7 @@
     function showHint() {
       const q = state.currentQuestion;
       els.feedbackPanel.className = "feedback-panel hint";
-      els.feedbackPanel.innerHTML = `<strong>Hint</strong><p>${escapeHtml(q.hint)}</p>`;
+      els.feedbackPanel.innerHTML = `<strong>Hint</strong><p>${formatTextHtml(q.hint)}</p>`;
       els.feedbackPanel.classList.remove("hidden");
     }
 
@@ -3023,7 +3352,7 @@
       els.progressFill.style.width = "100%";
       const pct = Math.round((state.score / state.length) * 100);
       els.finalScore.textContent = `${state.score}/${state.length}`;
-      els.finalMessage.textContent = pct >= 85 ? "Excellent accuracy. Try a longer mixed round next." : pct >= 65 ? "Good progress. Review the amber areas below and keep practising." : "Keep going. Use hints and read the feedback carefully before the next round.";
+      els.finalMessage.textContent = pct >= 85 ? "Excellent accuracy. Try a longer mixed round next." : pct >= 65 ? "Good progress. Review the skills marked ‘Developing’ and keep practising." : "Keep going. Review the skills marked ‘Practise next’ and read the feedback carefully.";
 
       const byTopic = {};
       state.history.forEach(h => {
@@ -3034,11 +3363,14 @@
       els.topicReview.innerHTML = Object.keys(byTopic).map(topic => {
         const item = byTopic[topic];
         const p = Math.round(item.correct / item.total * 100);
-        const rag = p >= 75 ? "Green" : p >= 50 ? "Amber" : "Red";
-        return `<div class="review-card"><strong>${escapeHtml(topic)}</strong><br>${item.correct}/${item.total} correct<br><span class="kbd">${rag}</span></div>`;
+        const status = p >= 75 ? "Secure" : p >= 50 ? "Developing" : "Practise next";
+        return `<div class="review-card"><strong>${escapeHtml(topic)}</strong><br>${item.correct}/${item.total} correct<br><span class="kbd">${status}</span></div>`;
       }).join("");
 
-      els.reviewWrap.innerHTML = `<table><thead><tr><th>#</th><th>Topic</th><th>Result</th><th>Answer / feedback</th></tr></thead><tbody>${state.history.map((h, i) => `<tr><td>${i+1}</td><td>${escapeHtml(h.topic)}<br><small>${escapeHtml(h.title)}</small></td><td>${h.correct ? "✓ Correct" : "✗ Review"}</td><td><strong>${escapeHtml(h.answer)}</strong><br><small>${escapeHtml(h.explanation)}</small></td></tr>`).join("")}</tbody></table>`;
+      els.reviewWrap.setAttribute("tabindex", "0");
+      els.reviewWrap.setAttribute("aria-label", "Question review table; scroll sideways if needed");
+      els.reviewWrap.innerHTML = `<table><caption class="sr-only">Review of this round</caption><thead><tr><th scope="col">#</th><th scope="col">Topic</th><th scope="col">Result</th><th scope="col">Your answer</th><th scope="col">Correct answer and feedback</th></tr></thead><tbody>${state.history.map((h, i) => `<tr><td>${i+1}</td><td>${escapeHtml(h.topic)}<br><small>${escapeHtml(h.title)}</small></td><td>${h.correct ? "✓ Correct" : "✗ Review"}</td><td>${formatTextHtml(h.entered)}</td><td><strong>${formatTextHtml(h.answer)}</strong><br><small>${formatTextHtml(h.explanation)}</small></td></tr>`).join("")}</tbody></table>`;
+      requestAnimationFrame(() => els.resultsHeading.focus());
     }
 
     function goHome() {
@@ -3047,6 +3379,7 @@
       els.homeToolbar.classList.remove("hidden");
       els.homeScreen.classList.remove("hidden");
       renderHome();
+      requestAnimationFrame(() => els.homeHeading.focus());
     }
 
     els.answerForm.addEventListener("submit", e => {
