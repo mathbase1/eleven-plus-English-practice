@@ -21,7 +21,7 @@
       --radius: 22px;
     }
 
-    * { box-sizing: border-box; }
+- { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -946,6 +946,7 @@
       answered: false,
       history: [],
       questionKeys: new Set(),
+      questionStemKeys: new Set(),
       previousQuestionKeys: new Set(),
       roundSeed: 1
     };
@@ -2319,6 +2320,7 @@
         answered: false,
         history: [],
         questionKeys: new Set(),
+        questionStemKeys: new Set(),
         previousQuestionKeys,
         topicCounts: {},
         roundSeed: freshSeed(),
@@ -4969,6 +4971,15 @@
       return String(title || "").indexOf("Extended ") === 0 || String(title || "").indexOf("Poetry study") === 0;
     }
 
+    function questionStemFingerprintV9(q) {
+      return [
+        q.topic,
+        normalise(q.prompt),
+        normalise(q.passage || ""),
+        supportFingerprint(q.support)
+      ].join("Â¦");
+    }
+
     function adaptiveEntriesV8(topic, title) {
       const target = topicLevel(topic);
       return BANK.filter(function(entry) {
@@ -5000,23 +5011,44 @@
           const key = questionFingerprint(q);
           if (localKeys.has(key)) continue;
           localKeys.add(key);
-          catalogue.push({ entry: entry, q: q, key: key });
+          catalogue.push({ entry: entry, q: q, key: key, stemKey: questionStemFingerprintV9(q) });
         }
       });
       state.adaptiveCataloguesV8[cacheKey] = catalogue;
       return catalogue;
     }
 
-    function candidateGroupsV8(topic, title) {
+    function expandedCatalogueV9(topic) {
+      state.expandedCataloguesV9 = state.expandedCataloguesV9 || {};
+      if (state.expandedCataloguesV9[topic]) return state.expandedCataloguesV9[topic];
+      const localKeys = new Set();
+      const catalogue = [];
+      shuffle(BANK.filter(function(entry) { return entry.topic === topic; }).slice()).forEach(function(entry) {
+        for (let variantAttempt = 0; variantAttempt < 6; variantAttempt += 1) {
+          const q = generateQuestion(entry, variantAttempt);
+          delete q.passagePart;
+          delete q.passageTotal;
+          const key = questionFingerprint(q);
+          if (localKeys.has(key)) continue;
+          localKeys.add(key);
+          catalogue.push({ entry: entry, q: q, key: key, stemKey: questionStemFingerprintV9(q) });
+        }
+      });
+      state.expandedCataloguesV9[topic] = catalogue;
+      return catalogue;
+    }
+
+    function candidateGroupsV8(topic, title, expanded) {
       const target = topicLevel(topic);
       const groups = {
         exactFreshUnused: [], exactFreshUsed: [], adjacentFreshUnused: [], adjacentFreshUsed: [],
         exactPreviousUnused: [], exactPreviousUsed: [], adjacentPreviousUnused: [], adjacentPreviousUsed: []
       };
-      adaptiveCatalogueV8(topic).forEach(function(candidate) {
+      (expanded ? expandedCatalogueV9(topic) : adaptiveCatalogueV8(topic)).forEach(function(candidate) {
         const entry = candidate.entry;
         if (title && entry.title !== title) return;
         if (state.questionKeys.has(candidate.key)) return;
+        if (state.questionStemKeys.has(candidate.stemKey)) return;
         const exact = entry.difficulty === target;
         const previous = state.previousQuestionKeys.has(candidate.key);
         const used = state.used.has(entry.id);
@@ -5038,9 +5070,43 @@
       ];
       for (let index = 0; index < order.length; index += 1) {
         const candidates = groups[order[index]] || [];
-        if (candidates.length) return pick(candidates);
+        if (candidates.length) {
+          const target = topicLevel(candidates[0].entry.topic);
+          const nearestDistance = Math.min.apply(null, candidates.map(function(candidate) {
+            return Math.abs(candidate.entry.difficulty - target);
+          }));
+          return pick(candidates.filter(function(candidate) {
+            return Math.abs(candidate.entry.difficulty - target) === nearestDistance;
+          }));
+        }
       }
       return null;
+    }
+
+    function chooseExpandedCandidateV9(groups) {
+      const candidates = Object.keys(groups).reduce(function(all, key) {
+        return all.concat(groups[key] || []);
+      }, []);
+      if (!candidates.length) return null;
+      const target = topicLevel(candidates[0].entry.topic);
+      const nearestDistance = Math.min.apply(null, candidates.map(function(candidate) {
+        return Math.abs(candidate.entry.difficulty - target);
+      }));
+      const nearest = candidates.filter(function(candidate) {
+        return Math.abs(candidate.entry.difficulty - target) === nearestDistance;
+      });
+      const freshUnused = nearest.filter(function(candidate) {
+        return !state.previousQuestionKeys.has(candidate.key) && !state.used.has(candidate.entry.id);
+      });
+      if (freshUnused.length) return pick(freshUnused);
+      const fresh = nearest.filter(function(candidate) {
+        return !state.previousQuestionKeys.has(candidate.key);
+      });
+      if (fresh.length) return pick(fresh);
+      const unused = nearest.filter(function(candidate) {
+        return !state.used.has(candidate.entry.id);
+      });
+      return pick(unused.length ? unused : nearest);
     }
 
     function selectAdaptiveQuestionV8() {
@@ -5056,6 +5122,7 @@
         linkedTitle = null;
         chosen = chooseFromGroupsV8(candidateGroupsV8(topic, null));
       }
+      if (!chosen) chosen = chooseExpandedCandidateV9(candidateGroupsV8(topic, null, true));
       if (!chosen) return null;
 
       if (state.topic === "reading") {
@@ -5105,6 +5172,7 @@
       state.currentQuestion = q;
       state.used.add(entry.id);
       state.questionKeys.add(selected.key);
+      state.questionStemKeys.add(selected.stemKey);
       state.topicCounts[q.topic] = (state.topicCounts[q.topic] || 0) + 1;
 
       const topicName = TOPICS[q.topic].name;
