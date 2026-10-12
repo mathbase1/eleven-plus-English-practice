@@ -1,0 +1,2129 @@
+
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>11+ English Practice Quest | Preview</title>
+  <meta name="description" content="Try a fixed, five-activity preview of each English Practice Quest skill area. Interactive sample only." />
+  <style>
+    :root {
+      --ink: #17314f;
+      --muted: #5b6f86;
+      --panel: #ffffff;
+      --soft: #f2f7ff;
+      --accent: #1f6feb;
+      --accent-2: #ffb703;
+      --good: #157f3b;
+      --bad: #c83232;
+      --line: #d8e4f5;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.14);
+      --radius: 22px;
+      --purple-dark: #4b2c7a;
+      --focus: #1f6feb;
+      --green-dark: #0f6b33;
+      --red-dark: #a61f1f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(31,111,235,.14), transparent 34rem),
+        radial-gradient(circle at 86% 9%, rgba(255,183,3,.20), transparent 28rem),
+        linear-gradient(180deg, #f8fbff 0%, #edf6ff 100%);
+      min-height: 100vh;
+    }
+
+    .app {
+      width: min(1160px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+    }
+
+    header.hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(216, 228, 245, .9);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      letter-spacing: -0.04em;
+    }
+
+    .mascot {
+      width: 110px;
+      height: 110px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #fff2c3, #dbeaff);
+      font-size: 3rem;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.72);
+    }
+
+    .toolbar {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .pill, select, button, input, textarea {
+      font: inherit;
+    }
+
+    .pill {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: 0 6px 18px rgba(22,50,79,.08);
+      color: var(--muted);
+    }
+
+    select {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 9px 12px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .screen { margin-top: 22px; }
+    .hidden { display: none !important; }
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+      gap: 16px;
+    }
+
+    .topic-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 19px;
+      box-shadow: 0 10px 26px rgba(22,50,79,.10);
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      min-height: 176px;
+      display: grid;
+      align-content: space-between;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .topic-card:hover, .topic-card:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: rgba(31,111,235,.45);
+      outline: 3px solid rgba(31,111,235,.35);
+      outline-offset: 3px;
+    }
+
+    .topic-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--soft);
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+    }
+
+    .topic-heading {
+      display: block;
+      margin: 0 0 7px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .topic-description {
+      display: block;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+
+    .mini-stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .level-dots {
+      display: inline-flex;
+      gap: 4px;
+      vertical-align: middle;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #d3deef;
+      display: inline-block;
+    }
+
+    .dot.on { background: var(--accent); }
+
+    .quiz-shell { display: grid; gap: 16px; }
+
+    .quiz-top, .question-panel, .feedback-panel, .results-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-top {
+      padding: 17px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .quiz-title {
+      font-size: 1.22rem;
+      font-weight: 800;
+    }
+
+    .score-strip {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+    }
+
+    .meter {
+      width: 100%;
+      height: 14px;
+      background: #e7effb;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #d8e4f5;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #7aa7ff);
+      transition: width .25s ease;
+    }
+
+    .question-panel { padding: clamp(18px, 3vw, 28px); }
+
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: .92rem;
+      border: 1px solid var(--line);
+    }
+
+    .passage-box, .support-box {
+      background: #fbfdff;
+      border: 1px solid #dfe9f7;
+      border-radius: 18px;
+      padding: 16px 18px;
+      line-height: 1.6;
+      color: #243b55;
+      margin: 6px 0 14px;
+      max-width: 72ch;
+      white-space: pre-line;
+    }
+
+    .passage-box:empty, .support-box:empty { display: none; }
+
+    .passage-box:focus-visible {
+      outline: 3px solid rgba(31,111,235,.35);
+      outline-offset: 3px;
+    }
+
+    .passage-title {
+      font-weight: 900;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    .question-text {
+      font-size: clamp(1.16rem, 2vw, 1.47rem);
+      line-height: 1.55;
+      font-weight: 800;
+      margin: 0 0 16px;
+      max-width: 72ch;
+      white-space: pre-line;
+      scroll-margin-top: 18px;
+    }
+
+    #homeHeading:focus, #resultsHeading:focus, .question-text:focus { outline: none; }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 17px;
+      background: var(--accent);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+      box-shadow: 0 9px 18px rgba(31,111,235,.22);
+    }
+
+    button:hover:not(:disabled), button:focus-visible:not(:disabled) {
+      transform: translateY(-2px);
+      outline: 3px solid rgba(31,111,235,.35);
+      outline-offset: 3px;
+      box-shadow: 0 13px 24px rgba(31,111,235,.26);
+    }
+
+    button:disabled { opacity: .55; cursor: not-allowed; }
+
+    .choice-btn {
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      border: 2px solid var(--line);
+      box-shadow: 0 7px 18px rgba(22,50,79,.08);
+      min-height: 58px;
+      line-height: 1.5;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+
+    .choice-btn.correct { border-color: rgba(21,127,59,.85); background: #edf9f1; }
+    .choice-btn.wrong { border-color: rgba(200,50,50,.85); background: #fff0f0; }
+
+    .answer-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      align-items: center;
+    }
+
+    input[type="text"], textarea {
+      flex: 1 1 240px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: #fff;
+      min-height: 54px;
+      font-size: 1.05rem;
+    }
+
+    textarea {
+      min-height: 150px;
+      line-height: 1.45;
+      resize: vertical;
+      width: 100%;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent);
+      outline: 3px solid rgba(31,111,235,.24);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(31,111,235,.12);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .secondary {
+      background: #eef4ff;
+      color: var(--ink);
+      box-shadow: none;
+      border: 1px solid var(--line);
+    }
+
+    .gold {
+      background: var(--accent-2);
+      color: #412b00;
+      box-shadow: 0 9px 18px rgba(255,183,3,.22);
+    }
+
+    .feedback-panel {
+      padding: 18px 20px;
+      line-height: 1.5;
+    }
+
+    .feedback-panel.good { border-color: rgba(21,127,59,.55); background: #f2fff5; }
+    .feedback-panel.bad { border-color: rgba(200,50,50,.55); background: #fff6f6; }
+    .feedback-panel.hint { border-color: rgba(255,183,3,.55); background: #fffaf0; }
+
+    .feedback-panel strong { display: block; margin-bottom: 4px; }
+
+    .results-panel {
+      padding: clamp(22px, 4vw, 36px);
+      text-align: center;
+    }
+
+    .big-score {
+      font-size: clamp(2.2rem, 6vw, 4.3rem);
+      font-weight: 900;
+      letter-spacing: -.05em;
+      margin: 10px 0;
+    }
+
+    .table-card {
+      overflow-x: auto;
+      margin: 14px 0;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .word-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .word-card {
+      flex: 1 1 120px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 360px;
+      background: white;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: var(--soft); }
+
+    #reviewWrap table { min-width: 980px; }
+
+    .review-question {
+      min-width: 250px;
+      max-width: 430px;
+    }
+
+    .review-context {
+      margin-top: 8px;
+      border-top: 1px solid var(--line);
+      padding-top: 7px;
+    }
+
+    .review-context summary {
+      cursor: pointer;
+      color: var(--purple-dark);
+      font-weight: 850;
+    }
+
+    .review-context-text {
+      margin-top: 7px;
+      max-height: 13rem;
+      overflow-y: auto;
+      padding: 9px;
+      border-radius: 10px;
+      background: var(--soft);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 11px;
+    }
+
+    .checklist .yes { color: var(--good); font-weight: 900; }
+    .checklist .no { color: var(--bad); font-weight: 900; }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      text-align: left;
+    }
+
+    .review-card {
+      border: 1px solid var(--line);
+      background: #fbfdff;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: #eef4ff;
+      border: 1px solid var(--line);
+      padding: 2px 6px;
+      border-radius: 7px;
+    }
+
+
+
+    .interaction-wrap {
+      display: block;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .drag-instructions {
+      color: var(--muted);
+      font-weight: 800;
+      margin: 0 0 10px;
+    }
+
+    .drag-bank, .drop-zone, .match-grid, .click-option-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+
+    .drag-bank {
+      padding: 12px;
+      border: 1px dashed #aec3e4;
+      border-radius: 16px;
+      background: #f3f8ff;
+      min-height: 62px;
+      margin-bottom: 12px;
+    }
+
+    .drop-zone {
+      min-height: 76px;
+      padding: 12px;
+      border: 2px dashed #5579ad;
+      border-radius: 16px;
+      background: #ffffff;
+      align-content: flex-start;
+      position: relative;
+    }
+
+    .drop-zone::before {
+      content: attr(data-placeholder);
+      color: #4f6884;
+      font-weight: 800;
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      pointer-events: none;
+    }
+
+    .drop-zone:not(:empty)::before { display: none; }
+
+    .drag-token {
+      user-select: none;
+      touch-action: manipulation;
+      background: #ffffff;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 11px 13px;
+      color: var(--ink);
+      font-weight: 900;
+      box-shadow: 0 6px 14px rgba(22,50,79,.08);
+      cursor: grab;
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .drag-token:active { cursor: grabbing; }
+    .drag-token.selected {
+      border-color: var(--accent);
+      background: #eaf2ff;
+      outline: 3px solid rgba(31,111,235,.22);
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    .match-row {
+      display: grid;
+      grid-template-columns: minmax(90px, 1fr) minmax(120px, 1.25fr);
+      gap: 9px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 10px;
+    }
+
+    .match-term { font-weight: 900; }
+
+    .match-slot {
+      min-height: 52px;
+      border: 2px dashed #5579ad;
+      border-radius: 14px;
+      background: #fbfdff;
+      padding: 7px;
+    }
+
+    .match-slot:focus-visible {
+      outline: 3px solid rgba(31,111,235,.35);
+      outline-offset: 2px;
+    }
+
+    .match-slot[aria-disabled="true"] {
+      cursor: default;
+    }
+
+    .match-slot .drag-token { width: 100%; justify-content: center; }
+
+    .interaction-actions { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .disabled-interaction { opacity: 1; pointer-events: none; }
+
+    @media (max-width: 680px) {
+      header.hero { grid-template-columns: 1fr; }
+      .mascot { width: 82px; height: 82px; font-size: 2.4rem; }
+      .app { width: min(100% - 18px, 1160px); padding-top: 12px; }
+      .choices { grid-template-columns: 1fr; }
+      .toolbar { justify-content: stretch; }
+      .toolbar .pill, .toolbar button { flex: 1 1 100%; min-width: 0; width: 100%; max-width: 100%; }
+      .toolbar .pill select { min-width: 0; width: 100%; max-width: 100%; }
+      .match-grid { grid-template-columns: minmax(0, 1fr); }
+      .match-row { grid-template-columns: minmax(0, 1fr); }
+      .match-placement { grid-template-columns: minmax(0, 1fr); }
+      .match-place-btn { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+
+    .skip-link {
+      position: fixed;
+      left: 14px;
+      top: -80px;
+      z-index: 1000;
+      background: #102a43;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 900;
+    }
+
+    .skip-link:focus-visible { top: 14px; }
+    body.practice-active .skip-link { display: none; }
+
+    .hero-subtitle {
+      max-width: 72ch;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 1.04rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .section-heading h2 { margin: 0; }
+    .section-heading { margin: 20px 0 12px; }
+
+    .wordpick-grid, .evidence-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 10px 0 14px;
+    }
+
+    .word-token[aria-pressed="true"] {
+      color: var(--ink);
+      border-color: var(--accent);
+      background: #eaf2ff;
+      box-shadow: 0 0 0 3px rgba(31,111,235,.16);
+    }
+
+    .word-token[aria-pressed="true"]:hover,
+    .word-token[aria-pressed="true"]:focus-visible,
+    .word-token[aria-pressed="true"]:disabled {
+      color: var(--ink);
+      background: #eaf2ff;
+      border-color: var(--accent);
+      opacity: 1;
+    }
+
+    .confidence-actions button[aria-pressed="true"] {
+      color: var(--ink);
+      background: #eaf2ff;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 3px rgba(31,111,235,.16);
+    }
+
+    .match-placement {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .match-place-btn { padding: 9px 11px; min-width: 9.5rem; }
+
+    .home-notice, .round-notice {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #f7fbff;
+      color: var(--ink);
+      line-height: 1.45;
+      font-weight: 750;
+    }
+
+    .home-notice.bad { border-color: rgba(200,50,50,.55); background: #fff6f6; }
+    .round-notice { margin: 0; }
+    .scope-footer details { color: var(--ink); }
+    .scope-footer ul { margin: 8px 0 0; padding-left: 22px; }
+    .scope-footer li { margin: 5px 0; }
+    .quiz-shell, .quiz-shell > *, .answer-row, .answer-row > * { min-width: 0; max-width: 100%; }
+    input[type="text"], textarea { min-width: 0; max-width: 100%; }
+
+
+    .category-grid { display: grid; gap: 10px; margin: 12px 0; }
+    .category-row { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(160px, 1fr); gap: 12px; align-items: center; }
+    .category-item { font-weight: 850; }
+    .category-row select { width: 100%; }
+
+    .confidence-check { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .confidence-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .confidence-actions button { padding: 7px 10px; font-size: .88rem; }
+
+    .toolbar-note {
+      flex: 1 1 100%;
+      margin: 0;
+      text-align: right;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .toolbar .pill input {
+      width: min(180px, 42vw);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .result-meta {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.5;
+    }
+
+    details {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.72);
+    }
+
+    summary { cursor: pointer; font-weight: 800; }
+
+    .writing-meta {
+      color: var(--muted);
+      font-weight: 800;
+      min-width: 90px;
+    }
+
+    .scope-footer {
+      margin-top: 24px;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.82);
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .scope-footer strong { color: var(--ink); }
+    .scope-footer p { margin: 5px 0 0; }
+
+    .storage-notice {
+      color: #8a3b00;
+      font-weight: 800;
+    }
+
+    @media print {
+      body { background: #fff; }
+      header.hero, .toolbar, .scope-footer, #homeScreen, #quizScreen, .results-panel > .actions { display: none !important; }
+      .app { width: 100%; padding: 0; }
+      #resultsScreen { display: block !important; margin: 0; }
+      .results-panel { box-shadow: none; border: 0; padding: 0; }
+      .table-card { overflow: visible; }
+      table, #reviewWrap table { min-width: 0; font-size: 10pt; }
+    }
+
+
+
+    .choice-btn:disabled,
+    .drag-token:disabled,
+    .word-token:disabled,
+    .match-place-btn:disabled,
+    .interaction-wrap button:disabled,
+    .interaction-wrap select:disabled {
+      opacity: 1;
+    }
+
+    .disabled-interaction {
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    .beta-badge {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 4px 8px;
+      border: 1px solid #8f6ac2;
+      border-radius: 999px;
+      color: var(--purple-dark);
+      background: #f5efff;
+      font-size: .78rem;
+      font-weight: 900;
+      vertical-align: middle;
+    }
+
+    .generating-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(14, 34, 57, .46);
+    }
+
+    .generating-card {
+      width: min(420px, 100%);
+      padding: 24px;
+      border-radius: 22px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .generating-card strong { display: block; font-size: 1.15rem; margin-bottom: 7px; }
+    .generating-card p { margin: 0; color: var(--muted); line-height: 1.5; }
+
+    @media (forced-colors: active) {
+      button, .choice-btn, .drag-token, .word-token, .match-slot, select, input, textarea {
+        forced-color-adjust: auto;
+        border: 2px solid ButtonText;
+      }
+      .choice-btn.correct { outline: 3px solid Highlight; }
+      .choice-btn.wrong { outline: 3px dashed Mark; }
+      .word-token[aria-pressed="true"] { outline: 3px solid Highlight; }
+    }
+
+    @media (max-width: 760px) {
+      .category-row { grid-template-columns: 1fr; }
+
+      #reviewWrap {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+      }
+
+      #reviewWrap table,
+      #reviewWrap tbody,
+      #reviewWrap tr,
+      #reviewWrap td {
+        display: block;
+        width: 100%;
+        min-width: 0;
+      }
+
+      #reviewWrap thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      #reviewWrap tr {
+        margin: 0 0 14px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: #fff;
+        text-align: left;
+      }
+
+      #reviewWrap td {
+        display: grid;
+        grid-template-columns: minmax(86px, .38fr) minmax(0, 1fr);
+        gap: 10px;
+        padding: 11px 12px;
+      }
+
+      #reviewWrap td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-weight: 900;
+      }
+
+      #reviewWrap td:last-child { border-bottom: 0; }
+      #reviewWrap .review-question { min-width: 0; max-width: none; }
+    }
+
+  
+    .writing-attestation {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      width: 100%;
+      padding: .85rem 1rem;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+    .writing-attestation input { margin-top: .2rem; inline-size: 1.2rem; block-size: 1.2rem; flex: 0 0 auto; }
+    .writing-attestation:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
+    .publisher-panel { margin-top: 1rem; text-align: left; }
+    .publisher-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: .75rem; margin-top: .75rem; }
+    .publisher-card { border: 1px solid var(--line); border-radius: 14px; padding: .9rem; background: #fff; }
+    .publisher-card pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .78rem; }
+    .publisher-toolbar { margin: .75rem 0; }
+    .publisher-status { min-height: 1.4em; font-weight: 700; }
+    .publisher-card strong { display: block; margin-bottom: .3rem; }
+    .publisher-card .good { color: var(--green-dark); }
+    .publisher-card .blocked { color: var(--red-dark); }
+    .publisher-flag { border: 1px solid var(--line); border-radius: 14px; padding: .9rem; margin: .75rem 0; background: #fff; }
+    .publisher-flag header { display: flex; gap: .75rem; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
+    .publisher-flag textarea { width: 100%; min-height: 4.5rem; margin: .6rem 0; }
+    .publisher-flag code { overflow-wrap: anywhere; }
+    .freshness-choice {
+      margin: 1rem 0;
+      padding: 1rem 1.1rem;
+      border: 2px solid var(--accent);
+      border-radius: 18px;
+      background: #f7fbff;
+      box-shadow: var(--shadow);
+    }
+    .freshness-choice h2 { margin: 0 0 .45rem; }
+    .freshness-choice p { margin: 0; line-height: 1.55; }
+    .source-task-group { border: 1px solid var(--line); border-radius: 14px; padding: .8rem; margin: .65rem 0; background: #fff; }
+    .source-task-group summary { overflow-wrap: anywhere; }
+    .source-task-group ul { margin: .55rem 0 0; padding-left: 1.3rem; }
+
+    .target-span {
+      background: #fff1a8;
+      color: var(--ink);
+      border-radius: .28em;
+      padding: .03em .14em;
+      text-decoration: underline;
+      text-decoration-thickness: .12em;
+      text-underline-offset: .14em;
+      font-weight: 850;
+    }
+    .target-note {
+      margin: -.25rem 0 .75rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+    @media (forced-colors: active) {
+      .target-span { forced-color-adjust: auto; outline: 2px solid CanvasText; }
+    }
+
+
+    /* Audit 31 customer-facing editorial closure: internal publisher controls are retained only for code compatibility and are never displayed to pupils or parents. */
+    .beta-badge, #publisherQaPanel, #publisherApprovalPanel { display: none !important; }
+  </style>
+
+<style id="previewStyles">
+.preview-label{margin:6px 0 10px;color:var(--purple-dark)}
+.preview-locked{background:#eef1f5!important;color:#526074!important;border-color:#bac6d6!important;cursor:not-allowed;box-shadow:none!important}
+.preview-locked:focus-visible{outline:3px solid var(--accent)!important}
+.preview-dialog{width:min(470px,calc(100% - 28px));max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--line);border-radius:22px;padding:24px;background:var(--panel);color:var(--ink);box-shadow:var(--shadow);font:inherit}
+.preview-dialog::backdrop{background:rgba(14,34,57,.5)}
+.preview-dialog h2{margin:0 0 10px;font-size:1.4rem}.preview-dialog p{line-height:1.55;overflow-wrap:anywhere}.preview-dialog .actions{justify-content:flex-end}
+.preview-print-notice{display:none}
+#homeToolbar .pill{max-width:100%;min-width:0}#homeToolbar select{max-width:100%}
+.topic-card,.topic-card-main,.topic-description,.mini-stats,.review-card{min-width:0;overflow-wrap:anywhere}
+@media(max-width:360px){.topic-grid{grid-template-columns:minmax(0,1fr)}.results-panel{padding:16px}.question-panel{padding:14px}.review-grid{grid-template-columns:minmax(0,1fr)}.preview-dialog{padding:18px}}
+.preview-control{cursor:not-allowed}.preview-control:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+/* Keep each original matching row readable with its card and placement control. */
+.match-grid{grid-template-columns:minmax(0,1fr)}
+.match-row{grid-template-columns:minmax(100px,.55fr) minmax(0,1.45fr);min-width:0}
+.match-placement{min-width:0;grid-template-columns:minmax(0,1fr) auto}
+.match-slot{min-width:0}.match-slot .drag-token{justify-content:flex-start}
+@media(max-width:680px){.match-row,.match-placement{grid-template-columns:minmax(0,1fr)}.match-place-btn{min-width:0;width:100%}}
+@media print{body>*{display:none!important}body>.preview-print-notice{display:block!important;padding:24px;color:#111;background:#fff;font:16px Arial,sans-serif}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#practiceHeading">Skip to practice</a>
+<main class="app" id="mainContent">
+<header class="hero">
+<div>
+<h1 id="homeHeading" tabindex="-1">11+ English Practice Quest</h1><p class="eyebrow preview-label">Product preview</p>
+<p class="hero-subtitle">Explore the look and feel of English Practice Quest. Choose a skill to try five fixed sample activities, with hints, answer feedback and a sample review.</p>
+</div>
+<div aria-hidden="true" class="mascot">📚</div>
+</header>
+<section class="toolbar" id="homeToolbar">
+<label class="pill">Questions per round
+        <select aria-label="Questions per round" id="sessionLength"><option selected="" value="5">5 — preview sample</option>
+<option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="25">25</option>
+<option value="30">30</option>
+</select>
+</label>
+<label class="pill">Maximum immediate repeats
+        <select aria-label="Maximum proportion repeated from the immediately previous round" id="freshnessPolicy"><option selected="" value="preview">Fixed sample only</option>
+<option value="0">0% — strict premium default</option>
+<option value="0.1">10% — limited recent reuse</option>
+<option value="0.2">20% — absolute ordinary maximum</option>
+</select>
+</label>
+<label class="pill">Freshness window
+        <select aria-label="Question-history window used for freshness" id="historyWindow"><option selected="" value="preview">Preview — no saved history</option>
+<option value="all">All retained history — exclude recognised curriculum templates</option>
+<option value="10">Previous ten rounds</option>
+<option value="5">Previous five rounds</option>
+</select>
+</label>
+<button class="secondary" id="resetProgressBtn" type="button">Reset student progress</button>
+<p class="toolbar-note">Each skill opens its own fixed sample. The questions, answer choices and card order stay the same each time.</p>
+<p aria-live="polite" class="toolbar-note" id="freshnessCapacityNote">Longer rounds, adaptive selection, saved progress and freshness controls are available in the full version.</p>
+</section>
+<div aria-live="polite" class="home-notice" data-home-preview="true" id="homeNotice" role="status">Preview only. Try the sample activities below to explore how the product works.</div>
+
+
+<section aria-labelledby="practiceHeading" class="screen" id="homeScreen">
+<div class="section-heading"><p class="eyebrow">Five sample activities per skill</p><h2 id="practiceHeading" tabindex="-1">Choose a skill area</h2></div>
+<div class="topic-grid" id="topicGrid"></div>
+</section>
+<section class="screen hidden" id="quizScreen">
+<div class="quiz-shell">
+<div class="quiz-top">
+<div class="top-row">
+<div class="quiz-title" id="quizTitle">Topic</div>
+<div class="score-strip">
+<span id="scoreText">Objective 0/0 · Criterion 0/0</span>
+<span id="questionCountText">Question 1 of 5</span>
+<span id="levelText">Preview only</span>
+</div>
+</div>
+<div aria-label="Questions completed" aria-valuemax="5" aria-valuemin="0" aria-valuenow="0" class="meter" id="progressMeter" role="progressbar"><div class="meter-fill" id="progressFill"></div></div>
+</div>
+<div aria-live="polite" class="round-notice hidden" id="roundNotice" role="status"></div>
+<article class="question-panel" id="questionPanel">
+<div class="tag-row" id="tagRow"></div>
+<div aria-label="Reading passage" class="passage-box hidden" id="passageBox" role="region" tabindex="-1"></div>
+<div class="support-box hidden" id="supportBox"></div>
+<h2 class="question-text" id="questionText" tabindex="-1"></h2>
+<div aria-labelledby="questionText" class="choices" id="choicesWrap" role="group"></div>
+<form class="answer-row hidden" id="answerForm">
+<input aria-label="Your answer" autocomplete="off" id="answerInput" type="text"/>
+<textarea aria-label="Your writing" id="answerTextArea" rows="8"></textarea>
+<span aria-live="polite" class="writing-meta" id="writingWordCount"></span>
+<label class="writing-attestation hidden" id="writingAttestationWrap">
+<input id="writingAttestation" type="checkbox"/>
+<span>The app cannot verify whether my ideas genuinely answer the task. I have checked this myself.</span>
+</label>
+<button id="submitBtn" type="submit">Check answer</button>
+</form>
+<div class="confidence-check hidden" id="confidenceCheck">
+<strong>Before checking, how confident are you?</strong>
+<div aria-label="Confidence" class="confidence-actions" id="confidenceActions" role="group">
+<button aria-pressed="false" class="secondary" data-confidence="not sure" type="button">Not sure</button>
+<button aria-pressed="false" class="secondary" data-confidence="fairly sure" type="button">Fairly sure</button>
+<button aria-pressed="false" class="secondary" data-confidence="very sure" type="button">Very sure</button>
+</div>
+</div>
+<div class="actions">
+<button class="gold" id="hintBtn" type="button">Show hint</button>
+<button class="secondary hidden" id="nextBtn" type="button">Next question</button>
+<button class="secondary" id="flagQuestionBtn" type="button">Flag this question</button>
+<span aria-live="polite" class="sr-only" id="flagStatus"></span>
+<button class="secondary" id="backBtn" type="button">Choose topic</button>
+</div>
+</article>
+<div aria-live="polite" class="feedback-panel hidden" id="feedbackPanel" role="status"></div>
+</div>
+</section>
+<section class="screen hidden" id="resultsScreen">
+<div class="results-panel">
+<h2 id="resultsHeading" tabindex="-1">Sample complete!</h2>
+<div class="big-score" id="finalScore">0/0</div>
+<p id="finalMessage"></p>
+<p class="result-meta" id="resultMeta"></p>
+<div class="review-grid" id="topicReview"></div>
+<div class="actions" style="justify-content:center">
+<button id="playAgainBtn" type="button">Replay this sample</button>
+<button class="secondary" id="practiseMistakesBtn" type="button">Practise mistakes</button>
+<button class="secondary" id="homeBtn" type="button">Choose another topic</button>
+</div>
+<div class="table-card" id="reviewWrap"></div>
+</div>
+</section>
+<footer class="scope-footer">
+<strong>About this Practice Quest</strong>
+<p>This is a static product preview. Each skill contains five fixed sample activities. Answers and writing stay in this page only and are cleared when you reload or close it.</p>
+<p><small>This is not a mock examination, secure diagnostic assessment or exam-paper generator. Independent writing is submitted and self-reviewed with structural and keyword reminders; it is not automatically graded for quality or verified for relevance.</small></p>
+<p><small>Adaptive stages, additional question sets, saved progress and freshness settings are full-version features. Replaying a sample always shows the same activities.</small></p>
+<details><summary>How practice stages work in the full version</summary><ul><li><strong>Stages 1–2:</strong> core accuracy, retrieval and straightforward application.</li><li><strong>Stage 3:</strong> secure age-appropriate application across connected ideas.</li><li><strong>Stages 4–5:</strong> more demanding inference, precision, evaluation and sentence control.</li><li>Stages are internal practice bands, not standardised admission-test grades. Movement requires repeated objective, unassisted evidence from several subskills.</li></ul></details>
+<details><summary>Coverage and supported use</summary><p><small>Designed for current desktop and mobile browsers with keyboard and touch support. Coverage includes reading, vocabulary, grammar and punctuation, spelling and word choice, sentence skills, and writing and editing. The product is general preparation and is not aligned to one named school or consortium.</small></p></details>
+
+
+
+
+
+</footer>
+</main>
+
+<dialog id="previewDialog" class="preview-dialog" aria-labelledby="previewDialogTitle" aria-describedby="previewDialogText"><h2 id="previewDialogTitle">Preview only</h2><p id="previewDialogText"></p><div class="actions"><button type="button" class="secondary hidden" id="previewDialogCancel">Cancel</button><button type="button" id="previewDialogOk">Continue preview</button></div></dialog><p class="sr-only" id="previewStatus" role="status" aria-live="polite"></p><div class="preview-print-notice">Preview only. Printing and PDF reports are available in the full version.</div><noscript><p class="home-notice">Please enable JavaScript to try the interactive sample.</p></noscript><script>
+(()=>{
+"use strict";
+    const TOPICS = {
+      reading: {
+        name: "Reading Comprehension",
+        icon: "📖",
+        blurb: "Retrieval, inference, language, structure and summary using short texts and linked multi-question passages."
+      },
+      vocab: {
+        name: "Vocabulary",
+        icon: "🧩",
+        blurb: "Synonyms, antonyms, word meanings, prefixes, suffixes, compound words and context clues."
+      },
+      grammar: {
+        name: "Grammar & Punctuation",
+        icon: "✍️",
+        blurb: "Parts of speech, tenses, agreement, pronouns, apostrophes, commas and direct speech."
+      },
+      spelling: {
+        name: "Spelling & Word Choice",
+        icon: "🔤",
+        blurb: "Common 11+ spellings, homophones, plurals, endings, precise vocabulary and dictionary order."
+      },
+      sentence: {
+        name: "Sentence Skills",
+        icon: "📝",
+        blurb: "Cloze, connectives, sentence combining, paragraph order, formal tone and clear expression."
+      },
+      writing: {
+        name: "Writing & Editing",
+        icon: "🌟",
+        blurb: "Independent short writing, planning, editing, guided self-review, summaries, dialogue, openings and purpose-led choices."
+      },
+      mixed: {
+        name: "Mixed Practice",
+        icon: "⭐",
+        blurb: "A fixed five-activity sample across reading, vocabulary, grammar, spelling and sentence skills."
+      }
+    };
+const SAMPLES = {"reading":[{"topic":"reading","title":"Fiction inference","difficulty":2,"kind":"mc","prompt":"What can you infer about Esha?","answer":"alert and determined to investigate","answerType":"text","hint":"Look for actions and small details that suggest feelings or character.","explanation":"The clue is that the missing trophy makes Esha alert, and following the mud marks shows a decision to investigate.","passage":"Esha unlocked the shed and stared at the empty hook where the class trophy usually hung. A smear of mud crossed the floorboards. Esha did not call out at first; instead, they crouched down and followed the marks with careful eyes.","choices":[{"value":"alert and determined to investigate","label":"alert and determined to investigate"},{"value":"ready to report the loss without examining the scene","label":"ready to report the loss without examining the scene"},{"value":"worried enough to leave the shed at once","label":"worried enough to leave the shed at once"},{"value":"certain that the trophy has been borrowed","label":"certain that the trophy has been borrowed"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"reading-1"},{"topic":"reading","title":"Retrieving details","difficulty":1,"kind":"mc","prompt":"Where does the coding club take place?","answer":"Room 4","answerType":"text","hint":"This is a retrieval question: find the exact detail in the notice.","explanation":"The notice says: “The coding club will take place on Friday in Room 4. It begins at 3:45 pm. Please bring a pencil.”","passage":"Notice to pupils: The coding club will take place on Friday in Room 4. It begins at 3:45 pm. Please bring a pencil and wait quietly outside until a teacher arrives.","choices":[{"value":"the hall","label":"the hall"},{"value":"the library","label":"the library"},{"value":"the art room","label":"the art room"},{"value":"Room 4","label":"Room 4"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"reading-2"},{"topic":"reading","title":"Word meaning in passage","difficulty":1,"kind":"mc","prompt":"In this sentence, what does “distant” most nearly mean?","answer":"far away","answerType":"text","hint":"Use the words around the target word to work out its meaning.","explanation":"In this context, “distant” means “far away”.","passage":"A distant bell sounded across the valley.","choices":[{"value":"broken","label":"broken"},{"value":"very close","label":"very close"},{"value":"silent","label":"silent"},{"value":"far away","label":"far away"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"reading-3"},{"topic":"reading","title":"Fact and opinion","difficulty":1,"kind":"mc","prompt":"Which sentence is an opinion?","answer":"Triangles are the most interesting shapes.","answerType":"text","hint":"A fact can be checked. An opinion is a personal view or judgement.","explanation":"“Triangles are the most interesting shapes.” is an opinion because it gives a personal view.","choices":[{"value":"Triangles are the most interesting shapes.","label":"Triangles are the most interesting shapes."},{"value":"A triangle has three sides.","label":"A triangle has three sides."},{"value":"The race was 800 metres long.","label":"The race was 800 metres long."},{"value":"The museum is closed on Mondays.","label":"The museum is closed on Mondays."}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"reading-4"},{"topic":"reading","title":"Sequencing events drag-drop","difficulty":3,"kind":"order","prompt":"Put the events into the most logical order.","answer":["A storm damaged the sign","the shopkeeper fetched tools","neighbours held the ladder","the sign was fixed before lunch"],"answerType":"sequence","hint":"Look for causes and time words.","explanation":"A clear sequence follows what must happen first, next and last.","items":["the shopkeeper fetched tools","A storm damaged the sign","the sign was fixed before lunch","neighbours held the ladder"],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"reading-5"}],"vocab":[{"topic":"vocab","title":"Synonyms","difficulty":1,"kind":"mc","prompt":"Which option is closest in meaning to “cautious”?","answer":"careful","answerType":"text","hint":"A synonym has a similar meaning.","explanation":"“cautious” is closest in meaning to “careful”.","choices":[{"value":"reckless","label":"reckless"},{"value":"sleepy","label":"sleepy"},{"value":"noisy","label":"noisy"},{"value":"careful","label":"careful"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"vocab-1"},{"topic":"vocab","title":"Context clues","difficulty":2,"kind":"mc","prompt":"Use the context to work out the meaning of “gleaming”.","answer":"shining","answerType":"text","hint":"The surrounding words give clues to the meaning.","explanation":"The context shows that “gleaming” means “shining”.","passage":"The trophy was gleaming after Noah polished it with a soft cloth.","choices":[{"value":"shining","label":"shining"},{"value":"broken","label":"broken"},{"value":"dusty","label":"dusty"},{"value":"hidden","label":"hidden"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"vocab-2"},{"topic":"vocab","title":"Prefixes","difficulty":1,"kind":"mc","prompt":"In the word “submarine”, what does the prefix sub- suggest?","answer":"under","answerType":"text","hint":"A prefix is added to the beginning of a word.","explanation":"The prefix sub- can mean “under”.","choices":[{"value":"small","label":"small"},{"value":"under","label":"under"},{"value":"after","label":"after"},{"value":"many","label":"many"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"vocab-3"},{"topic":"vocab","title":"Definition matching drag-drop","difficulty":3,"kind":"match","prompt":"Match each word to its definition.","answer":{"reluctant":"not willing","vivid":"bright and clear","fortunate":"lucky","brief":"short"},"answerType":"mapping","hint":"Match the meaning, not just the sound of the word.","explanation":"Each word has been matched to its correct definition.","markingMode":"objective","criterionText":null,"criterion":null,"matchKeys":["vivid","brief","fortunate","reluctant"],"matchValues":["lucky","not willing","short","bright and clear"],"sampleId":"vocab-4"},{"topic":"vocab","title":"Sort words by meaning","difficulty":3,"kind":"categorise","prompt":"Place each word in its most accurate category.","answer":{"commend":"Praise","condemn":"Criticism","applaud":"Praise","rebuke":"Criticism"},"answerType":"text","hint":"Test each word in a short sentence before choosing its category.","explanation":"Commend and applaud express praise; condemn and rebuke express criticism.","items":["condemn","commend","applaud","rebuke"],"categories":["Praise","Criticism"],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"vocab-5"}],"grammar":[{"topic":"grammar","title":"Parts of speech","difficulty":1,"kind":"mc","prompt":"In this sentence, what part of speech is “carefully”?","answer":"adverb","answerType":"text","hint":"Think about the job the word is doing in the sentence.","explanation":"“carefully” is an adverb in this sentence.","passage":"Maya carefully folded the letter.","choices":[{"value":"noun","label":"noun"},{"value":"adverb","label":"adverb"},{"value":"preposition","label":"preposition"},{"value":"adjective","label":"adjective"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"grammar-1"},{"topic":"grammar","title":"Subject-verb agreement","difficulty":2,"kind":"mc","prompt":"Choose the verb form that agrees with the grammatical subject in the stated present simple.","answer":"has","answerType":"text","hint":"Find the true subject of the sentence before choosing the verb.","explanation":"The correct form is “has”.","passage":"Tense and time: present simple; in the current or repeated situation stated.\nSentence: Each of the pupils ___ a pencil.","choices":[{"value":"have","label":"have"},{"value":"has","label":"has"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"grammar-2"},{"topic":"grammar","title":"Verb tense","difficulty":2,"kind":"mc","prompt":"Choose the correct past progressive tense form.","answer":"were waiting","answerType":"text","hint":"Use the time clue in the sentence.","explanation":"The correct past progressive tense form is “were waiting”.","passage":"At noon, the pupils ___ in the hall.","choices":[{"value":"wait","label":"wait"},{"value":"waits","label":"waits"},{"value":"will wait","label":"will wait"},{"value":"were waiting","label":"were waiting"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"grammar-3"},{"topic":"grammar","title":"Commas in lists","difficulty":2,"kind":"proofread","prompt":"Which sentence punctuates the list correctly?","answer":"For the survey, bring a clipboard, a pencil, a ruler and an eraser.","answerType":"text","hint":"Read every option carefully and use the evidence in the question.","explanation":"Commas separate the listed items, while the introductory phrase is also followed by a comma.","passage":"","choices":[{"value":"For the survey, bring a clipboard, a pencil, a ruler and an eraser.","label":"For the survey, bring a clipboard, a pencil, a ruler and an eraser."},{"value":"For the survey bring, a clipboard a pencil, a ruler and an eraser.","label":"For the survey bring, a clipboard a pencil, a ruler and an eraser."},{"value":"For the survey, bring a clipboard a pencil a ruler, and an eraser.","label":"For the survey, bring a clipboard a pencil a ruler, and an eraser."},{"value":"For the survey bring a clipboard; a pencil; a ruler and an eraser.","label":"For the survey bring a clipboard; a pencil; a ruler and an eraser."}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"grammar-4"},{"topic":"grammar","title":"Select words by grammatical job","difficulty":4,"kind":"wordpick","prompt":"Select both adverbs.","answer":["calmly","firmly"],"answerType":"text","hint":"Identify the job each word performs in this sentence.","explanation":"Both words modify how Mina answered.","tokens":["Mina","answered","calmly","but","firmly"],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"grammar-5"}],"spelling":[{"topic":"spelling","title":"Correct spelling","difficulty":2,"kind":"mc","prompt":"Which spelling is correct?","answer":"beginning","answerType":"text","hint":"Look carefully at every letter, not just the sound of the word.","explanation":"The correct spelling is “beginning”.","choices":[{"value":"beginning","label":"beginning"},{"value":"beggining","label":"beggining"},{"value":"begining","label":"begining"},{"value":"begginning","label":"begginning"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"spelling-1"},{"topic":"spelling","title":"Plural forms","difficulty":1,"kind":"mc","prompt":"What is the plural of “shelf”?","answer":"shelves","answerType":"text","hint":"Check whether the word changes ending before adding the plural ending.","explanation":"The plural of “shelf” is “shelves”.","choices":[{"value":"shelfs","label":"shelfs"},{"value":"shelfes","label":"shelfes"},{"value":"shelves","label":"shelves"},{"value":"shelve","label":"shelve"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"spelling-2"},{"topic":"spelling","title":"Clickable spelling correction","difficulty":1,"kind":"short","prompt":"Type the correct spelling of “definately”.","answer":"definitely","answerType":"text","hint":"Look for missing letters or letters in the wrong order.","explanation":"The correct spelling is “definitely”.","markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"spelling-3"},{"topic":"spelling","title":"Tap every spelling error","difficulty":3,"kind":"wordpick","prompt":"Select every misspelt word.","answer":["embarassing","arguement"],"answerType":"text","hint":"Check each word letter by letter.","explanation":"The correct spellings are embarrassing and argument.","tokens":["The","embarassing","arguement","ended","quickly"],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"spelling-4"},{"topic":"spelling","title":"Dictionary order drag-drop","difficulty":4,"kind":"order","prompt":"Put the words into dictionary order.","answer":["cabin","cable","cactus","candle"],"answerType":"sequence","hint":"Compare letters from left to right.","explanation":"The dictionary order is cabin, cable, cactus, candle.","items":["candle","cactus","cable","cabin"],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"spelling-5"}],"sentence":[{"topic":"sentence","title":"Connectives","difficulty":1,"kind":"mc","prompt":"Choose the best connective to complete the sentence.","answer":"Although","answerType":"text","hint":"Think about the relationship between the two parts of the sentence.","explanation":"Although introduces a concession: the match continued despite the rain.","passage":"___ it was raining, the match continued.","choices":[{"value":"Therefore","label":"Therefore"},{"value":"Meanwhile","label":"Meanwhile"},{"value":"Although","label":"Although"},{"value":"Because","label":"Because"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"sentence-1"},{"topic":"sentence","title":"Sentence combining","difficulty":1,"kind":"mc","prompt":"Which sentence combines the two ideas most clearly?","answer":"The dog was tired because it had chased the ball for an hour.","answerType":"text","hint":"The best answer should be grammatical and show the link between ideas.","explanation":"The clearest combined sentence is: “The dog was tired because it had chased the ball for an hour.”","passage":"The dog was tired. It had chased the ball for an hour.","choices":[{"value":"The dog was tired although it had chased the ball for an hour.","label":"The dog was tired although it had chased the ball for an hour."},{"value":"The dog was tired because it had chased the ball for an hour.","label":"The dog was tired because it had chased the ball for an hour."},{"value":"The dog was tired. It had chased the ball for an hour.","label":"The dog was tired. It had chased the ball for an hour."},{"value":"The dog was tired, it had chased the ball for an hour.","label":"The dog was tired, it had chased the ball for an hour."}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"sentence-2"},{"topic":"sentence","title":"Best openings","difficulty":2,"kind":"mc","prompt":"Which is the strongest opening for a suspense story?\nCriterion: Create immediate, relevant interest through a precise detail or a focused unanswered question suited to the stated genre.","answer":"The floorboard creaked, although nobody else was supposed to be in the house.","answerType":"text","hint":"A strong opening should be precise, interesting and suited to the task.","explanation":"The strongest opening is: “The floorboard creaked, although nobody else was supposed to be in the house.”","choices":[{"value":"The old house stood silent and shadowed at the far end of the lane.","label":"The old house stood silent and shadowed at the far end of the lane."},{"value":"Maya entered the old house alone and wondered what might be waiting upstairs.","label":"Maya entered the old house alone and wondered what might be waiting upstairs."},{"value":"The floorboard creaked, although nobody else was supposed to be in the house.","label":"The floorboard creaked, although nobody else was supposed to be in the house."},{"value":"It was a dark and frightening night beside an old and empty house.","label":"It was a dark and frightening night beside an old and empty house."}],"markingMode":"best-answer","criterionText":"create immediate, relevant interest through a precise detail or a focused unanswered question suited to the stated genre","criterion":"create immediate, relevant interest through a precise detail or a focused unanswered question suited to the stated genre","sampleId":"sentence-3"},{"topic":"sentence","title":"Stage-one sequence building","difficulty":1,"kind":"order","prompt":"Put the four sentences into chronological order.","answer":["First, Ava opened the seed packet.","Next, she filled the pot with soil.","Then, she planted the seeds.","Finally, she watered the pot."],"answerType":"sequence","hint":"Use the sequence words and the order in which each action must happen.","explanation":"The correct order follows the events from the first action to the final action.","items":["Then, she planted the seeds.","Finally, she watered the pot.","First, Ava opened the seed packet.","Next, she filled the pot with soil."],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"sentence-4"},{"topic":"sentence","title":"Connective matching","difficulty":4,"kind":"match","prompt":"Match each linking word to its precise purpose.","answer":{"although":"concession or unexpected contrast","consequently":"result","for example":"illustration","unless":"condition"},"answerType":"mapping","hint":"Think about the relationship each connective creates between ideas.","explanation":"Connectives must be chosen for the exact relationship between ideas: reason, result, contrast, time, example or condition.","markingMode":"objective","criterionText":null,"criterion":null,"matchKeys":["for example","although","consequently","unless"],"matchValues":["illustration","result","concession or unexpected contrast","condition"],"sampleId":"sentence-5"}],"writing":[{"topic":"writing","title":"Planning structure","difficulty":1,"kind":"mc","prompt":"Which plan best fits a persuasive letter?\nCriterion: Arrange the required content in a coherent sequence from purpose and development to a suitable ending.","answer":"clear viewpoint → reasons → evidence → polite closing","answerType":"text","hint":"A plan should match the purpose of the writing.","explanation":"The best structure is: clear viewpoint → reasons → evidence → polite closing.","choices":[{"value":"evidence → clear viewpoint → reasons → new argument","label":"evidence → clear viewpoint → reasons → new argument"},{"value":"background → unrelated example → repeated viewpoint → greeting","label":"background → unrelated example → repeated viewpoint → greeting"},{"value":"clear viewpoint → reasons → evidence → polite closing","label":"clear viewpoint → reasons → evidence → polite closing"},{"value":"clear viewpoint → polite closing → reasons → evidence","label":"clear viewpoint → polite closing → reasons → evidence"}],"markingMode":"best-answer","criterionText":"arrange the required content in a coherent sequence from purpose and development to a suitable ending","criterion":"arrange the required content in a coherent sequence from purpose and development to a suitable ending","sampleId":"writing-1"},{"topic":"writing","title":"Editing punctuation","difficulty":1,"kind":"mc","prompt":"Which option edits the sentence correctly?","answer":"“I can't believe we won!” shouted Maya.","answerType":"text","hint":"Check capital letters, commas and final punctuation.","explanation":"The correct edited sentence is: “I can't believe we won!” shouted Maya.","passage":"i cant believe we won shouted maya","choices":[{"value":"“i can't believe we won,” shouted maya.","label":"“i can't believe we won,” shouted maya."},{"value":"“I can't believe we won!” shouted Maya.","label":"“I can't believe we won!” shouted Maya."},{"value":"I can't believe we won shouted Maya!","label":"I can't believe we won shouted Maya!"},{"value":"I cant believe we won! shouted Maya.","label":"I cant believe we won! shouted Maya."}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"writing-2"},{"topic":"writing","title":"Plan order drag-drop","difficulty":2,"kind":"order","prompt":"Drag the planning steps into the best order.\nCriterion: Arrange the required content in a coherent sequence from purpose and development to a suitable ending.","answer":["Introduce the setting","Create a problem","Build tension","Resolve the problem"],"answerType":"sequence","hint":"A plan should move from introduction to development to ending.","explanation":"The planning order moves logically from start to finish.","items":["Create a problem","Build tension","Resolve the problem","Introduce the setting"],"markingMode":"best-answer","criterionText":"arrange the required content in a coherent sequence from purpose and development to a suitable ending","criterion":"arrange the required content in a coherent sequence from purpose and development to a suitable ending","sampleId":"writing-3"},{"topic":"writing","title":"Foundational description","difficulty":1,"kind":"writing","prompt":"Write two or three sentences that make the puppy seem eager without using the word ‘eager’. Setting: a puppy waiting beside a garden gate.","answer":"self-checked","answerType":"text","hint":"Show the impression through an action, sound, sight, smell or touch. Check capitals and sentence endings.","explanation":"This activity is completed through independent writing and guided self-review, not automatic quality marking.","minWords":20,"minSentences":2,"focus":"description","model":"The puppy bounced from paw to paw beside the gate. Its tail thumped the fence whenever footsteps sounded on the path.","markingMode":"self-review","criterionText":null,"criterion":null,"taskType":"description","sampleId":"writing-4","taskRequirements":{"groups":[["puppy","pup","dog"],["garden gate","gate","fence"]],"minimum":2,"certain":true,"label":"task-specific subject details"}},{"topic":"writing","title":"Foundational purpose writing","difficulty":1,"kind":"writing","prompt":"Write a polite note asking the school librarian to reserve a book for you.","answer":"self-checked","answerType":"text","hint":"Identify the audience and purpose, then use clear, courteous and specific wording.","explanation":"Purpose writing is reviewed for clarity, audience, sentence control and accuracy rather than given an automatic quality score.","minWords":15,"minSentences":1,"focus":"persuasion","model":"Dear Ms Green, please could you reserve The Secret Lake for me until tomorrow? Thank you for your help.","markingMode":"self-review","criterionText":null,"criterion":null,"taskType":"purpose","sampleId":"writing-5","taskRequirements":{"groups":[["librarian","ms green"],["reserve","hold","keep"],["book","title","secret lake"],["please","could you","thank"]],"minimum":4,"certain":true,"label":"audience, action and object"}}],"mixed":[{"topic":"reading","title":"Best title","difficulty":2,"kind":"mc","prompt":"Which title best matches the whole text?","answer":"Stories in the Dark","answerType":"text","hint":"A title should capture the main idea, not a tiny detail.","explanation":"“Stories in the Dark” covers the whole text, while the other titles focus on only one detail or leave out the outcome.","passage":"During a power cut, a family told stories by torchlight and discovered a forgotten photo album.","choices":[{"value":"Waiting for the Electricity to Return","label":"Waiting for the Electricity to Return"},{"value":"Stories in the Dark","label":"Stories in the Dark"},{"value":"Examining One Old Photograph","label":"Examining One Old Photograph"},{"value":"Lighting the Room by Torchlight","label":"Lighting the Room by Torchlight"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"mixed-1"},{"topic":"vocab","title":"Antonyms","difficulty":1,"kind":"mc","prompt":"Which option is the opposite of “temporary”?","answer":"permanent","answerType":"text","hint":"An antonym has the opposite meaning.","explanation":"The opposite of “temporary” is “permanent”.","choices":[{"value":"short-lived","label":"short-lived"},{"value":"passing","label":"passing"},{"value":"permanent","label":"permanent"},{"value":"brief","label":"brief"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"mixed-2"},{"topic":"grammar","title":"Commas in lists","difficulty":2,"kind":"mc","prompt":"Which sentence uses commas correctly in a list?","answer":"For lunch, Ben chose soup, bread, fruit and yoghurt.","answerType":"text","hint":"Items in a list are usually separated by commas, with and before the final item.","explanation":"The correctly punctuated list is: “For lunch, Ben chose soup, bread, fruit and yoghurt.”","choices":[{"value":"For lunch, Ben chose soup, bread, fruit and yoghurt.","label":"For lunch, Ben chose soup, bread, fruit and yoghurt."},{"value":"For lunch Ben chose soup bread, fruit and yoghurt.","label":"For lunch Ben chose soup bread, fruit and yoghurt."},{"value":"For lunch, Ben chose soup bread fruit and yoghurt.","label":"For lunch, Ben chose soup bread fruit and yoghurt."},{"value":"For lunch Ben chose, soup bread, fruit and yoghurt.","label":"For lunch Ben chose, soup bread, fruit and yoghurt."}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"mixed-3"},{"topic":"spelling","title":"Homophone cloze","difficulty":2,"kind":"cloze","prompt":"Choose the correct homophone for the gap.","answer":"sea","answerType":"text","hint":"Choose the word that fits the meaning of the sentence.","explanation":"The correct homophone is “sea”.","passage":"The boat sailed across the ____.","choices":[{"value":"see","label":"see"},{"value":"C","label":"C"},{"value":"seae","label":"seae"},{"value":"sea","label":"sea"}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"mixed-4"},{"topic":"sentence","title":"Sentence boundary basics","difficulty":2,"kind":"proofread","prompt":"Which option makes the sentence boundaries and clause punctuation clear?","answer":"The rain stopped, and the team returned to the field.","answerType":"text","hint":"Check where each clause begins and ends.","explanation":"The correct version separates the clauses and uses an appropriate final punctuation mark.","passage":"The rain stopped the team returned to the field.","choices":[{"value":"The rain stopped, and the team returned to the field!","label":"The rain stopped, and the team returned to the field!"},{"value":"The rain stopped and the team returned to the field","label":"The rain stopped and the team returned to the field"},{"value":"the rain stopped, and the team returned to the field.","label":"the rain stopped, and the team returned to the field."},{"value":"The rain stopped, and the team returned to the field.","label":"The rain stopped, and the team returned to the field."}],"markingMode":"objective","criterionText":null,"criterion":null,"sampleId":"mixed-5"}]};
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+    }
+
+    function normalise(s) {
+      return String(s)
+        .toLowerCase()
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/^[\s\"'.,;:!?()]+|[\s\"'.,;:!?()]+$/g, "");
+    }
+
+    function comparisonKey(value) {
+      const raw = String(value).trim();
+      return /[A-Za-z0-9]/.test(raw) ? normalise(raw) : raw;
+    }
+
+    function formatSentences(value) {
+      return String(value).replace(/([.!?][”\"']?)\s+(?=[A-Z“\"'])/g, "$1\n\n");
+    }
+
+    function formatTextHtml(value) {
+      return escapeHtml(formatSentences(value)).replace(/\n/g, "<br>");
+    }
+
+    function wordCount(text) {
+      const m = String(text).trim().match(/[A-Za-z]+(?:'[A-Za-z]+)?/g);
+      return m ? m.length : 0;
+    }
+
+    function plural(n, singular, pluralWord) { return n === 1 ? singular : (pluralWord || singular + "s"); }
+
+    function studentActivityTitle(title) {
+      return String(title)
+        .replace(/^Selectable\s+/i, "")
+        .replace(/^Clickable\s+/i, "")
+        .replace(/\s+drag-drop$/i, "")
+        .replace(/\s+selection$/i, "")
+        .replace(/\bcloze\b/i, "gap-fill")
+        .trim();
+    }
+
+    function displayValue(value) {
+      if (Array.isArray(value)) return value.join(" → ");
+      if (value && typeof value === "object") return Object.keys(value).map(k => `${k}: ${value[k]}`).join("; ");
+      return String(value);
+    }
+
+    function answerLabel(q) {
+      if (q.kind === "order" && Array.isArray(q.answer)) return q.answer.join(" → ");
+      if ((q.kind === "match" || q.kind === "categorise") && q.answer && typeof q.answer === "object") return Object.keys(q.answer).map(k => `${k}: ${q.answer[k]}`).join("; ");
+      if (Array.isArray(q.answer)) return q.answer.join(", ");
+      if (q.answerType === "money") return money(Number(q.answer));
+      return String(q.answer);
+    }
+
+    function exactText(value) {
+      return String(value == null ? "" : value).replace(/\s+/g, " ").trim();
+    }
+
+    function needsExactSentenceMarking(q) {
+      const title = String(q.title || "").toLowerCase();
+      return q.kind === "proofread" || /punctuation|direct speech|editing|reordering words|sentence combining|relative clauses|commas/.test(title);
+    }
+
+    function needsExactWordMarking(q) {
+      const title = String(q.title || "").toLowerCase();
+      return q.topic === "spelling" || /spelling|homophone|apostrophe|contraction|word ending|plural|commonly confused/.test(title);
+    }
+
+    function isCorrect(value, q) {
+      if (q.kind === "order") {
+        return Array.isArray(value) && Array.isArray(q.answer) && value.length === q.answer.length && value.every(function(v, i) { return normalise(v) === normalise(q.answer[i]); });
+      }
+      if (q.kind === "match" || q.kind === "categorise") {
+        return value && q.answer && Object.keys(q.answer).every(function(k) { return normalise(value[k]) === normalise(q.answer[k]); });
+      }
+      if (q.kind === "wordpick") {
+        const selected = Array.isArray(value) ? value.map(exactText).sort() : [];
+        const expected = Array.isArray(q.answer) ? q.answer.map(exactText).sort() : [];
+        return selected.length === expected.length && selected.every(function(item, index) { return item === expected[index]; });
+      }
+      if (q.answerType === "number") {
+        const input = cleanNumber(value);
+        return Number.isFinite(input) && Math.abs(input - Number(q.answer)) <= (q.tolerance == null ? 0.001 : q.tolerance);
+      }
+      if (q.answerType === "money") {
+        const input = cleanNumber(value);
+        return Number.isFinite(input) && Math.abs(input - Number(q.answer)) <= 0.005;
+      }
+      if (q.answerType === "list") {
+        const inputItems = String(value).toLowerCase().replace(/\band\b/g, ",").split(/[ ,;]+/).map(function(x) { return x.trim(); }).filter(Boolean).sort();
+        const targetItems = q.answer.map(function(x) { return String(x).toLowerCase(); }).sort();
+        return inputItems.length === targetItems.length && inputItems.every(function(x, i) { return x === targetItems[i]; });
+      }
+      if (Array.isArray(q.accept)) {
+        const cleanInput = comparisonKey(value);
+        if (q.accept.some(function(candidate) { return comparisonKey(candidate) === cleanInput; })) return true;
+      }
+      if (needsExactSentenceMarking(q)) return exactText(value) === exactText(q.answer);
+      if (needsExactWordMarking(q)) return exactText(value).toLowerCase() === exactText(q.answer).toLowerCase();
+      return comparisonKey(value) === comparisonKey(q.answer);
+    }
+
+    function announceInteraction(message) {
+      const status = document.getElementById("interactionStatus");
+      if (status) status.textContent = message;
+    }
+
+    function clearDragSelection() {
+      if (selectedDragToken) {
+        selectedDragToken.classList.remove("selected");
+        selectedDragToken.setAttribute("aria-pressed", "false");
+      }
+      selectedDragToken = null;
+    }
+
+    function selectMatchToken(token) {
+      if (selectedDragToken === token) {
+        clearDragSelection();
+        announceInteraction(`${token.dataset.value} deselected.`);
+        return;
+      }
+      clearDragSelection();
+      selectedDragToken = token;
+      token.classList.add("selected");
+      token.setAttribute("aria-pressed", "true");
+      announceInteraction(`${token.dataset.value} selected. Now choose a matching box.`);
+    }
+
+    function placeSelectedToken(slot) {
+      if (state.answered) return;
+      if (!selectedDragToken) {
+        announceInteraction("Choose an answer card first.");
+        return;
+      }
+      const bank = document.getElementById("dragBank");
+      if (slot.firstElementChild && bank) bank.appendChild(slot.firstElementChild);
+      const token = selectedDragToken;
+      slot.appendChild(token);
+      clearDragSelection();
+      announceInteraction(`${token.dataset.value} placed with ${slot.dataset.key}.`);
+    }
+
+    function makeDragToken(text) {
+      const token = document.createElement("button");
+      token.type = "button";
+      token.className = "drag-token";
+      token.draggable = true;
+      token.textContent = text;
+      token.dataset.value = text;
+      token.setAttribute("aria-pressed", "false");
+      token.addEventListener("dragstart", e => {
+        window.__dragToken = token;
+        e.dataTransfer.setData("text/plain", text);
+      });
+      token.addEventListener("keydown", event => {
+        if (state.answered) return;
+        const orderZone = document.getElementById("orderZone");
+        if (orderZone && token.parentElement === orderZone && ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"].includes(event.key)) {
+          event.preventDefault();
+          const previous = token.previousElementSibling;
+          const next = token.nextElementSibling;
+          if ((event.key === "ArrowLeft" || event.key === "ArrowUp") && previous) orderZone.insertBefore(token, previous);
+          if ((event.key === "ArrowRight" || event.key === "ArrowDown") && next) orderZone.insertBefore(next, token);
+          announceInteraction(`${token.dataset.value} moved in the answer order.`);
+        } else if (["Enter", " ", "Space", "Spacebar"].includes(event.key)) {
+          event.preventDefault();
+          token.click();
+        }
+      });
+      token.addEventListener("click", event => {
+        if (state.answered) return;
+        event.stopPropagation();
+        const bank = document.getElementById("dragBank");
+        const order = document.getElementById("orderZone");
+        if (order) {
+          if (token.parentElement === bank) {
+            order.appendChild(token);
+            announceInteraction(`${text} added to the answer order.`);
+          } else {
+            bank.appendChild(token);
+            announceInteraction(`${text} returned to the card bank.`);
+          }
+        } else if (bank && token.parentElement?.classList.contains("match-slot")) {
+          bank.appendChild(token);
+          clearDragSelection();
+          announceInteraction(`${text} returned to the card bank.`);
+        } else if (bank && token.parentElement === bank) {
+          selectMatchToken(token);
+        }
+      });
+      return token;
+    }
+
+    function allowDrop(zone) {
+      zone.addEventListener("dragover", e => e.preventDefault());
+      zone.addEventListener("drop", e => {
+        e.preventDefault();
+        const token = window.__dragToken;
+        if (state.answered || !token || !els.choicesWrap.contains(token) || !token.draggable) return;
+        if (zone.classList.contains("match-slot") && zone.firstElementChild) {
+          const bank = document.getElementById("dragBank");
+          if (bank) bank.appendChild(zone.firstElementChild);
+        }
+        if (zone.id === "orderZone") {
+          const siblings = [...zone.querySelectorAll(".drag-token")].filter(item => item !== token);
+          const next = siblings.find(item => {
+            const rect = item.getBoundingClientRect();
+            return e.clientY < rect.top + rect.height / 2 || (e.clientY <= rect.bottom && e.clientX < rect.left + rect.width / 2);
+          });
+          if (next) zone.insertBefore(token, next);
+          else zone.appendChild(token);
+        } else {
+          zone.appendChild(token);
+        }
+        clearDragSelection();
+        announceInteraction(`${token.dataset.value} moved.`);
+      });
+    }
+
+    function disableInteractive() {
+      clearDragSelection();
+      els.choicesWrap.classList.add("disabled-interaction");
+      [...els.choicesWrap.querySelectorAll(".drag-token")].forEach(t => { t.draggable = false; t.tabIndex = -1; });
+      [...els.choicesWrap.querySelectorAll("button, select")].forEach(b => b.disabled = true);
+      [...els.choicesWrap.querySelectorAll(".match-slot")].forEach(function(slot) {
+        slot.tabIndex = -1;
+        slot.setAttribute("aria-disabled", "true");
+      });
+    }
+
+    function renderOrderQuestion(q) {
+      els.answerForm.classList.add("hidden");
+      els.choicesWrap.className = "choices interaction-wrap";
+      els.choicesWrap.innerHTML = `<p class="drag-instructions">Put every card into the answer box in the correct order. Drag a card, or select it to add it. Use arrow keys to move a focused answer card earlier or later; select it again to return it.</p><div class="drag-bank" id="dragBank" aria-label="Cards available to order"></div><div class="drop-zone" id="orderZone" aria-label="Your answer order" data-placeholder="Place the cards here in order"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div><p id="interactionStatus" class="sr-only" aria-live="polite"></p>`;
+      const bank = document.getElementById("dragBank");
+      const orderZone = document.getElementById("orderZone");
+      allowDrop(bank);
+      allowDrop(orderZone);
+      (q.items || q.answer).forEach(item => bank.appendChild(makeDragToken(item)));
+      document.getElementById("clearInteractiveBtn").addEventListener("click", () => {
+        [...orderZone.children].forEach(t => bank.appendChild(t));
+        clearDragSelection();
+        announceInteraction("The answer order has been cleared.");
+      });
+      document.getElementById("checkInteractiveBtn").addEventListener("click", () => {
+        const answer = [...orderZone.children].map(t => t.dataset.value);
+        if (answer.length !== q.answer.length) {
+          els.feedbackPanel.className = "feedback-panel hint";
+          els.feedbackPanel.innerHTML = `<strong>Nearly there</strong><p>Move all ${q.answer.length} cards into the answer box before checking.</p>`;
+          els.feedbackPanel.classList.remove("hidden");
+          return;
+        }
+        submitAnswer(answer);
+      });
+    }
+
+    function renderEvidenceQuestion(q) {
+      els.choicesWrap.className = "choices evidence-grid";
+      renderChoiceButtons(q);
+      Array.from(els.choicesWrap.children).forEach(function(button) {
+        button.setAttribute("aria-label", "Evidence option: " + button.textContent);
+      });
+    }
+
+    function renderWordPickQuestion(q) {
+      els.answerForm.classList.add("hidden");
+      els.choicesWrap.className = "choices interaction-wrap";
+      els.choicesWrap.innerHTML = '<p class="drag-instructions">Select every word or phrase that answers the question. Select an item again to remove it.</p><div class="wordpick-grid" id="wordTokenBank"></div><div class="interaction-actions"><button type="button" id="checkWordPickBtn">Check selection</button><button type="button" class="secondary" id="clearWordPickBtn">Clear</button></div>';
+      const bank = document.getElementById("wordTokenBank");
+      (q.tokens || []).forEach(function(token) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "word-token";
+        button.textContent = token;
+        button.dataset.value = token;
+        button.setAttribute("aria-pressed", "false");
+        button.addEventListener("click", function() {
+          const selected = button.getAttribute("aria-pressed") === "true";
+          button.setAttribute("aria-pressed", selected ? "false" : "true");
+        });
+        bank.appendChild(button);
+      });
+      document.getElementById("clearWordPickBtn").addEventListener("click", function() {
+        Array.from(bank.children).forEach(function(button) { button.setAttribute("aria-pressed", "false"); });
+      });
+      document.getElementById("checkWordPickBtn").addEventListener("click", function() {
+        const selected = Array.from(bank.children).filter(function(button) { return button.getAttribute("aria-pressed") === "true"; }).map(function(button) { return button.dataset.value; });
+        if (!selected.length) {
+          els.feedbackPanel.className = "feedback-panel hint";
+          els.feedbackPanel.innerHTML = "<strong>Make a selection</strong><p>Select at least one word or phrase before checking.</p>";
+          els.feedbackPanel.classList.remove("hidden");
+          return;
+        }
+        submitAnswer(selected);
+      });
+    }
+
+    function renderCategoriseQuestion(q) {
+      els.answerForm.classList.add("hidden");
+      els.choicesWrap.className = "choices interaction-wrap";
+      els.choicesWrap.innerHTML = '<p class="drag-instructions">Choose the best category for every item.</p><div class="category-grid" id="categoryGrid"></div><div class="interaction-actions"><button type="button" id="checkCategoriesBtn">Check categories</button><button type="button" class="secondary" id="clearCategoriesBtn">Clear</button></div>';
+      const grid = document.getElementById("categoryGrid");
+      (q.items || Object.keys(q.answer || {})).forEach(function(item) {
+        const text = typeof item === "string" ? item : item.text;
+        const row = document.createElement("label");
+        row.className = "category-row";
+        row.dataset.key = text;
+        const itemText = document.createElement("span");
+        itemText.className = "category-item";
+        itemText.textContent = text;
+        const select = document.createElement("select");
+        select.setAttribute("aria-label", "Category for " + text);
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = "Choose a category";
+        select.appendChild(placeholder);
+        (q.categories || []).forEach(function(category) {
+          const option = document.createElement("option");
+          option.value = category;
+          option.textContent = category;
+          select.appendChild(option);
+        });
+        row.appendChild(itemText);
+        row.appendChild(select);
+        grid.appendChild(row);
+      });
+      document.getElementById("clearCategoriesBtn").addEventListener("click", function() {
+        Array.from(grid.querySelectorAll("select")).forEach(function(select) { select.value = ""; });
+      });
+      document.getElementById("checkCategoriesBtn").addEventListener("click", function() {
+        const answer = {};
+        let complete = true;
+        Array.from(grid.children).forEach(function(row) {
+          const select = row.querySelector("select");
+          if (!select.value) complete = false;
+          answer[row.dataset.key] = select.value;
+        });
+        if (!complete) {
+          els.feedbackPanel.className = "feedback-panel hint";
+          els.feedbackPanel.innerHTML = "<strong>Finish every row</strong><p>Choose a category for each item before checking.</p>";
+          els.feedbackPanel.classList.remove("hidden");
+          return;
+        }
+        submitAnswer(answer);
+      });
+    }
+
+    function renderShortQuestion(q) {
+      els.choicesWrap.innerHTML = "";
+      els.answerForm.classList.remove("hidden");
+      els.answerInput.classList.remove("hidden");
+      els.answerInput.disabled = false;
+      els.answerInput.required = true;
+      els.submitBtn.disabled = false;
+      els.submitBtn.textContent = "Check answer";
+      els.writingWordCount.classList.add("hidden");
+    }
+
+    function updateWritingCounter() {
+      const count = wordCount(els.answerTextArea.value);
+      const target = state.currentQuestion && state.currentQuestion.minWords ? state.currentQuestion.minWords : 0;
+      els.writingWordCount.textContent = count + " " + plural(count, "word") + (target ? " · target " + target + "+" : "");
+    }
+
+    function renderWritingQuestion(q) {
+      els.choicesWrap.innerHTML = "";
+      els.answerForm.classList.remove("hidden");
+      els.answerTextArea.classList.remove("hidden");
+      els.answerTextArea.disabled = false;
+      els.answerTextArea.required = true;
+      els.submitBtn.disabled = false;
+      els.submitBtn.textContent = "Review my writing";
+      els.writingWordCount.classList.remove("hidden");
+      state.writingReviewComplete = false;
+      if (els.writingAttestation) els.writingAttestation.checked = false;
+      if (els.writingAttestationWrap) els.writingAttestationWrap.classList.add("hidden");
+      updateWritingCounter();
+    }
+
+    function renderTargetedPassageV20(passage, targetText) {
+      const source = String(passage || "");
+      const target = String(targetText || "");
+      if (!target) return formatTextHtml(source);
+      const index = source.indexOf(target);
+      if (index < 0) return formatTextHtml(source);
+      const before = source.slice(0, index);
+      const after = source.slice(index + target.length);
+      return formatTextHtml(before) + '<mark class="target-span">' + formatTextHtml(target) + '</mark>' + formatTextHtml(after);
+    }
+
+    function alternativesHtmlV15(q) {
+      if (q.markingMode !== "best-answer" || !Array.isArray(q.choiceRationales)) return "";
+      const rows = q.choiceRationales.filter(function(item) { return !item.correct; });
+      return rows.length ? '<details><summary>Why the alternatives are less effective</summary><ul class="checklist">' + rows.map(function(item) { return '<li><strong>' + escapeHtml(item.value) + ':</strong> ' + escapeHtml(item.reason) + '</li>'; }).join("") + '</ul></details>' : "";
+    }
+
+    function writingTaskTypeV16(q) {
+      const title = String(q && q.title || "").toLowerCase();
+      const prompt = String(q && q.prompt || "").toLowerCase();
+      if (/summary/.test(title) || (q && q.focus === "summary")) return "summary";
+      if (/dialogue/.test(title) || (q && q.focus === "dialogue")) return "dialogue";
+      if (/opening/.test(title) || /opening/.test(prompt)) return "opening";
+      if (/foundational purpose/.test(title) || /note|notice|invitation|message|instruction|request/.test(prompt)) return "purpose";
+      if (q && q.focus === "persuasion") return "persuasion";
+      if (q && q.focus === "description") return "description";
+      return "general";
+    }
+
+    function writingSentencesV16(text) {
+      const cleaned = String(text || "").replace(/\n+/g, " ").trim();
+      if (!cleaned) return [];
+      const matches = cleaned.match(/[^.!?]+[.!?]+[”"']?|[^.!?]+$/g) || [];
+      return matches.map(function(sentence) { return sentence.trim(); }).filter(Boolean);
+    }
+
+    function writingTokensV16(text) {
+      return (String(text || "").toLowerCase().match(/[a-z]+(?:'[a-z]+)?/g) || []);
+    }
+
+    function writingContentTokensV16(text) {
+      const stop = new Set(["about","after","again","against","because","before","being","between","could","every","from","have","into","more","most","other","should","that","their","there","these","they","this","through","under","very","were","what","when","where","which","while","with","would","your","write","sentence","sentences","short","clear"]);
+      return writingTokensV16(text).filter(function(word) { return word.length >= 4 && !stop.has(word); });
+    }
+
+    function startsWithCapitalV16(sentence) {
+      const match = String(sentence || "").match(/^[\s\-–—“”"'‘’(\[]*([A-Za-z])/);
+      return !!match && match[1] === match[1].toUpperCase();
+    }
+
+    function capitalStartsWritingV16(text) {
+      const value = String(text || "").trim();
+      if (!value || !startsWithCapitalV16(value)) return false;
+      const pattern = /[.!?][”"']?\s+([“"'‘’(\[]*)([A-Za-z])/g;
+      let match;
+      while ((match = pattern.exec(value))) {
+        const letter = match[2];
+        if (letter === letter.toUpperCase()) continue;
+        const rest = value.slice(match.index + match[0].length - 1).toLowerCase();
+        if (/^(said|asked|replied|whispered|muttered|called|shouted|warned|explained|admitted|answered)\b/.test(rest)) continue;
+        return false;
+      }
+      return true;
+    }
+
+    function copiedSourceV16(text, q) {
+      const source = writingContentTokensV16(q && q.passage || "");
+      const answer = writingContentTokensV16(text);
+      if (source.length < 8 || answer.length < 8) return false;
+      const sourceSet = new Set(source);
+      const overlap = answer.filter(function(word) { return sourceSet.has(word); }).length / Math.max(1, answer.length);
+      const normalText = normalise(text);
+      const normalSource = normalise(q.passage || "");
+      return normalText === normalSource || (overlap > 0.82 && answer.length >= source.length * 0.7);
+    }
+
+    function repeatedFillerV16(text) {
+      const words = writingTokensV16(text);
+      if (words.length < 12) return false;
+      const uniqueRatio = new Set(words).size / words.length;
+      const trigrams = new Map();
+      for (let i = 0; i + 2 < words.length; i += 1) {
+        const key = words.slice(i, i + 3).join(" ");
+        trigrams.set(key, (trigrams.get(key) || 0) + 1);
+      }
+      return uniqueRatio < 0.42 || Array.from(trigrams.values()).some(function(count) { return count >= 3; });
+    }
+
+    function phrasePresentV17(text, variants) {
+      const normal = " " + writingTokensV16(text).join(" ") + " ";
+      return (Array.isArray(variants) ? variants : [variants]).some(function(variant) {
+        const words = writingTokensV16(variant);
+        if (!words.length) return false;
+        if (words.length > 1) return normal.includes(" " + words.join(" ") + " ");
+        const root = words[0];
+        return writingTokensV16(text).some(function(token) { return token === root || (root.length >= 4 && (token.startsWith(root) || root.startsWith(token))); });
+      });
+    }
+
+    function conceptCoverageV17(text, requirement) {
+      const groups = requirement && Array.isArray(requirement.groups) ? requirement.groups : [];
+      const matched = groups.map(function(group) { return phrasePresentV17(text, group); });
+      const found = matched.filter(Boolean).length;
+      return { found: found, total: groups.length, met: found >= Number(requirement.minimum || 0), matched: matched };
+    }
+
+    function quotedSpansV17(text) {
+      const value = String(text || ""), spans = [];
+      let straightStart = -1, curlyStart = -1;
+      for (let i = 0; i < value.length; i += 1) {
+        const char = value[i];
+        if (char === '“') { curlyStart = i + 1; continue; }
+        if (char === '”' && curlyStart >= 0) {
+          const span = value.slice(curlyStart, i).trim(); if (span) spans.push(span); curlyStart = -1; continue;
+        }
+        if (char === '"') {
+          if (straightStart < 0) straightStart = i + 1;
+          else { const span = value.slice(straightStart, i).trim(); if (span) spans.push(span); straightStart = -1; }
+        }
+      }
+      return spans;
+    }
+
+    function speakerEvidenceV17(text) {
+      const names = new Set();
+      (String(text || "").match(/\b(?:Mr|Mrs|Miss|Ms)\s+[A-Z][a-z]+\b|\b[A-Z][a-z]+\b/g) || []).forEach(function(name) {
+        if (!/^(The|Then|Before|After|Somewhere|Outside|Inside|When|Although|Please|Thank)$/i.test(name)) names.add(name.toLowerCase());
+      });
+      (String(text || "").match(/\b(?:the|his|her)\s+(?:coach|shopkeeper|teacher|friend|sibling|runner|pupil)\b/gi) || []).forEach(function(role) { names.add(role.toLowerCase()); });
+      const speechVerbs = (String(text || "").match(/\b(?:said|asked|replied|whispered|muttered|called|shouted|warned|explained|admitted|answered)\b/gi) || []).length;
+      return { labels: names, speechVerbs: speechVerbs, changed: names.size >= 2 || speechVerbs >= 2 };
+    }
+
+    function instructionSentenceRangeV17(prompt) {
+      const text = String(prompt || "").toLowerCase();
+      let match = text.match(/\b(\w+)[- ]sentence\b/);
+      const numberWords = { one:1, two:2, three:3, four:4, five:5 };
+      if (match && numberWords[match[1]]) return { min: numberWords[match[1]], max: numberWords[match[1]] };
+      if (/one sentence/.test(text)) return { min: 1, max: 1 };
+      if (/two or three sentences/.test(text)) return { min: 2, max: 3 };
+      if (/three or four sentences/.test(text)) return { min: 3, max: 4 };
+      if (/write two sentences/.test(text)) return { min: 2, max: 2 };
+      return null;
+    }
+
+    function copiedModelV18(text, q) {
+      if (!q || !q.model) return false;
+      const submitted = writingContentTokensV16(text), model = writingContentTokensV16(q.model);
+      if (!submitted.length || !model.length) return false;
+      const submittedSet = new Set(submitted), modelSet = new Set(model);
+      let common = 0; submittedSet.forEach(function(token) { if (modelSet.has(token)) common += 1; });
+      const overlap = common / Math.max(1, Math.min(submittedSet.size, modelSet.size));
+      return overlap >= .88 && Math.abs(wordCount(text) - wordCount(q.model)) <= Math.max(4, Math.ceil(wordCount(q.model) * .15));
+    }
+
+    function gradeWriting(text, q, attested, options) {
+      const value = String(text || "");
+      const wc = wordCount(value);
+      const sentences = writingSentencesV16(value);
+      const type = writingTaskTypeV16(q);
+      const structural = [], reminders = [], modelChecks = [];
+      const modelMode = !!(options && options.modelMode);
+      function addStructural(label, found) { structural.push({ label: label, found: !!found, required: true, category: "structural" }); }
+      function addReminder(label, found) { reminders.push({ label: label, found: !!found, required: false, category: "keyword-reminder" }); }
+      function addModelCheck(label, found) { modelChecks.push({ label: label, found: !!found, required: modelMode, category: "model-relevance" }); }
+
+      const minimumWords = q.minWords || 20;
+      addStructural("Minimum length reached (" + minimumWords + "+ words)", wc >= minimumWords);
+      if (q.maxWords) addStructural("Within the maximum length (no more than " + q.maxWords + " words)", wc <= q.maxWords);
+      const sentenceRange = instructionSentenceRangeV17(q.prompt);
+      if (sentenceRange) addStructural("Requested sentence count followed (" + (sentenceRange.min === sentenceRange.max ? sentenceRange.min : sentenceRange.min + "–" + sentenceRange.max) + ")", sentences.length >= sentenceRange.min && sentences.length <= sentenceRange.max);
+      else addStructural("Required sentence count reached (at least " + (q.minSentences || 1) + ")", sentences.length >= (q.minSentences || 1));
+      addStructural("Sentence-ending punctuation is present", /[.!?][”"']?\s*$/.test(value.trim()) && sentences.length >= 1);
+      addStructural("Sentence starts use capital letters, including after opening speech marks", sentences.length > 0 && capitalStartsWritingV16(value));
+      addStructural("No repeated filler pattern detected", !repeatedFillerV16(value));
+      if (!modelMode) addStructural("The submitted text is not a near-copy of the supplied model", !copiedModelV18(value, q));
+
+      const requirement = authoredWritingRequirementsV17(q);
+      const coverage = conceptCoverageV17(value, requirement);
+      if (requirement.groups.length) {
+        addReminder("Task-word reminder: " + coverage.found + "/" + coverage.total + " authored concept groups were detected", coverage.met);
+        addModelCheck("The authored model covers the task-specific concept groups", coverage.met);
+      }
+
+      if (type === "summary") {
+        addStructural("The response is not a near-copy of the full source", !copiedSourceV16(value, q));
+        addStructural("The summary uses one controlled sentence", sentences.length === 1);
+        addReminder("A cause, action or outcome link is visible", /\b(?:because|after|when|by|so|to|then|while|until|caused|improved|found|organised|tested|repaired|added|planted|measured|contacted|reduced)\b/i.test(value));
+        addModelCheck("The model selects the central cause, action and outcome", coverage.met && sentences.length === 1 && !copiedSourceV16(value, q));
+      } else if (type === "dialogue") {
+        const spans = quotedSpansV17(value), speakers = speakerEvidenceV17(value);
+        addStructural("At least two distinct non-empty spoken contributions are marked", spans.length >= 2);
+        addStructural("A reporting clause or speech verb identifies a speaker", speakers.speechVerbs >= 1);
+        if (/two friends|siblings|coach|shopkeeper|pupil/i.test(String(q.prompt || ""))) addStructural("A change of speaker is clear", spans.length >= 2 && speakers.changed);
+        addStructural("Speech punctuation is present", /[.!?,][”"]/.test(value) || /[”"][,!?]/.test(value));
+        addReminder("Task nouns or scenario details are visible", coverage.met);
+        addModelCheck("The model dialogue remains in the requested scenario", coverage.met && spans.length >= 2 && speakers.changed);
+      } else if (type === "persuasion") {
+        addStructural("A clear viewpoint is stated", /\b(we should|i believe|i think|should|must|need to|ought to|please consider|support|oppose|could you|would you)\b/i.test(value));
+        addStructural("At least one reason is given", /\b(because|since|as a result|therefore|so that|would help|would allow|would reduce|would give)\b/i.test(value));
+        addStructural("Support or an example develops the reason", /\b(for example|for instance|such as|this would|which would|could|by\s+\w+ing|one .* could)\b/i.test(value));
+        addReminder("Audience, action and object words are visible", coverage.met);
+        addModelCheck("The model addresses the authored audience, action and object", coverage.met);
+      } else if (type === "description") {
+        addStructural("Observable or sensory detail is developed", writingContentTokensV16(value).length >= 10 && /\b(?:light|dark|bright|pale|gold|silver|warm|cold|rain|wind|sound|scent|smell|quiet|silent|shadow|mud|wet|rough|smooth|glow|hiss|tap|scrape|rustle|crackle|whisper|thump|rattle|drift|snap|gleam|glitter)\w*\b/i.test(value));
+        addStructural("At least one precise action or verb is used", /\b(?:bounced|thumped|scraped|faded|turned|glittered|tapped|rolled|crouched|followed|drifted|groaned|tugged|chased|leaned|gripped|stretched|slid|swallowed|wheeled|snapped|rattled|glowed|hissed|clung|released|flickered|traced|raced|waved|smoothed|placed|lifted|carried|measured|linked|rerouted|monitored)\b/i.test(value));
+        if (/comparison|simile|\blike\b|\bas .* as\b/i.test(String(q.hint || "") + " " + String(q.prompt || ""))) addStructural("The requested comparison is present", /\blike\b|\bas\s+[^.!?]{1,35}\s+as\b/i.test(value));
+        addReminder("Task-specific subject words are visible", coverage.met);
+        addModelCheck("The model describes the requested subject rather than a generic setting", coverage.met);
+      } else if (type === "opening") {
+        addStructural("A precise event or situation is established", writingContentTokensV16(value).length >= 10);
+        addStructural("The response remains an opening rather than resolving the whole story", !/\b(in the end|finally everything|lived happily|problem was solved)\b/i.test(value));
+        addReminder("Task-specific story details are visible", coverage.met);
+        addModelCheck("The model establishes the requested scenario and remains an opening", coverage.met);
+      } else if (type === "purpose") {
+        addStructural("The wording is courteous and controlled", !/\b(gotta|loads|stuff|shut up|you must do it now)\b/i.test(value));
+        addReminder("Audience, requested action and object words are visible", coverage.met);
+        addModelCheck("The model directly addresses the authored purpose", coverage.met);
+      } else {
+        addStructural("A developed response is present", writingContentTokensV16(value).length >= 10);
+        addReminder("Task-specific words are visible", coverage.met || !requirement.groups.length);
+        addModelCheck("The model remains relevant to the authored task", coverage.met || !requirement.groups.length);
+      }
+
+      const structuralEligible = structural.every(function(row) { return row.found; });
+      const modelRelevant = modelChecks.every(function(row) { return row.found; });
+      const mechanicalEligible = structuralEligible && (!modelMode || modelRelevant);
+      const submissionEligible = !modelMode && structuralEligible && !!attested;
+      const checks = structural.concat(reminders).concat(modelMode ? modelChecks : []);
+      const list = '<ul class="checklist">' + checks.map(function(item) {
+        const suffix = item.category === "keyword-reminder" ? ' <small>(keyword reminder—not proof of relevance)</small>' : item.category === "structural" ? ' <small>(structural)</small>' : ' <small>(authored-model check)</small>';
+        return '<li><span class="' + (item.found ? 'yes' : 'no') + '">' + (item.found ? '✓' : '○') + '</span> ' + escapeHtml(item.label) + suffix + '</li>';
+      }).join('') + '</ul>';
+      const attestationHtml = modelMode ? '' : '<p><strong>Meaning cannot be verified automatically.</strong> The app checks surface structure and selected task words only. The pupil must decide whether the ideas genuinely answer the task.</p>';
+      const model = q.model && !modelMode ? '<details><summary>Compare with one possible authored model</summary><p>' + escapeHtml(q.model) + '</p></details>' : '';
+      return {
+        score: checks.filter(function(item) { return item.found; }).length,
+        total: checks.length,
+        checks: checks,
+        structuralEligible: structuralEligible,
+        keywordChecksPass: reminders.every(function(row) { return row.found; }),
+        modelRelevant: modelRelevant,
+        mechanicalEligible: mechanicalEligible,
+        submissionEligible: submissionEligible,
+        completionEligible: modelMode ? mechanicalEligible : false,
+        semanticVerification: modelMode ? "AUTHORED_MODEL_MECHANICAL_AUDIT" : (submissionEligible ? "SELF_ATTESTED_ONLY" : "NOT_SUBMITTED"),
+        selfAttestedOnly: submissionEligible,
+        attestationRequired: !modelMode,
+        requirement: requirement,
+        html: '<p><strong>Guided structural and keyword self-review—not an automatic judgement of relevance or writing quality.</strong></p>' + list + attestationHtml + model
+      };
+    }
+
+    function renderChoiceButtons(q) {
+      els.answerForm.classList.add("hidden");
+      els.choicesWrap.setAttribute("role", "group"); els.choicesWrap.setAttribute("aria-label", "Answer choices for " + q.prompt);
+      q.choices.forEach(function(choice, index) {
+        const button = document.createElement("button");
+        button.type = "button"; button.className = "choice-btn"; button.dataset.choiceIndex = String(index); button.textContent = formatSentences(choice.label);
+        button.setAttribute("aria-label", "Choice " + String.fromCharCode(65 + index) + ": " + choice.label);
+        button.addEventListener("click", function() { submitAnswer(choice.value, button); });
+        els.choicesWrap.appendChild(button);
+      });
+    }
+
+    function renderMatchQuestion(q) {
+      els.answerForm.classList.add("hidden");
+      const keys = Array.isArray(q.matchKeys) ? q.matchKeys.slice() : Object.keys(q.answer);
+      const values = Array.isArray(q.matchValues) ? q.matchValues.slice() : Object.values(q.answer);
+      els.choicesWrap.className = "choices interaction-wrap";
+      els.choicesWrap.setAttribute("role", "group"); els.choicesWrap.setAttribute("aria-label", "Matching activity");
+      els.choicesWrap.innerHTML = '<p class="drag-instructions">Match every card to the correct row. Drag a card, or select a card and use the adjacent place button.</p><div class="drag-bank" id="dragBank" aria-label="Answer cards to match"></div><div class="match-grid" id="matchGrid"></div><div class="interaction-actions"><button type="button" id="checkInteractiveBtn">Check answer</button><button type="button" class="secondary" id="clearInteractiveBtn">Clear</button></div><p id="interactionStatus" class="sr-only" aria-live="polite"></p>';
+      const bank = document.getElementById("dragBank"), grid = document.getElementById("matchGrid");
+      allowDrop(bank); values.forEach(function(value) { bank.appendChild(makeDragToken(value)); });
+      keys.forEach(function(key) {
+        const id = "matchTerm-" + keys.indexOf(key);
+        const row = document.createElement("div"); row.className = "match-row";
+        row.innerHTML = '<div class="match-term" id="' + id + '">' + escapeHtml(key) + '</div><div class="match-placement"><div class="match-slot" data-key="' + escapeHtml(key) + '" aria-live="polite" aria-labelledby="' + id + '"></div><button type="button" class="secondary match-place-btn" aria-label="Place selected card with ' + escapeHtml(key) + '">Place selected card</button></div>';
+        grid.appendChild(row);
+        const slot = row.querySelector(".match-slot"); allowDrop(slot);
+        row.querySelector(".match-place-btn").addEventListener("click", function() { placeSelectedToken(slot); });
+      });
+      document.getElementById("clearInteractiveBtn").addEventListener("click", function() {
+        Array.from(grid.querySelectorAll(".match-slot .drag-token")).forEach(function(token) { bank.appendChild(token); });
+        clearDragSelection(); announceInteraction("All matches have been cleared.");
+      });
+      document.getElementById("checkInteractiveBtn").addEventListener("click", function() {
+        const answer = {}; let complete = true;
+        Array.from(grid.querySelectorAll(".match-slot")).forEach(function(slot) { if (!slot.firstElementChild) complete = false; answer[slot.dataset.key] = slot.firstElementChild ? slot.firstElementChild.dataset.value : ""; });
+        if (!complete) {
+          state.incompleteChecks += 1;
+          els.feedbackPanel.className = "feedback-panel hint"; els.feedbackPanel.innerHTML = "<strong>Finish every match</strong><p>Place one card in every row before checking.</p>"; els.feedbackPanel.classList.remove("hidden"); return;
+        }
+        submitAnswer(answer);
+      });
+    }
+'use strict';
+const $ = id => document.getElementById(id);
+const els = Object.fromEntries(Array.from(document.querySelectorAll('[id]'), element => [element.id, element]));
+const cloneV15 = value => value == null ? value : JSON.parse(JSON.stringify(value));
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+const cleanNumber = value => Number(String(value).trim());
+const money = value => '£' + Number(value).toFixed(2);
+const SAMPLE_LENGTH = 5;
+let selectedDragToken = null;
+let state = {topic:null,index:0,length:SAMPLE_LENGTH,currentQuestion:null,answered:false,history:[],score:0,hintUsed:false,confidence:null,incompleteChecks:0};
+const lastSummaries = Object.create(null);
+function deepFreeze(value) {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    Object.values(value).forEach(deepFreeze);
+    Object.freeze(value);
+  }
+  return value;
+}
+deepFreeze(SAMPLES);
+function authoredWritingRequirementsV17(q) { return q.taskRequirements || {groups:[],minimum:0,certain:false,label:'task relevance'}; }
+function markingModeLabelV15(mode) { return mode === 'self-review' ? 'Writing self-review' : mode === 'best-answer' ? 'Criterion-led judgement' : 'Objective marking'; }
+function stageName(level) { return `${clamp(Number(level)||2,1,5)} of 5`; }
+function announce(message) { $('previewStatus').textContent = message; }
+let dialogAction = null, dialogReturn = null;
+function openDialog(title, text, action=null, actionLabel='Continue preview') {
+  if ($('previewDialog').open) return;
+  dialogReturn = document.activeElement;
+  dialogAction = action;
+  $('previewDialogTitle').textContent = title;
+  $('previewDialogText').textContent = text;
+  $('previewDialogCancel').classList.toggle('hidden', !action);
+  $('previewDialogOk').textContent = actionLabel;
+  $('previewDialog').showModal();
+  (action ? $('previewDialogCancel') : $('previewDialogOk')).focus();
+}
+function closeDialog(accept=false) {
+  const action = accept ? dialogAction : null;
+  dialogAction = null;
+  $('previewDialog').close();
+  if (action) action();
+  else if (dialogReturn?.isConnected) dialogReturn.focus({preventScroll:true});
+}
+function unavailable(feature) { openDialog('Preview only', `${feature}: this feature is available in the full version, not in this sample. You can continue exploring the fixed preview activities.`); }
+$('previewDialogOk').addEventListener('click',()=>closeDialog(true));
+$('previewDialogCancel').addEventListener('click',()=>closeDialog());
+$('previewDialog').addEventListener('cancel',event=>{event.preventDefault();closeDialog();});
+$('previewDialog').addEventListener('click', event => { if(event.target === $('previewDialog')) { const r=event.target.getBoundingClientRect(); if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom) closeDialog(); } });
+function showScreen(id) {
+  ['homeScreen','quizScreen','resultsScreen'].forEach(name => $(name).classList.toggle('hidden',name!==id));
+  $('homeToolbar').classList.toggle('hidden',id!=='homeScreen');
+  $('homeNotice').classList.toggle('hidden',id!=='homeScreen');
+  document.body.classList.toggle('practice-active',id==='quizScreen');
+  document.querySelector('.scope-footer').classList.toggle('hidden',id==='quizScreen');
+}
+function renderHome() {
+  $('topicGrid').innerHTML = Object.entries(TOPICS).map(([id,t])=>{
+    const summary=lastSummaries[id];
+    const detail=summary ? `Last sample: ${summary.objectiveCorrect}/${summary.objectiveTotal} objective answers correct${summary.criterionTotal ? ` · ${summary.criterionCorrect}/${summary.criterionTotal} criterion-led choices matched` : ''}.` : 'Try the questions, hints and answer review.';
+    return `<button class="topic-card" type="button" data-topic="${id}" aria-label="Open ${escapeHtml(t.name)}. Five fixed sample activities."><span class="topic-card-main"><span class="topic-icon" aria-hidden="true">${t.icon}</span><span class="topic-heading">${escapeHtml(t.name)}</span><span class="topic-description">${escapeHtml(t.blurb)}</span></span><span class="mini-stats"><span>5 fixed sample activities · Preview only</span><span>${escapeHtml(detail)}</span></span></button>`;
+  }).join('');
+}
+function startRound(topic) {
+  if (!Object.hasOwn(SAMPLES,topic)) return;
+  state={topic,index:0,length:SAMPLE_LENGTH,currentQuestion:null,answered:false,history:[],score:0,hintUsed:false,confidence:null,incompleteChecks:0,writingReviewComplete:false,incompleteSaveArmed:false};
+  $('quizTitle').textContent=TOPICS[topic].name;
+  showScreen('quizScreen');
+  loadQuestion();
+}
+$('topicGrid').addEventListener('click',event=>{const card=event.target.closest('[data-topic]');if(card)startRound(card.dataset.topic);});
+function updateTopBar() {
+  const objective=state.history.filter(h=>h.markingMode==='objective'), criterion=state.history.filter(h=>h.markingMode==='best-answer');
+  $('scoreText').textContent=`Objective ${objective.filter(h=>h.correct).length}/${objective.length} · Criterion ${criterion.filter(h=>h.correct).length}/${criterion.length}`;
+  $('questionCountText').textContent=`Question ${Math.min(state.index+1,state.length)} of ${state.length}`;
+  $('levelText').textContent='Preview only';
+  const done=Math.min(state.index+(state.answered?1:0),state.length);
+  $('progressFill').style.width=`${done/state.length*100}%`;
+  $('progressMeter').setAttribute('aria-valuemax',String(state.length));
+  $('progressMeter').setAttribute('aria-valuenow',String(done));
+}
+function loadQuestion() {
+  if (state.index>=SAMPLE_LENGTH) return showResults();
+  clearDragSelection(); window.__dragToken = null;
+  state.currentQuestion=SAMPLES[state.topic][state.index];
+  state.answered=false;state.hintUsed=false;state.confidence=null;state.incompleteChecks=0;state.writingReviewComplete=false;state.incompleteSaveArmed=false;
+  const q=state.currentQuestion;
+  $('feedbackPanel').className='feedback-panel hidden';$('feedbackPanel').innerHTML='';
+  $('nextBtn').classList.add('hidden');$('nextBtn').textContent=state.index===SAMPLE_LENGTH-1?'View sample results':'Next question';
+  $('hintBtn').disabled=false;
+  $('answerForm').reset();$('answerForm').classList.add('hidden');
+  for(const id of ['answerInput','answerTextArea']) {$(id).classList.add('hidden');$(id).disabled=true;$(id).required=false;}
+  $('submitBtn').disabled=true;
+  $('writingWordCount').classList.add('hidden');
+  $('writingAttestation').checked=false;$('writingAttestation').disabled=false;$('writingAttestationWrap').classList.add('hidden');
+  $('choicesWrap').className='choices';$('choicesWrap').innerHTML='';$('choicesWrap').setAttribute('aria-label','Answer choices');
+  $('tagRow').innerHTML=`<span class="tag">${escapeHtml(TOPICS[q.topic].name)}</span><span class="tag">${escapeHtml(studentActivityTitle(q.title))}</span><span class="tag">${escapeHtml(markingModeLabelV15(q.markingMode))}</span>`;
+  $('questionText').textContent=formatSentences(q.prompt);
+  $('passageBox').classList.toggle('hidden',!q.passage);
+  $('passageBox').innerHTML=q.passage?`<div class="passage-title">Text</div>${q.targetText?`<p class="target-note">Target structure: “${escapeHtml(q.targetText)}”</p>`:''}${renderTargetedPassageV20(q.passage,q.targetText)}`:'';
+  $('passageBox').setAttribute('aria-label',q.targetText?'Reading passage. Target structure: '+q.targetText:'Reading passage');
+  $('supportBox').classList.toggle('hidden',!q.support);$('supportBox').innerHTML=q.support||'';
+  $('confidenceCheck').classList.toggle('hidden',q.kind==='writing');
+  document.querySelectorAll('[data-confidence]').forEach(b=>b.setAttribute('aria-pressed','false'));
+  if(q.kind==='writing')renderWritingQuestion(q);
+  else if(q.kind==='short')renderShortQuestion(q);
+  else if(q.kind==='order')renderOrderQuestion(q);
+  else if(q.kind==='match')renderMatchQuestion(q);
+  else if(q.kind==='wordpick')renderWordPickQuestion(q);
+  else if(q.kind==='categorise')renderCategoriseQuestion(q);
+  else if(q.kind==='highlight')renderEvidenceQuestion(q);
+  else renderChoiceButtons(q);
+  updateTopBar();
+  const focus=q.passage?$('passageBox'):$('questionText');
+  requestAnimationFrame(()=>{focus.focus({preventScroll:true});focus.scrollIntoView({behavior:'auto',block:'start'});});
+}
+function storeResponse(value,correct,extra={}) {
+  const q=state.currentQuestion;
+  state.history.push({q,entered:displayValue(value),value,correct,markingMode:q.markingMode,assisted:state.hintUsed,confidence:state.confidence||'not stated',...extra});
+  state.answered=true;
+  if(correct)state.score++;
+  $('hintBtn').disabled=true;$('nextBtn').classList.remove('hidden');$('confidenceCheck').classList.add('hidden');
+  updateTopBar();
+  requestAnimationFrame(()=>$('nextBtn').focus({preventScroll:true}));
+}
+function submitAnswer(value,button=null) {
+  if(state.answered||!state.currentQuestion)return;
+  const q=state.currentQuestion,correct=isCorrect(value,q);
+  if(['order','match','wordpick','categorise'].includes(q.kind))disableInteractive();
+  else if(q.kind==='short'){$('answerInput').disabled=true;$('submitBtn').disabled=true;}
+  else Array.from($('choicesWrap').querySelectorAll('[data-choice-index]')).forEach(btn=>{
+    const choice=q.choices[Number(btn.dataset.choiceIndex)];btn.disabled=true;
+    if(isCorrect(choice.value,q)){btn.classList.add('correct');btn.textContent=formatSentences(choice.label)+'\n\n✓ Correct answer';btn.setAttribute('aria-label',choice.label+'. Correct answer.');}
+    else if(btn===button){btn.classList.add('wrong');btn.textContent=formatSentences(choice.label)+'\n\n✗ Your answer';btn.setAttribute('aria-label',choice.label+'. Your answer was not correct.');}
+  });
+  const title=correct?(state.hintUsed?'Correct with a hint.':q.markingMode==='best-answer'?'Matched the stated criterion.':'Correct.'):(q.markingMode==='best-answer'?'Another option matches the stated criterion more completely.':'Not quite.');
+  $('feedbackPanel').className='feedback-panel '+(correct?'good':'bad');
+  $('feedbackPanel').innerHTML=`<strong>${title}</strong>${correct?'':`<p>Accepted answer: <span class="kbd">${formatTextHtml(answerLabel(q))}</span></p>`}<p>${formatTextHtml(q.explanation)}</p>${alternativesHtmlV15(q)}`;
+  storeResponse(value,correct);
+}
+function submitWriting(text) {
+  if(state.answered)return;
+  const q=state.currentQuestion;
+  if(wordCount(text)<3){$('feedbackPanel').className='feedback-panel hint';$('feedbackPanel').innerHTML='<strong>Add a complete idea</strong><p>Develop at least one sentence before reviewing your writing.</p>';return;}
+  const attested=$('writingAttestation').checked, review=gradeWriting(text,q,attested,{modelMode:false});
+  if(!state.writingReviewComplete){
+    state.writingReviewComplete=true;state.incompleteSaveArmed=false;
+    $('writingAttestationWrap').classList.toggle('hidden',!review.structuralEligible);
+    $('feedbackPanel').className='feedback-panel hint';
+    $('feedbackPanel').innerHTML='<strong>Writing self-review</strong>'+review.html+(review.structuralEligible?'<p>Read the task again and check the meaning yourself. Tick the confirmation, then select <strong>Submit sample self-review</strong>.</p>':'<p>One or more structural conditions are missing. Revise the response, or continue to record it below target as incomplete for this sample.</p>');
+    $('submitBtn').textContent=review.structuralEligible?'Submit sample self-review':'Review revised writing';return;
+  }
+  if(review.structuralEligible&&!attested){
+    $('writingAttestationWrap').classList.remove('hidden');$('feedbackPanel').className='feedback-panel hint';$('feedbackPanel').innerHTML='<strong>Self-check the meaning</strong>'+review.html+'<p>The app cannot decide whether the ideas genuinely answer the task. Tick the confirmation only after checking that yourself.</p>';$('writingAttestation').focus();return;
+  }
+  if(!review.structuralEligible&&!state.incompleteSaveArmed){
+    state.incompleteSaveArmed=true;$('writingAttestationWrap').classList.add('hidden');$('feedbackPanel').className='feedback-panel hint';$('feedbackPanel').innerHTML='<strong>Below the structural target</strong>'+review.html+'<p>Revise again, or record this sample response as incomplete. It will not receive a correctness score.</p>';$('submitBtn').textContent='Record sample as incomplete';return;
+  }
+  const incomplete=!review.submissionEligible;
+  $('answerTextArea').disabled=true;$('submitBtn').disabled=true;$('writingAttestation').disabled=true;
+  $('feedbackPanel').className='feedback-panel '+(incomplete?'hint':'good');
+  $('feedbackPanel').innerHTML=`<strong>${incomplete?'Sample writing recorded as incomplete':'Writing submitted and self-reviewed'}</strong><p>This response is kept only for the current sample review. The app has not marked the writing correct or verified its relevance or quality.</p>${review.html}`;
+  storeResponse(text,null,{writingStatus:incomplete?'incomplete':'submitted-self-reviewed',writingChecks:review.checks});
+}
+function showHint(){if(state.answered||!state.currentQuestion)return;state.hintUsed=true;$('hintBtn').disabled=true;$('feedbackPanel').className='feedback-panel hint';$('feedbackPanel').innerHTML='<strong>Hint</strong><p>'+formatTextHtml(state.currentQuestion.hint)+'</p>';}
+function nextQuestion(){if(!state.answered)return;state.index++;if(state.index>=SAMPLE_LENGTH)showResults();else loadQuestion();}
+function questionContext(q) {
+  const blocks=[];
+  if(q.passage)blocks.push('<p><strong>Passage:</strong><br>'+formatTextHtml(q.passage)+'</p>');
+  if(q.support)blocks.push('<div><strong>Support:</strong>'+q.support+'</div>');
+  if(q.tokens)blocks.push('<p><strong>Original word sequence:</strong><br>'+escapeHtml(q.tokens.join(' · '))+'</p>');
+  if(q.items)blocks.push('<p><strong>Cards:</strong><br>'+escapeHtml(q.items.map(i=>typeof i==='string'?i:i.text).join(' · '))+'</p>');
+  if(q.matchKeys)blocks.push('<p><strong>Matching rows:</strong><br>'+escapeHtml(q.matchKeys.join(' · '))+'</p><p><strong>Cards:</strong><br>'+escapeHtml(q.matchValues.join(' · '))+'</p>');
+  if(q.choices&&q.kind!=='short')blocks.push('<p><strong>Options shown:</strong></p><ol>'+q.choices.map(c=>'<li>'+formatTextHtml(c.label)+'</li>').join('')+'</ol>');
+  return blocks.length?'<details class="review-context"><summary>Show full question context</summary><div class="review-context-text">'+blocks.join('')+'</div></details>':'';
+}
+function showResults(){
+  const h=state.history,objective=h.filter(x=>x.markingMode==='objective'),criterion=h.filter(x=>x.markingMode==='best-answer'),writing=h.filter(x=>x.markingMode==='self-review');
+  const summary={objectiveCorrect:objective.filter(x=>x.correct).length,objectiveTotal:objective.length,criterionCorrect:criterion.filter(x=>x.correct).length,criterionTotal:criterion.length};lastSummaries[state.topic]=summary;
+  showScreen('resultsScreen');
+  $('finalScore').textContent=objective.length?`Objective ${summary.objectiveCorrect}/${objective.length}`:'Sample review';
+  $('finalMessage').textContent='These results describe this fixed sample only. Criterion-led choices and writing self-review are shown separately; they are not added to the objective score.';
+  $('resultMeta').textContent=`${TOPICS[state.topic].name} · ${h.length} sample activities · Preview only · No saved progress`;
+  const cards=[['Objective accuracy',`${summary.objectiveCorrect}/${objective.length}${objective.length?' ('+Math.round(summary.objectiveCorrect/objective.length*100)+'%)':''}`],['Criterion-led choices',`${summary.criterionCorrect}/${criterion.length} matched the stated criterion`],['Unassisted objective answers',`${objective.filter(x=>!x.assisted&&x.correct).length}/${objective.filter(x=>!x.assisted).length}`],['Writing',`${writing.filter(x=>x.writingStatus!=='incomplete').length} submitted and self-reviewed · ${writing.filter(x=>x.writingStatus==='incomplete').length} incomplete`],['Adaptive evidence','Full-version feature; not assessed in this fixed sample']];
+  $('topicReview').innerHTML=cards.map(([label,value])=>`<div class="review-card"><strong>${escapeHtml(label)}</strong><br>${escapeHtml(value)}</div>`).join('');
+  $('reviewWrap').setAttribute('tabindex','0');$('reviewWrap').setAttribute('aria-label','Sample answer review');
+  $('reviewWrap').innerHTML='<table><caption class="sr-only">Review of the five sample activities</caption><thead><tr><th scope="col">#</th><th scope="col">Topic</th><th scope="col">Question</th><th scope="col">Result</th><th scope="col">Your answer</th><th scope="col">Answer or review guidance</th></tr></thead><tbody>'+h.map((r,i)=>{
+    const q=r.q,writing=q.kind==='writing';
+    const result=writing?(r.writingStatus==='incomplete'?'Writing recorded as incomplete':'Writing submitted and self-reviewed'):r.correct?(r.assisted?'✓ Correct with a hint':q.markingMode==='best-answer'?'✓ Matched criterion':'✓ Correct'):'✗ Review';
+    return `<tr><td data-label="Number">${i+1}</td><td data-label="Topic">${escapeHtml(TOPICS[q.topic].name)}<br><small>${escapeHtml(studentActivityTitle(q.title))}</small></td><td class="review-question" data-label="Question"><strong>${formatTextHtml(q.prompt)}</strong>${questionContext(q)}</td><td data-label="Result">${result}<br><small>${escapeHtml(markingModeLabelV15(q.markingMode))} · ${writing?'not automatically graded':'confidence '+escapeHtml(r.confidence)}</small></td><td data-label="Your answer">${formatTextHtml(r.entered)}</td><td data-label="Answer and guidance"><strong>${writing?'One possible authored model:':'Accepted answer:'}</strong><br>${formatTextHtml(writing?(q.model||'Use the guided checklist'):answerLabel(q))}<br><small>${formatTextHtml(q.explanation)}</small>${r.writingChecks?'<details><summary>Your self-review checks</summary><ul class="checklist">'+r.writingChecks.map(c=>'<li>'+ (c.found?'✓ ':'○ ')+escapeHtml(c.label)+'</li>').join('')+'</ul></details>':''}</td></tr>`;
+  }).join('')+'</tbody></table>';
+  requestAnimationFrame(()=>{$('resultsHeading').focus({preventScroll:true});$('resultsHeading').scrollIntoView({behavior:'auto',block:'start'});});
+}
+function goHome(){
+ const action=()=>{state.currentQuestion=null;showScreen('homeScreen');renderHome();$('homeHeading').focus({preventScroll:true});window.scrollTo({top:0,behavior:'auto'});};
+ const active=!$('quizScreen').classList.contains('hidden');
+ if(active&&(state.history.length||$('answerInput').value||$('answerTextArea').value||$('orderZone')?.children.length||$('choicesWrap').querySelector('[aria-pressed="true"]')))openDialog('Leave this sample?','Your current sample answers will be cleared when you open another skill or replay. No progress is saved.',action,'Choose topic');
+ else action();
+}
+$('answerForm').addEventListener('submit',event=>{event.preventDefault();if(state.answered||!state.currentQuestion)return;if(state.currentQuestion.kind==='writing')submitWriting($('answerTextArea').value);else{const v=$('answerInput').value.trim();if(v)submitAnswer(v);else{$('feedbackPanel').className='feedback-panel hint';$('feedbackPanel').innerHTML='<strong>Enter an answer</strong><p>Type your answer before checking it.</p>';}}});
+$('answerTextArea').addEventListener('input',()=>{updateWritingCounter();$('writingAttestation').checked=false;state.writingReviewComplete=false;state.incompleteSaveArmed=false;$('writingAttestationWrap').classList.add('hidden');$('submitBtn').textContent='Review my writing';});
+$('confidenceActions').addEventListener('click',event=>{const b=event.target.closest('[data-confidence]');if(!b||state.answered)return;state.confidence=b.dataset.confidence;document.querySelectorAll('[data-confidence]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});
+$('hintBtn').addEventListener('click',showHint);$('nextBtn').addEventListener('click',nextQuestion);$('backBtn').addEventListener('click',goHome);$('homeBtn').addEventListener('click',goHome);$('playAgainBtn').addEventListener('click',()=>startRound(state.topic));
+for(const [id,feature] of [['resetProgressBtn','Saved progress management'],['practiseMistakesBtn','Targeted mistakes practice'],['flagQuestionBtn','Sending a question flag for publisher review']]){
+ $(id).classList.add('preview-locked');$(id).setAttribute('aria-disabled','true');$(id).title='Full version only';$(id).addEventListener('click',()=>unavailable(feature));
+}
+for(const [id,value,feature] of [['sessionLength','5','Longer practice rounds'],['freshnessPolicy','preview','Freshness and repeat controls'],['historyWindow','preview','Question-history settings']]){
+ const control=$(id), shell=control.closest('label');
+ control.value=value;control.disabled=true;control.tabIndex=-1;control.style.pointerEvents='none';control.classList.add('preview-locked');
+ shell.classList.add('preview-control');shell.setAttribute('role','button');shell.setAttribute('tabindex','0');shell.setAttribute('aria-label',feature+' — full version only');shell.title='Preview only';
+ shell.addEventListener('click',event=>{event.preventDefault();shell.focus({preventScroll:true});unavailable(feature);});
+ shell.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();unavailable(feature);}});
+ control.addEventListener('change',()=>{control.value=value;unavailable(feature);});
+}
+// Casual source-view deterrents only; browser-owned menus cannot be secured by a page.
+document.addEventListener('contextmenu',event=>event.preventDefault(),true);
+document.addEventListener('keydown',event=>{
+ const key=event.key.toLowerCase(),command=event.ctrlKey||event.metaKey;
+ const inspect=key==='f12'||(command&&['u','s'].includes(key))||(event.ctrlKey&&event.shiftKey&&['i','j','c','k','e'].includes(key))||(event.metaKey&&event.altKey&&['i','j','c','u'].includes(key));
+ if(command&&key==='p'){event.preventDefault();event.stopImmediatePropagation();unavailable('Printing and PDF reports');}
+ else if(inspect){event.preventDefault();event.stopImmediatePropagation();openDialog('Preview only','This action is disabled in this preview. Please use the sample controls to explore the product.');}
+},true);
+window.print=()=>unavailable('Printing and PDF reports');
+renderHome();
+
+})();
+</script>
+</body>
+</html>
